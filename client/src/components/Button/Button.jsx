@@ -15,7 +15,7 @@ export default function ButtonComponent(props) {
   // 2. Set the default Bootstrap classes, allowing the user to override/add more
   // using the 'className' prop.
   const defaultClasses = "btn w-100";
-  const userClasses = props.className || "btn-secondary";
+  const userClasses = props.className || "btn-success";
   const finalClasses = `${defaultClasses} ${userClasses}`;
   const btnUserStyles = props.style || {}
   return (

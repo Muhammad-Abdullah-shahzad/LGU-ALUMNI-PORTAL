@@ -21,6 +21,7 @@ export default function InputField(props) {
         className="form-control"
         id={props.id}
         placeholder={props.placeholder || "Enter value"}
+        required
       />
     </div>
   );

@@ -13,14 +13,9 @@ export default function FormHeader(props) {
     return (
         <div className={`mb-4 ${alignmentClass}`}>
             {/* Main title for the form */}
-            <h2 className="text-secondary fw-bold">
+            <h2 className="text-success fw-bold">
                 {props.children || "your text here"}
             </h2>
-            
-            {/* Optional subtitle or instructional text */}
-            <p className="text-muted">
-                {subtitleText}
-            </p>
         </div>
     );
 }
