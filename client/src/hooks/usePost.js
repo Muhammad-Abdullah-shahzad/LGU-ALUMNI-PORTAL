@@ -23,11 +23,12 @@ export const usePost = (url) => {
         ...options,
       });
 
+      const json = await res.json();
+
       if (!res.ok) {
-        throw new Error(`Error: ${res.status} ${res.statusText}`);
+        throw new Error(json.message || "Something went wrong");
       }
 
-      const json = await res.json();
       setData(json);
       return json;
     } catch (err) {
