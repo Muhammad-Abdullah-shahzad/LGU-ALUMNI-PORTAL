@@ -10,7 +10,7 @@ export default function InputField(props) {
   const inputType = props.type || "text";
 
   return (
-    <div className="mb-3">
+    <div className="mb-1">
       <label htmlFor={props.id} className="form-label">
         {/* Placeholder for the label text */}
         {props.label}
@@ -23,7 +23,7 @@ export default function InputField(props) {
         id={props.id}
         placeholder={props.placeholder || "Enter value"}
         value={props.value}
-        required
+        
       />
     </div>
   );
