@@ -16,11 +16,13 @@ export default function InputField(props) {
         {props.label}
       </label>
       <input
+       onChange={event=>props.onChange(event)}
         type={inputType}
         style={{boxShadow:'none'}}
         className="form-control"
         id={props.id}
         placeholder={props.placeholder || "Enter value"}
+        value={props.value}
         required
       />
     </div>

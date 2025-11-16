@@ -7,7 +7,7 @@ import React from "react";
  * Props it would typically accept (but not used here for no-logic UI):
  * onSubmit, className (for custom styling)
  */
-export default function FormLayout({ children, className, style }) {
+export default function FormLayout({onSubmit , children, className, style }) {
   // Set a default Bootstrap class for padding/margin, allowing override
   const defaultClasses = "p-4 ";
   const finalClasses = className ? `${defaultClasses} ${className}` : defaultClasses;
@@ -22,7 +22,7 @@ export default function FormLayout({ children, className, style }) {
             className={finalClasses}
             style={style}
             // Add a placeholder event handler (no logic)
-            onSubmit={(e) => { e.preventDefault(); console.log("Form submitted (UI-only)"); }}
+            onSubmit={onSubmit}
           >
             {/* The children prop renders all the components passed inside the FormLayout */}
             {children}
