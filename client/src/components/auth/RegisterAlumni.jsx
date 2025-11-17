@@ -7,8 +7,12 @@ import SubText from "../SubText/SubText";
 import DropDown from "../DropDown/DropDown";
 import FormError from "../ErrorMessage/ErrorMessage";
 import RegisterAlumniUtils from "../../utility/RegisterAlumniUtility";
+import Toast from "../Toast/Toast";
+import {usePost} from "../../hooks/usePost";
+import Loader from "../Loader/Loader";
 
 export default function RegisterAlumni() {
+  const Base_Url = "http://localhost:5000";
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -16,18 +20,32 @@ export default function RegisterAlumni() {
     batch: "",
     degree: "",
     rollNo: "",
+    email: "",
+    password: ""
   });
+  
   const [errors, setErrors] = useState({});
+  const { post, data, loading, error } = usePost(`${Base_Url}/auth/register`);
+
+ 
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <React.Fragment>
-      <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors)}>
+      <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors, post)}>
         <FormHeader>LAHORE GARRISON UNIVERSITY ALUMNI PORTAL</FormHeader>
         <SubText>Fill Your Details To Continue</SubText>
-
         <InputField type="text" label="Enter Your FirstName" placeholder="First Name Here" onChange={e => setFormData({ ...formData, firstName: e.target.value })} value={formData.firstName} />
         <FormError errors={errors} errorKey="firstName" />
         <InputField type="text" label="Enter Your Last Name" placeholder="Last Name Here" onChange={(e) => { setFormData({ ...formData, lastName: e.target.value }) }} value={formData.lastName} />
         <FormError errors={errors} errorKey="lastName" />
+        <InputField type="email" label="Enter Your Email" placeholder="e.g xyx@lgu.edu.pk" onChange={(e) => { setFormData({ ...formData, email: e.target.value }) }} value={formData.email} />
+        <FormError errors={errors} errorKey="email" />
+        <InputField type="password" label="Enter Your Password" placeholder="Enter Strong Password" onChange={(e) => { setFormData({ ...formData, password: e.target.value }) }} value={formData.password} />
+        <FormError errors={errors} errorKey="password" />
         <InputField type="text" label="Enter Your Cnic" placeholder="e.g xxxxx-xxxxxxx-x" onChange={(e) => { setFormData({ ...formData, cnic: e.target.value }) }} value={formData.cnic} />
         <FormError errors={errors} errorKey="cnic" />
         <DropDown
@@ -53,6 +71,7 @@ export default function RegisterAlumni() {
         <InputField type="number" placeholder="Enter RollNo e.g 202" label="Enter Your Roll No" onChange={(e) => { setFormData({ ...formData, rollNo: e.target.value }) }} value={formData.rollNo} />
         <FormError errors={errors} errorKey="rollNo" />
         <ButtonComponent type="submit">Register</ButtonComponent>
+        {error && <Toast type="error" message={error} />}
       </FormLayout>
     </React.Fragment>
   )

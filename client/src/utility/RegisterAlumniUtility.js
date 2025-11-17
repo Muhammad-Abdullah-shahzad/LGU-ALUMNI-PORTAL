@@ -16,6 +16,12 @@ class RegisterAlumniUtils {
     if (!formData.lastName || formData.lastName.trim() === "") {
       errors.lastName = "Last name is required";
     }
+    // Email
+    if (!formData.email || formData.email.trim() === "") {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Email is invalid";
+    }
 
     // CNIC
     if (!formData.cnic || formData.cnic.trim() === "") {
@@ -40,16 +46,26 @@ class RegisterAlumniUtils {
     } else if (isNaN(formData.rollNo) || Number(formData.rollNo) <= 0) {
       errors.rollNo = "Roll number must be a positive number";
     }
-
+    // password
+    if (!formData.password || formData.password.trim() === "") {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+    }
     return errors;
   }
 
-  static handleSubmit(event, formData, setErrors) {
+  static handleSubmit(event, formData, setErrors, post) {
     event.preventDefault();
     const errors = this.validateForm(formData);
-    setErrors(errors);
-
-}
+    if (Object.keys(errors).length === 0) {
+      // No validation errors, proceed with form submission
+      post(formData);
+    } else {
+      // Set validation errors to state to display them     
+      setErrors(errors);
+    }
+  }
 
 }
 

@@ -1,17 +1,24 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: String,
+    firstName: String,
+    lastName: String,
+    email: { type: String, unique: true },
+    password: String,
+    cnic: String,
+    batch: String,
+    degree: String,
+    rollNo: Number,
     role: {
       type: String,
       enum: ["admin", "coordinator", "president", "vice_president", "alumni"],
       required: true
     },
-
+    createdAt: { type: Date, default: Date.now },
     status: { type: Boolean, default: true },
   },
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );
 
-export default mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
