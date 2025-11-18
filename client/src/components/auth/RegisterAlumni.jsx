@@ -11,6 +11,7 @@ import Toast from "../Toast/Toast";
 import {usePost} from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
 
+//Moazam
 export default function RegisterAlumni() {
   const Base_Url = "http://localhost:5000";
   const [formData, setFormData] = useState({
