@@ -1,7 +1,10 @@
 const express = require("express")
 const authRoutes = require("./routes/authRoutes")
+const adminRoutes = require("./routes/adminRoutes")
+
 const cors = require("cors")
 const connectDB = require("./database/db")
+
 const app = express()
 
 app.use(cors())
@@ -13,12 +16,13 @@ connectDB();
 
 
 app.use("/auth", authRoutes)
+app.use("/admin",adminRoutes)
 
-app.use("/", (req, res) => {
-    res.status(200).json({
-        message: "server working"
-    })
-})
+// app.use("/", (req, res) => {
+//     res.status(200).json({
+//         message: "server working"
+//     })
+// })
 
 app.listen(5000, () => {
     console.log("server started");
