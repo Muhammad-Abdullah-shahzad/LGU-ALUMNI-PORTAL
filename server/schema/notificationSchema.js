@@ -11,10 +11,9 @@ const notificationSchema = new mongoose.Schema(
     },
     notificationType: {
       type: String,
-      enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval", "commentDiscussion"],
+      enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval"],
       required: true
     },
-    // for comments on discussions
     // for posts
     postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     // for alumni registration
