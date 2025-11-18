@@ -37,9 +37,43 @@ exports.getCoordinatorNotificationsController = async (req, res) => {
         const notifications = await notificationModel.find({        
             $or: [
                 { notificationType: "post" },
-                { notificationType: "alumniRegiter" }
-                ,
-                { notificationType: "postApproval" },   
+                { notificationType: "alumniRegiter" },
+                { notificationType: "postApproval" },
+                { notificationType: "editAlumniStatus" },
+                { notificationType: "deleteAlumniStatus" },
+            ]   
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json(notifications);
+    }   
+    catch (error) {
+
+        res.status(500).json({ message: 'failed to fetch notifications', error });
+    }
+}
+
+exports.getPresidentNotificationsController = async (req, res) => {
+    try {
+        const notifications = await notificationModel.find({        
+            $or: [
+                { notificationType: "post" },
+                { notificationType: "postApprovalStatus" },
+            ]   
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json(notifications);
+    }   
+    catch (error) {
+
+        res.status(500).json({ message: 'failed to fetch notifications', error });
+    }
+}
+
+exports.getAlumniNotificationsController = async (req, res) => {
+    try {
+        const notifications = await notificationModel.find({        
+            $or: [
+                { notificationType: "post" },
             ]   
         }).sort({ createdAt: -1 });
 

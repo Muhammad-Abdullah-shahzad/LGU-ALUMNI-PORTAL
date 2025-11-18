@@ -11,7 +11,7 @@ const notificationSchema = new mongoose.Schema(
     },
     notificationType: {
       type: String,
-      enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval"],
+      enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval", "commentDiscussion"],
       required: true
     },
     // for posts
@@ -28,3 +28,22 @@ const notificationSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("Notification", notificationSchema);
+
+// Notification Info
+
+//Admin
+//post
+//coordinator data change
+
+//Coordinator
+//post
+//alumni registration approval
+//post approval from vp/p
+//data change request status  
+
+// president
+//post
+//post approval status
+
+// User
+// post
