@@ -8,12 +8,12 @@ exports.getDashboard = async (req, res) => {
         dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "details.employmentStatus": "unemployed" });
         dashboardData.departmentWiseCount = await userModel.aggregate([
             { $match: { role: 'alumni' } },
-            { $group: { _id: "$details.department", count: { $sum: 1 } } },
+            { $group: { _id: "$department", count: { $sum: 1 } } },
             { $project: { department: "$_id", count: 1, _id: 0 } }
         ]);
         dashboardData.departmentWiseEmployed = await userModel.aggregate([
             { $match: { role: 'alumni', "details.employmentStatus": "employed" } },
-            { $group: { _id: "$details.department", count: { $sum: 1 } } },
+            { $group: { _id: "$department", count: { $sum: 1 } } },
             { $project: { department: "$_id", count: 1, _id: 0 } }
         ]);
         res.status(200).json(dashboardData);

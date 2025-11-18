@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
     batch: String,
     degree: String,
     rollNo: Number,
+    department: String,
+    details: {type: Array},
     role: {
       type: String,
       enum: ["admin", "coordinator", "president", "vice_president", "alumni"],
