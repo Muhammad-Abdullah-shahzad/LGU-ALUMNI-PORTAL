@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema(
   {
-    commentId: {type: Integer, required: true, unique: true},
-    authorId: {type: Integer, required: true},
+    commentId: {type: Number, required: true, unique: true},
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     authorProfileImage: {type: String, required: true},
     commentContent: {type: String, required: true},
     createdAt: {type: Date, default: Date.now, required: true},

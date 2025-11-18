@@ -1,7 +1,7 @@
 const express = require("express")
 const authRoutes = require("./routes/authRoutes")
 const adminRoutes = require("./routes/adminRoutes")
-
+const postRoutes = require("./routes/postRoutes")
 const cors = require("cors")
 const connectDB = require("./database/db")
 
@@ -17,6 +17,7 @@ connectDB();
 
 app.use("/auth", authRoutes)
 app.use("/admin",adminRoutes)
+app.use("/post", postRoutes)
 
 // app.use("/", (req, res) => {
 //     res.status(200).json({

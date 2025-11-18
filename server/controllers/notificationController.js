@@ -2,12 +2,8 @@ const notificationModel = require('../models/notificationModel')
 // create notification
 exports.createNotificationController = async (req, res) => {
     try {
-        const { notificationAuthor, notificationType, notificationContent } = req.body;
-        await notificationModel.create({
-            notificationAuthor,
-            notificationType,
-            notificationContent
-        });
+
+        await notificationModel.create(req.body);
         res.status(201).json({ message: 'Notification created successfully' });
 
     }
@@ -34,18 +30,18 @@ exports.getAdminNotificationsController = async (req, res) => {
 
 exports.getCoordinatorNotificationsController = async (req, res) => {
     try {
-        const notifications = await notificationModel.find({        
+        const notifications = await notificationModel.find({
             $or: [
                 { notificationType: "post" },
                 { notificationType: "alumniRegiter" },
                 { notificationType: "postApproval" },
                 { notificationType: "editAlumniStatus" },
                 { notificationType: "deleteAlumniStatus" },
-            ]   
+            ]
         }).sort({ createdAt: -1 });
 
         res.status(200).json(notifications);
-    }   
+    }
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });
@@ -54,15 +50,15 @@ exports.getCoordinatorNotificationsController = async (req, res) => {
 
 exports.getPresidentNotificationsController = async (req, res) => {
     try {
-        const notifications = await notificationModel.find({        
+        const notifications = await notificationModel.find({
             $or: [
                 { notificationType: "post" },
                 { notificationType: "postApprovalStatus" },
-            ]   
+            ]
         }).sort({ createdAt: -1 });
 
         res.status(200).json(notifications);
-    }   
+    }
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });
@@ -71,14 +67,14 @@ exports.getPresidentNotificationsController = async (req, res) => {
 
 exports.getAlumniNotificationsController = async (req, res) => {
     try {
-        const notifications = await notificationModel.find({        
+        const notifications = await notificationModel.find({
             $or: [
                 { notificationType: "post" },
-            ]   
+            ]
         }).sort({ createdAt: -1 });
 
         res.status(200).json(notifications);
-    }   
+    }
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });

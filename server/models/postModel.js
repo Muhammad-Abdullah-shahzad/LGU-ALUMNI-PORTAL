@@ -1,1 +1,1 @@
-const post = require("../schema/postSchema")
+module.exports = require("../schema/postSchema");
