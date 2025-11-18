@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema(
       required: true
     },
     createdAt: { type: Date, default: Date.now },
-    status: { type: Boolean, default: true },
+    userStatus: {
+      type: String,
+      enum: ["approved", "pending", "rejected"],
+      required: true
+    },
   },
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );
