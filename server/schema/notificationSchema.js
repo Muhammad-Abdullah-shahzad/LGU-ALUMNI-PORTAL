@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const notificationSchema = new mongoose.Schema(
   {
-    notificationId: { type: Integer, required: true, unique: true },
+    notificationId: { type: Number, required: true, unique: true },
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     notificationAuthor: {
       type: String,
@@ -27,7 +27,7 @@ const notificationSchema = new mongoose.Schema(
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );
 
-export default mongoose.model("Notification", notificationSchema);
+module.exports= mongoose.model("Notification", notificationSchema);
 
 // Notification Info
 

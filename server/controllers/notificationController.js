@@ -42,6 +42,7 @@ exports.getCoordinatorNotificationsController = async (req, res) => {
 
         res.status(200).json(notifications);
     }
+    
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });
