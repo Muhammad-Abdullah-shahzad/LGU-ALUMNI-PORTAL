@@ -1,7 +1,7 @@
 import StatsCard from "../StatsCard.jsx/StatsCard";
 import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
-import ChartWrapper from "../ChartsWrapper/ChartsWrapper";
+import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
 export default function Main() {
     return (
@@ -45,7 +45,7 @@ export default function Main() {
                     ]}
                 />
             </CardsWrapper>
-            <CardsWrapper>
+            <CardsWrapper title="Alumni Distribution by Department">
                 <DashboardBarChart
                     className='col-md-6 col-sm-12 mb-4'
                     data={[
@@ -56,19 +56,18 @@ export default function Main() {
                     Xkey="department"
                     Ykey="count"
                 />
-                <DashboardBarChart
-                    className='col-md-6 col-sm-12 mb-4'
+                <DashboardDonut
                     data={[
                         { department: 'CS', employeed: 40 },
                         { department: 'SE', employeed: 20 },
                         { department: 'IT', employeed: 35 },
                     ]}
-                    Xkey="department"
+                    className='col-md-6 col-sm-12 mb-4'
                     Ykey="employeed"
+                    Xkey="department"
+
                 />
             </CardsWrapper>
-
-
         </div>
     );
 }       

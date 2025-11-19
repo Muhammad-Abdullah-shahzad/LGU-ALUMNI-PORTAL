@@ -1,4 +1,4 @@
-export default function CardsWrapper({ children }) {
+export default function RowWrapper({ children }) {
   return (
     <div className="row">
       {children}
