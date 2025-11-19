@@ -3,6 +3,10 @@ import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
 import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
+import StatsCard1 from "../../../assets/statCard1.jpg";
+import StatsCard2 from "../../../assets/statCard2.jpg";
+import StatsCard3 from "../../../assets/statCard3.jpg";
+import StatsCard4 from "../../../assets/statCard4.jpg";
 
 import {useFetch} from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
@@ -23,25 +27,25 @@ console.log("admin data from /dashboard/admin",data);
                     title="Total Alumni"
                     value={data?data.totalAlumni:"0"}
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={StatsCard1}
                 />
                 <StatsCard
                     title="Total Employeed Alumni"
                     value={data?data.totalEmployedAlumni:"0"}
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={StatsCard2}
                 />
                 <StatsCard
                     title="Total Unemployeed Alumni"
                     value={data?data.totalUnemployedAlumni:"0"}
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={StatsCard3}
                 />
                 <StatsCard
                     title="Total Alumni"
                     value="1,250"
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={StatsCard4}
                 />
                 
                 <LongCard
