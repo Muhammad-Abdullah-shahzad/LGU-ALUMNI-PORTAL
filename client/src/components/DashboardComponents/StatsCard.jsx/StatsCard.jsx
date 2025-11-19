@@ -19,7 +19,6 @@ export default function StatsCard({ title, value, icon, color }) {
           >
             <i className={`${icon} text-white fs-4`}></i>
           </div>
-
           {/* TEXT */}
           <div>
             <h6 className="text-muted mb-1">{title}</h6>
