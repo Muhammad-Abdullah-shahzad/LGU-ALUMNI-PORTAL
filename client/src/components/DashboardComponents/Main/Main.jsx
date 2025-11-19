@@ -47,13 +47,24 @@ export default function Main() {
             </CardsWrapper>
             <CardsWrapper>
                 <DashboardBarChart
+                    className='col-md-6 col-sm-12 mb-4'
                     data={[
-                        { department: 'Computer Science', count: 40 },
-                        { department: 'Electrical Engineering', count: 25 },
-                        { department: 'Mechanical Engineering', count: 30 },
-                        { department: 'Civil Engineering', count: 20 },
-                        { department: 'Business Administration', count: 35 },
+                        { department: 'CS', count: 40 },
+                        { department: 'SE', count: 20 },
+                        { department: 'IT', count: 35 },
                     ]}
+                    Xkey="department"
+                    Ykey="count"
+                />
+                <DashboardBarChart
+                    className='col-md-6 col-sm-12 mb-4'
+                    data={[
+                        { department: 'CS', employeed: 40 },
+                        { department: 'SE', employeed: 20 },
+                        { department: 'IT', employeed: 35 },
+                    ]}
+                    Xkey="department"
+                    Ykey="employeed"
                 />
             </CardsWrapper>
 
