@@ -1,4 +1,4 @@
-export default function LongCard({ heading, notifications }) {
+export default function LongCard({ heading, notifications,headKey,bodyKey }) {
   return (
     <div className="w-100 mb-4">
       <div className="card shadow-sm border-0 rounded-3 w-100">
@@ -22,9 +22,9 @@ export default function LongCard({ heading, notifications }) {
             >
               {/* TEXT */}
               <div>
-                <h6 className="fw-semibold mb-1">{note.title}</h6>
+                <h6 className="fw-semibold mb-1">{note['headKey']}</h6>
                 <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
-                  {note.message}
+                  {note['bodyKey']}
                 </p>
               </div>
 

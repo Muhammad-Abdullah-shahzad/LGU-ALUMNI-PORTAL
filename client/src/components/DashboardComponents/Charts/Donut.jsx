@@ -36,13 +36,13 @@ export default function DashboardDonut({
         <PieChart>
           <Pie
             data={data}
-            dataKey={Ykey}
-            nameKey={Xkey}
-            innerRadius={55}
+            dataKey={Ykey}   // ✅ numeric value
+            nameKey={Xkey}   // ✅ label
+            cx="50%"
+            cy="50%"
             outerRadius={100}
-            paddingAngle={2}
-            label={renderLabel}
             labelLine={false}
+            label
           >
             {data.map((entry, index) => (
               <Cell
