@@ -3,7 +3,7 @@ import LoginAlumni from "./components/auth/LoginAlumni";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import RegisterAlumni from "./components/auth/RegisterAlumni";
 import Loader from "./components/Loader/Loader";
-import AdminSideBar from "./components/SideBar/AdminSideBar";
+import AdminSideBar from "./components/DashboardComponents/SideBar/AdminSideBar";
 import AdminDashboard from "./components/Dashboards/AdminDashboard";
 
 

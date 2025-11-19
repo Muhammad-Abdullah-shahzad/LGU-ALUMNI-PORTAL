@@ -1,14 +1,11 @@
-import React from 'react';
-import AdminSideBar from '../SideBar/AdminSideBar';
- import DashboardLayout from '../DashboardLayout/DashboardLayout';
+import Main from '../DashboardComponents/Main/Main';
+import AdminSideBar from '../DashboardComponents/SideBar/AdminSideBar';
+ import DashboardLayout from '../DashboardComponents/DashboardLayout/DashboardLayout';
 export default function AdminDashboard() {
     return (
        <DashboardLayout>
           <AdminSideBar />
-            <div>
-                <h1>Admin Dashboard</h1>
-                <p>Welcome to the admin dashboard. Here you can manage users, products, orders, and settings.</p>
-            </div>
+           <Main /  >
         </DashboardLayout>
     );
 }
