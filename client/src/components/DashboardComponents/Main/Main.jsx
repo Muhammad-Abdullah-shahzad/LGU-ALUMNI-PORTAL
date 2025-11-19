@@ -1,77 +1,39 @@
-import StatsCard from "../StatsCard.jsx/StatsCard";
-import CardsWrapper from "../CardsWrapper/CardsWrapper";
-import LongCard from "../LongCard/longCard";
-import DashboardDonut from "../Charts/Donut";
-import DashboardBarChart from "../Charts/BarChart";
-import StatsCard1 from "../../../assets/statCard1.jpg";
-import StatsCard2 from "../../../assets/statCard2.jpg";
-import StatsCard3 from "../../../assets/statCard3.jpg";
-import StatsCard4 from "../../../assets/statCard4.jpg";
+import StatsPage from "../StatsPage/StatsPage.jsx";
+import adminContext from "../../context/context.js";
 
-import {useFetch} from "../../../hooks/useFetch.js";
+import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
-export default function Main() {
-    const Base_URL=`http://localhost:5000`;
-   
-  const { data, loading, error, refetch: fetchData } = useFetch(`${Base_URL}/dashboard/admin`);
-console.log("admin data from /dashboard/admin",data);
+export default function Main({activeMenu}) {
+    const Base_URL = `http://localhost:5000`;
 
-  if(loading){
-    return <Loader />;
-  }
 
-  return (
+    const { data, loading, error, refetch: fetchData } = useFetch(`${Base_URL}/dashboard/admin`);
+    console.log("admin data from /dashboard/admin", data);
+
+    if (loading) {
+        return <Loader />;
+    }
+
+    return (
         <div className="container-fluid p-3">
-            <CardsWrapper>
-                <StatsCard
-                    title="Total Alumni"
-                    value={data?data.totalAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard1}
-                />
-                <StatsCard
-                    title="Total Employeed Alumni"
-                    value={data?data.totalEmployedAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard2}
-                />
-                <StatsCard
-                    title="Total Unemployeed Alumni"
-                    value={data?data.totalUnemployedAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard3}
-                />
-                <StatsCard
-                    title="Total Alumni"
-                    value="1,250"
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard4}
-                />
+            {
 
-                <LongCard
-                    heading="Recent Notifications"
-                    headKey='title'
-                    bodyKey='message'
-                    notifications={data?data.notifications:[]}
-                />
-
-            </CardsWrapper>
-            <CardsWrapper title="Alumni Distribution by Department">
-                <DashboardBarChart
-                    className='col-md-6 col-sm-12 mb-4'
-                    data={data?data.departmentWiseCount : []}
-                    Xkey="department"
-                    Ykey="count"
-                    heading="Alumni Count Distribution"
-                />
-                <DashboardDonut
-                    data={data?data.departmentWiseEmployed:[]}
-                    className='col-md-6 col-sm-12 mb-4'
-                    Ykey="employeed"
-                    Xkey="department"
-                    heading="Alumni Employment Distribution"
-                />
-            </CardsWrapper>
+                activeMenu === "dashboard" && <StatsPage data={data} />
+            }
+            {
+                activeMenu === "alumniData" && <div>Alumni Data Section</div>
+            }
+            {
+                activeMenu === "coordinators" && <div>coordinators Data Section</div>
+            }
+            {
+                activeMenu === "posts" && <div>posts Data Section</div>
+            }
+            {
+                activeMenu === "notifications" && <div>notifications Data Section</div>
+            }
         </div>
     );
+
+
 }       
