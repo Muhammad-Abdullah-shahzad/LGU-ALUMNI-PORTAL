@@ -43,42 +43,25 @@ console.log("admin data from /dashboard/admin",data);
                     icon="bi bi-people-fill"
                     color="#4e73df"
                 />
-                
+
                 <LongCard
                     heading="Recent Notifications"
                     headKey='title'
                     bodyKey='message'
-                    notifications={[
-                        {
-                            title: "New User Registered",
-                            message: "A new user has signed up using Google."
-                        },
-                        {
-                            title: "Order Pending",
-                            message: "Order #2025 needs approval."
-                        },
-                    ]}
+                    notifications={data?data.notifications:[]}
                 />
 
             </CardsWrapper>
             <CardsWrapper title="Alumni Distribution by Department">
                 <DashboardBarChart
                     className='col-md-6 col-sm-12 mb-4'
-                    data={[
-                        { department: 'CS', count: 40 },
-                        { department: 'SE', count: 20 },
-                        { department: 'IT', count: 35 },
-                    ]}
+                    data={data?data.departmentWiseCount : []}
                     Xkey="department"
                     Ykey="count"
                     heading="Alumni Count Distribution"
                 />
                 <DashboardDonut
-                    data={[
-                        { department: 'CS', employeed: 40 },
-                        { department: 'SE', employeed: 20 },
-                        { department: 'IT', employeed: 35 },
-                    ]}
+                    data={data?data.departmentWiseEmployed:[]}
                     className='col-md-6 col-sm-12 mb-4'
                     Ykey="employeed"
                     Xkey="department"
