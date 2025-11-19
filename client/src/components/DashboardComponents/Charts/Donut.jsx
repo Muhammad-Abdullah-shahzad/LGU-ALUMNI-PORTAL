@@ -21,9 +21,8 @@ export default function DashboardDonut({ data, className, Xkey, Ykey, colors }) 
             nameKey={Xkey}   // ✅ label
             cx="50%"
             cy="50%"
-            innerRadius={70}
             outerRadius={100}
-            paddingAngle={3}
+            labelLine={false}
             label
           >
             {data.map((entry, index) => (

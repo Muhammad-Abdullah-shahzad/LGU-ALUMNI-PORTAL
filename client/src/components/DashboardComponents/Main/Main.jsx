@@ -3,7 +3,11 @@ import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
 import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
+import React ,{useState}from "react";
 export default function Main() {
+    const [adminDashboardData, setAdminDashboardData] = useState({
+        
+    });
     return (
         <div className="container-fluid p-3">
             <CardsWrapper>
