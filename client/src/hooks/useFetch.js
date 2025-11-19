@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-export const useFetch = (url, options = {}) => {
+export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,10 +16,8 @@ export const useFetch = (url, options = {}) => {
 
     try {
       const res = await fetch(url, {
-        ...options,
         headers: {
           "Content-Type": "application/json",
-          ...(options.headers || {}),
           ...(token && { Authorization: `Bearer ${token}` }),
         },
         signal: controller.signal,
@@ -40,7 +38,7 @@ export const useFetch = (url, options = {}) => {
     }
 
     return () => controller.abort();
-  }, [url, options, token]);
+  }, [url, token]);
 
   useEffect(() => {
     fetchData();
