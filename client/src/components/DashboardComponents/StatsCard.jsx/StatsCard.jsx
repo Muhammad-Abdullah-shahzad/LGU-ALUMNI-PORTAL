@@ -1,8 +1,13 @@
 export default function StatsCard({ title, value, icon, color }) {
   return (
     <div className="col-md-3 col-sm-6 mb-4">
-      <div className="card shadow-sm border-0 rounded-3">
-        <div className="card-body d-flex align-items-center">
+      <div className="card shadow-sm border-0 rounded-3"
+      >
+        <div className="card-body d-flex align-items-center"
+          style={{
+        height:"120px"
+      }}
+        >
           {/* ICON */}
           <div
             className={`rounded-circle d-flex align-items-center justify-content-center me-3`}

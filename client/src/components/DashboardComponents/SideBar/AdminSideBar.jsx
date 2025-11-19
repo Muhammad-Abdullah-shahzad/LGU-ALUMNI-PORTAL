@@ -1,11 +1,13 @@
 import SidebarItem from "../SideBarItem/SideBarItem";
 import SidebarNav from "../SidebarNav/SidebarNav";
+import AuthorName from "../AuthorName/AuthorName";
 import React, { useState } from "react";
 
 export default function AdminSideBar() {
     const [activeSection, setActiveSection] = useState("Dashboard");
     return (
         <SidebarNav>
+            <AuthorName>Admin Dashboard</AuthorName>
             <SidebarItem
                 icon="bi bi-house-door-fill"
                 text="Dashboard"
