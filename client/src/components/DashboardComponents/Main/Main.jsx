@@ -3,6 +3,10 @@ import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
 import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
+import statCard1 from '../../../assets/statCard1.jpg';
+import statCard2 from '../../../assets/statCard2.jpg';
+import statCard3 from '../../../assets/statCard3.jpg';
+import statCard4 from '../../../assets/statCard4.jpg';
 
 export default function Main() {
     return (
@@ -12,25 +16,25 @@ export default function Main() {
                     title="Total Alumni"
                     value="1,250"
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={statCard1}
                 />
                 <StatsCard
                     title="Total Alumni"
                     value="1,250"
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={statCard2}
                 />
                 <StatsCard
                     title="Total Alumni"
                     value="1,250"
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={statCard3}
                 />
                 <StatsCard
                     title="Total Alumni"
                     value="1,250"
                     icon="bi bi-people-fill"
-                    color="#4e73df"
+                    bgImage={statCard4}
                 />
                 <LongCard
                     heading="Recent Notifications"
