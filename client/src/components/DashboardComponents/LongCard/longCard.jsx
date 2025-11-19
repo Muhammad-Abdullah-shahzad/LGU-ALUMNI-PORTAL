@@ -6,9 +6,10 @@ export default function LongCard({ heading, notifications }) {
         {/* HEADER */}
         <div className="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3 px-4">
           <h5 className="fw-bold mb-0">{heading}</h5>
-          <button className="btn btn-sm btn-outline-primary rounded-1 px-3">
+            <button className="btn btn-link p-0 m-0 text-decoration-none" 
+                    style={{ fontSize: "0.9rem" }}>
             View All
-          </button>
+            </button>
         </div>
 
         {/* BODY */}
@@ -29,11 +30,11 @@ export default function LongCard({ heading, notifications }) {
 
               {/* ACTION BUTTONS */}
               <div className="d-flex gap-2">
-                <button className="btn btn-success btn-sm px-3 rounded-1">
+                <button className="btn btn-outline-success btn-sm px-3 rounded-1">
                   Accept
                 </button>
 
-                <button className="btn btn-danger btn-sm px-3 rounded-1">
+                <button className="btn btn-outline-danger btn-sm px-3 rounded-1">
                   Reject
                 </button>
               </div>

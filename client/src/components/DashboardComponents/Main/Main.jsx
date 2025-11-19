@@ -3,7 +3,11 @@ import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
 import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
+<<<<<<< HEAD
 import React ,{useState}from "react";
+=======
+
+>>>>>>> 7d0fe9521290e011b649e567e8117adf7348f02b
 export default function Main() {
     const [adminDashboardData, setAdminDashboardData] = useState({
         
@@ -59,6 +63,7 @@ export default function Main() {
                     ]}
                     Xkey="department"
                     Ykey="count"
+                    heading="Alumni Count Distribution"
                 />
                 <DashboardDonut
                     data={[
@@ -69,7 +74,7 @@ export default function Main() {
                     className='col-md-6 col-sm-12 mb-4'
                     Ykey="employeed"
                     Xkey="department"
-
+                    heading="Alumni Employment Distribution"
                 />
             </CardsWrapper>
         </div>
