@@ -2,7 +2,6 @@
 import StatsCard from "../StatsCard.jsx/StatsCard";
 import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
-import DashboardDonut from "../Charts/Donut";
 import DashboardBarChart from "../Charts/BarChart";
 import StatsCard1 from "../../../assets/statCard1.jpg";
 import StatsCard2 from "../../../assets/statCard2.jpg";
@@ -43,25 +42,47 @@ export default function StatsPage({data}) {
                     heading="Recent Notifications"
                     headKey='title'
                     bodyKey='message'
-                    notifications={data ? data.notifications : []}
+                    notifications={
+                        data ? data.notifications : []
+                    }
                 />
 
             </CardsWrapper>
-            <CardsWrapper title="Alumni Distribution by Department">
+            <CardsWrapper>
                 <DashboardBarChart
                     className='col-md-6 col-sm-12 mb-4'
-                    data={data ? data.departmentWiseCount : []}
+                    // data={data ? data.departmentWiseCount : []}
+                    data={[
+                        { department: "CS", count: 120 },
+                        { department: "SE", count: 180 },
+                        { department: "IT", count: 60 },
+                    ]}                    
                     Xkey="department"
                     Ykey="count"
                     heading="Alumni Count Distribution"
+                    Xtype="category"
+                    Ytype="number"
+                    BarKey="count"
+                    barColor="#053884ff"
                 />
-                <DashboardDonut
-                    data={data ? data.departmentWiseEmployed : []}
+                <DashboardBarChart
                     className='col-md-6 col-sm-12 mb-4'
-                    Ykey="employeed"
-                    Xkey="department"
-                    heading="Alumni Employment Distribution"
+                    // data={data ? data.departmentWiseCount : []}
+                    data={[
+                        { department: "CS", employed: 120 },
+                        { department: "SE", employed: 180 },
+                        { department: "IT", employed: 60 },
+                    ]}                    
+                    Xkey="employed"
+                    Ykey="department"
+                    heading="Alumni Emplyment Distribution"
+                    layout="vertical"
+                    Xtype="number"
+                    Ytype="category"
+                    BarKey="employed"
+                    barColor="#d17205ff"
                 />
+
             </CardsWrapper>
         </div>
     );
