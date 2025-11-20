@@ -1,22 +1,28 @@
 import React, { useState } from "react";
 import "./alumniDataTable.css";
+import {useFetch} from "../../../hooks/useFetch";
+import Loader from "../../Loader/Loader";
 
-export default function AlumniDataWrapper({ data = [] }) {
+export default function AlumniDataWrapper() {
+ const Base_URL = import.meta.env.VITE_API_URL;
+  const { data, loading, error } = useFetch(`${Base_URL}/user/alumni`);
   const [search, setSearch] = useState("");
 
-  // Filter alumni by name or roll number
-  const filtered = data.filter((alumni) =>
-    (alumni.name || "").toLowerCase().includes(search.toLowerCase()) ||
-    (alumni.rollNo || "").toLowerCase().includes(search.toLowerCase())
+   if (loading) {
+    return <Loader />;
+  }
+
+  // Filter alumni by name, batch, degree, or roll no
+  const filtered = data.users.filter((alumni) =>
+    (alumni.firstName +alumni.lastName || "").toLowerCase().includes(search.toLowerCase()) ||
+    (`${alumni.batch}/${alumni.degree}/${alumni.rollNo}` || "").toLowerCase().includes(search.toLowerCase()) 
   );
 
   return (
     <div className="container-fluid">
 
-      {/* 🔵 Top Gradient Toolbar */}
       <div className="data-toolbar">
 
-        {/* 🔍 Search Bar */}
         <div className="data-search">
           <input
             type="text"
@@ -27,13 +33,11 @@ export default function AlumniDataWrapper({ data = [] }) {
           />
         </div>
 
-        {/* Action Icons */}
         <button className="circle-btn"><i className="bi bi-grid"></i></button>
         <button className="circle-btn"><i className="bi bi-list-ul"></i></button>
         <button className="circle-btn"><i className="bi bi-three-dots"></i></button>
       </div>
 
-      {/* 📄 Table Card */}
       <div className="table-card card shadow-sm">
         <table className="table table-striped table-hover mb-0">
           <thead>
@@ -62,17 +66,16 @@ export default function AlumniDataWrapper({ data = [] }) {
               filtered.map((alumni, i) => (
                 <tr key={i}>
                   <td>{i + 1}</td>
-                  <td>{alumni.name || "N/A"}</td>
+                  <td>{alumni.firstName + alumni.lastName|| "N/A"}</td>
                   <td>{alumni.rollNo || "N/A"}</td>
                   <td>{alumni.batch || "N/A"}</td>
                   <td>{alumni.degree || "N/A"}</td>
                   <td>
                     <span
-                      className={`badge ${
-                        alumni.employmentStatus === "employed"
+                      className={`badge ${alumni.employmentStatus === "employed"
                           ? "bg-success"
                           : "bg-danger"
-                      }`}
+                        }`}
                     >
                       {alumni.employmentStatus}
                     </span>
