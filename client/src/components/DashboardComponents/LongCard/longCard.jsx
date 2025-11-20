@@ -22,9 +22,9 @@ export default function LongCard({ heading, notifications,headKey,bodyKey }) {
             >
               {/* TEXT */}
               <div>
-                <h6 className="fw-semibold mb-1">{note['headKey']}</h6>
+                <h6 className="fw-semibold mb-1">{note[headKey]}</h6>
                 <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
-                  {note['bodyKey']}
+                  {note[bodyKey]}
                 </p>
               </div>
 

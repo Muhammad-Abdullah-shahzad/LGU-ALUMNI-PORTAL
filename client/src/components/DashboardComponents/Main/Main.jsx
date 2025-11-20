@@ -1,5 +1,5 @@
 import StatsPage from "../StatsPage/StatsPage.jsx";
-
+import CoordinatorsManagement from "../DesendentComponent/CoordinatorsManagement.jsx";
 import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
@@ -82,7 +82,7 @@ export default function Main({ activeMenu }) {
         } />
       }
       {
-        activeMenu === "coordinators" && <div>coordinators Data Section</div>
+        activeMenu === "coordinators" &&<CoordinatorsManagement/>
       }
       {
         activeMenu === "posts" && <div>posts Data Section</div>
