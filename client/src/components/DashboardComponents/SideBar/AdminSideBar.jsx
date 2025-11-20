@@ -1,10 +1,12 @@
 import SidebarItem from "../SideBarItem/SideBarItem";
 import SidebarNav from "../SidebarNav/SidebarNav";
 import AuthorName from "../AuthorName/AuthorName";
-import React, { useState } from "react";
+import React, {  useState } from "react";
+import adminContext from '../../context/context';
 
-export default function AdminSideBar() {
-    const [activeSection, setActiveSection] = useState("Dashboard");
+export default function AdminSideBar({setActiveMenu}) {
+
+  
     return (
         <SidebarNav>
             <AuthorName>Admin Dashboard</AuthorName>
@@ -12,21 +14,21 @@ export default function AdminSideBar() {
                 icon="bi bi-house-door-fill"
                 text="Dashboard"
                 isActive={true}
-                onClick={() => setActiveSection("Dashboard")}
+                onClick={() => setActiveMenu("dashboard")}
             />
             <SidebarItem
                 icon="bi bi-people-fill"
                 text="Alumni Data"
                 link="#users"
                 isActive={false}
-                onClick={()=>setActiveSection('Users')}
+                onClick={()=>setActiveMenu('alumniData')}
             />
             <SidebarItem
                 icon="bi bi-box-seam-fill"
                 text="Coordinators"
 
                 isActive={false}
-                onClick={()=>setActiveSection('Products')}
+                onClick={()=>setActiveMenu('coordinators')}
 
             />
             <SidebarItem
@@ -34,15 +36,15 @@ export default function AdminSideBar() {
                 text="Posts"
 
                 isActive={false}
-                onClick={()=>setActiveSection('Orders')}
+                onClick={()=>setActiveMenu('posts')}
 
             />
             <SidebarItem
-                icon="bi bi-gear-fill"
+                icon="bi bi-bell-fill"
                 text="Notifications"
            
                 isActive={false}
-                onClick={()=>setActiveSection('Settings')}
+                onClick={()=>setActiveMenu('notifications')}
             />
         </SidebarNav>
     );

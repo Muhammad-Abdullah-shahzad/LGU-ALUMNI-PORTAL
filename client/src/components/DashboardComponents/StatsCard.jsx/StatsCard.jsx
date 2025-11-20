@@ -7,7 +7,7 @@ export default function StatsCard({ title, value, icon, bgImage }) {
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "140px",
+          height: "150px",
           position: "relative",
         }}
       >

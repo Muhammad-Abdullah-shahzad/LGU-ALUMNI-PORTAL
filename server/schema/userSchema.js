@@ -11,7 +11,14 @@ const userSchema = new mongoose.Schema(
     degree: String,
     rollNo: Number,
     department: String,
-    details: {type: Array},
+    companyName: String,
+    jobTitle: String,
+    graduationYear: Number,
+    employmentStatus: {
+      type: String,
+      enum: ["employed", "unemployed"],
+      required: true
+    },
     role: {
       type: String,
       enum: ["admin", "coordinator", "president", "vice_president", "alumni"],

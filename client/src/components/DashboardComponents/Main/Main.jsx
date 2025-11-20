@@ -1,94 +1,97 @@
-import StatsCard from "../StatsCard.jsx/StatsCard";
-import CardsWrapper from "../CardsWrapper/CardsWrapper";
-import LongCard from "../LongCard/longCard";
-import DashboardDonut from "../Charts/Donut";
-import DashboardBarChart from "../Charts/BarChart";
-import StatsCard1 from "../../../assets/statCard1.jpg";
-import StatsCard2 from "../../../assets/statCard2.jpg";
-import StatsCard3 from "../../../assets/statCard3.jpg";
-import StatsCard4 from "../../../assets/statCard4.jpg";
+import StatsPage from "../StatsPage/StatsPage.jsx";
 
-import {useFetch} from "../../../hooks/useFetch.js";
+import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
+import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
-export default function Main() {
-    const Base_URL=`http://localhost:5000`;
-   
-  const { data, loading, error, refetch: fetchData } = useFetch(`${Base_URL}/dashboard/admin`);
-console.log("admin data from /dashboard/admin",data);
 
-  if(loading){
+export default function Main({ activeMenu }) {
+
+  const Base_URL = import.meta.env.VITE_API_URL;
+  
+  const { data, loading} = useFetch(`${Base_URL}/dashboard/admin`);
+  
+  console.log("admin data from /dashboard/admin", data);
+
+  if (loading) {
     return <Loader />;
   }
 
   return (
-        <div className="container-fluid p-3">
-            <CardsWrapper>
-                <StatsCard
-                    title="Total Alumni"
-                    value={data?data.totalAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard1}
-                />
-                <StatsCard
-                    title="Employeed Alumni"
-                    value={data?data.totalEmployedAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard2}
-                />
-                <StatsCard
-                    title="Unemployeed Alumni"
-                    value={data?data.totalUnemployedAlumni:"0"}
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard3}
-                />
-                <StatsCard
-                    title="Total Alumni"
-                    value="1,250"
-                    icon="bi bi-people-fill"
-                    bgImage={StatsCard4}
-                />
-                
-                <LongCard
-                    heading="Recent Notifications"
-                    headKey='title'
-                    bodyKey='message'
-                    notifications={[
-                        {
-                            title: "New User Registered",
-                            message: "A new user has signed up using Google."
-                        },
-                        {
-                            title: "Order Pending",
-                            message: "Order #2025 needs approval."
-                        },
-                    ]}
-                />
+    <div className="container-fluid p-3">
+      {
+        activeMenu === "dashboard" && <StatsPage data={data} />
+      }
+      {
+        activeMenu === "alumniData" && <AlumniDataTable data={[
+          {
+            "id": 1,
+            "name": "Ali Raza",
+            "batch": "Fall 2020",
+            "degree": "BS Software Engineering",
+            "rollno": "F20-SE-001",
+            "employmentStatus": "employed",
+            "companyName": "TechGen",
+            "jobTitle": "Frontend Developer",
+            "graduationYear": 2024
+          },
+          {
+            "id": 2,
+            "name": "Fatima Zahra",
+            "batch": "Spring 2019",
+            "degree": "BS Computer Science",
+            "rollno": "S19-CS-014",
+            "employmentStatus": "unemployed",
+            "companyName": "-",
+            "jobTitle": "-",
+            "graduationYear": 2023
+          },
+          {
+            "id": 3,
+            "name": "Hamza Khan",
+            "batch": "Fall 2018",
+            "degree": "BS IT",
+            "rollno": "F18-IT-022",
+            "employmentStatus": "employed",
+            "companyName": "Systems Limited",
+            "jobTitle": "Network Engineer",
+            "graduationYear": 2022
+          },
+          {
+            "id": 4,
+            "name": "Sara Malik",
+            "batch": "Spring 2021",
+            "degree": "BS Software Engineering",
+            "rollno": "S21-SE-006",
+            "employmentStatus": "employed",
+            "companyName": "Contour Software",
+            "jobTitle": "UI/UX Designer",
+            "graduationYear": 2025
+          },
+          {
+            "id": 5,
+            "name": "Usman Javed",
+            "batch": "Fall 2020",
+            "degree": "BS Computer Science",
+            "rollno": "F20-CS-039",
+            "employmentStatus": "unemployed",
+            "companyName": "-",
+            "jobTitle": "-",
+            "graduationYear": 2024
+          }
+        ]
+        } />
+      }
+      {
+        activeMenu === "coordinators" && <div>coordinators Data Section</div>
+      }
+      {
+        activeMenu === "posts" && <div>posts Data Section</div>
+      }
+      {
+        activeMenu === "notifications" && <div>notifications Data Section</div>
+      }
+    </div>
+  );
 
-            </CardsWrapper>
-            <CardsWrapper title="Alumni Distribution by Department">
-                <DashboardBarChart
-                    className='col-md-6 col-sm-12 mb-4'
-                    data={[
-                        { department: 'CS', count: 40 },
-                        { department: 'SE', count: 20 },
-                        { department: 'IT', count: 35 },
-                    ]}
-                    Xkey="department"
-                    Ykey="count"
-                    heading="Alumni Count Distribution"
-                />
-                <DashboardDonut
-                    data={[
-                        { department: 'CS', employeed: 40 },
-                        { department: 'SE', employeed: 20 },
-                        { department: 'IT', employeed: 35 },
-                    ]}
-                    className='col-md-6 col-sm-12 mb-4'
-                    Ykey="employeed"
-                    Xkey="department"
-                    heading="Alumni Employment Distribution"
-                />
-            </CardsWrapper>
-        </div>
-    );
+
 }       
