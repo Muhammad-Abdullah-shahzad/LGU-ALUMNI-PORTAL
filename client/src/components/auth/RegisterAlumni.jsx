@@ -26,7 +26,7 @@ export default function RegisterAlumni() {
   });
   
   const [errors, setErrors] = useState({});
-  const { post, data, loading, error } = usePost(`${Base_Url}/auth/register`);
+  const { post, loading, error } = usePost(`${Base_Url}/auth/register`);
 
  
 

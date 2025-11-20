@@ -9,7 +9,7 @@ import React from "react";
  */
 export default function FormLayout({onSubmit , children, className, style }) {
   // Set a default Bootstrap class for padding/margin, allowing override
-  const defaultClasses = "p-4 ";
+  const defaultClasses = "p-4";
   const finalClasses = className ? `${defaultClasses} ${className}` : defaultClasses;
 
   return (

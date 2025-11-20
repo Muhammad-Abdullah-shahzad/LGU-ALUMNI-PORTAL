@@ -17,18 +17,15 @@ const userSchema = new mongoose.Schema(
     employmentStatus: {
       type: String,
       enum: ["employed", "unemployed"],
-      required: true
     },
     role: {
       type: String,
       enum: ["admin", "coordinator", "president", "vice_president", "alumni"],
-      required: true
     },
     createdAt: { type: Date, default: Date.now },
     userStatus: {
       type: String,
       enum: ["approved", "pending", "rejected"],
-      required: true
     },
   },
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
