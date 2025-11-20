@@ -30,13 +30,13 @@ console.log("admin data from /dashboard/admin",data);
                     bgImage={StatsCard1}
                 />
                 <StatsCard
-                    title="Total Employeed Alumni"
+                    title="Employeed Alumni"
                     value={data?data.totalEmployedAlumni:"0"}
                     icon="bi bi-people-fill"
                     bgImage={StatsCard2}
                 />
                 <StatsCard
-                    title="Total Unemployeed Alumni"
+                    title="Unemployeed Alumni"
                     value={data?data.totalUnemployedAlumni:"0"}
                     icon="bi bi-people-fill"
                     bgImage={StatsCard3}
