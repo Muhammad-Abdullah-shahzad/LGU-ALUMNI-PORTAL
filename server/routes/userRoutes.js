@@ -10,4 +10,7 @@ router.get("/:role",userController.getAllUsersByRole);
 // route  to get user by id
 router.get("id/:id", userController.getUserById);
 
+// delete user
+
+router.delete("/delete",userController.deleteUser)
 module.exports = router

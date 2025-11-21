@@ -1,15 +1,19 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import Loader from "../../Loader/Loader";
-
+import {useDelete} from "../../../hooks/useDelete"
+import Modal from "../Model/Model";
+import FormHeader from "../../FormHeader/FormHeader";
+// import ActionBtn from "../ActionBtns/ActionBtn";
+import ButtonComponent from "../../Button/Button";
 function AllDescendent({ role }) {
     const Base_URL = import.meta.env.VITE_API_URL;
-    const { data, loading, error } = useFetch(`${Base_URL}/user/${role}`);
-    console.log("all descendent executed");
+    const { data, loading ,refetch } = useFetch(`${Base_URL}/user/${role}`);
+    const {remove,loading2,data2} = useDelete(`${Base_URL}/user/delete`);
     const [searchEmail, setSearchEmail] = useState("");
     const [searchDept, setSearchDept] = useState("");
 
-    if (loading) return <Loader />;
+    if (loading || loading2) return <Loader />;
 
     const users = data?.users ?? [];
 
@@ -87,6 +91,7 @@ function AllDescendent({ role }) {
                                 <th>Role</th>
                                 <th>Department</th>
                                 <th>Created At</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
 
@@ -99,7 +104,34 @@ function AllDescendent({ role }) {
                                     <td className="capitalize">{user.role}</td>
                                     <td className="capitalize">{user.department || "—"}</td>
                                     <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                                    <td>
+
+                                        {/* Delete Button */}
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm rounded-circle"
+                                            style={{ width: "35px", height: "35px", padding: "0" }}
+                                        
+                                            title="Delete"
+                                        
+                                            data-bs-toggle="modal"
+                                             data-bs-target="#deleteModal" // unique modal per user
+                                        >
+                                            <i className="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                <Modal id='deleteModal' onSubmit={(e)=>{
+                                    e.preventDefault();
+                                    remove({id:user._id})
+                                      refetch()
+                                }
+                                   
+                                    } >
+                                 <FormHeader textStyle="text-danger">Do you want to delete  {user.firstName} ?</FormHeader>
+                                 <ButtonComponent type="submit" className="btn-danger">Confirm Delete</ButtonComponent>
+                                </Modal>
                                 </tr>
+                        
                             ))}
                         </tbody>
                     </table>

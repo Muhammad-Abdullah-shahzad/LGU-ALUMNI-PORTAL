@@ -13,7 +13,7 @@ export default function FormHeader(props) {
     return (
         <div className={`mb-4 ${alignmentClass}`}>
             {/* Main title for the form */}
-            <h2 className="text-success fw-bold">
+            <h2 className={`text-success fw-bold ${props.textStyle}`}>
                 {props.children || "your text here"}
             </h2>
         </div>

@@ -7,7 +7,7 @@ export const useDelete = (url) => {
 
   const token = localStorage.getItem("token");
 
-  const remove = async (options = {}) => {
+  const remove = async (body,options = {}) => {
     setLoading(true);
     setError(null);
 
@@ -19,6 +19,7 @@ export const useDelete = (url) => {
           ...(options.headers || {}),
           ...(token && { Authorization: `Bearer ${token}` }),
         },
+        body:JSON.stringify(body),
         ...options,
       });
 

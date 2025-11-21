@@ -14,7 +14,7 @@ export default function CoordinatorsManagement() {
         email: "",
         password: "",
         role: "coordinator",
-        department:"",
+        department: "",
         active: true
     })
 
@@ -26,13 +26,12 @@ export default function CoordinatorsManagement() {
     if (loading) {
         return <Loader />
     }
-  
     
     return (
         <>
-             
+
             <AddDescendent title="Fill Coordinator Details" descendent={coordinator} setErrors={setErrors} post={post} errors={errors} setDescendent={setCoordinator} />
-            <AllDescendent role='coordinator'/>
+            <AllDescendent role='coordinator' />
             {error && <Toast type="error" message={error} />}
         </>
     );
