@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["approved", "pending", "rejected"],
     },
+    active:bool
   },
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );

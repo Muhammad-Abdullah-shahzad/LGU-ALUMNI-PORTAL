@@ -1,6 +1,6 @@
 import { Modal } from "bootstrap";
 
-class CoordinatorUtility {
+class DescendentUtility {
   static validateForm(formData) {
     const errors = {};
     if (!formData.firstName || formData.firstName.trim() === "") {
@@ -8,6 +8,9 @@ class CoordinatorUtility {
     }
     if (!formData.lastName || formData.lastName.trim() === "") {
       errors.lastName = "Last name is required";
+    }
+    if (!formData.department || formData.department.trim() === "") {
+      errors.department = "descendent must have a department";
     }
     if (!formData.email || formData.email.trim() === "") {
       errors.email = "Email is required";
@@ -43,4 +46,4 @@ class CoordinatorUtility {
   }
 }
 
-export default CoordinatorUtility;
+export default DescendentUtility;
