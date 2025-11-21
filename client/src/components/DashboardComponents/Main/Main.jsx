@@ -3,7 +3,8 @@ import CoordinatorsManagement from "../DesendentComponent/CoordinatorsManagement
 import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
-import {LinkedInPost as Post, sampleLinkedInPost as samplePost} from "../PostsComponents/Post.jsx";
+import PostsSection from "../PostsComponents/PostSection.jsx";
+
 export default function Main({ activeMenu }) {
 
   const Base_URL = import.meta.env.VITE_API_URL;
@@ -85,11 +86,7 @@ export default function Main({ activeMenu }) {
         activeMenu === "coordinators" && <CoordinatorsManagement />
       }
       {
-        activeMenu === "posts" && <div className="row">
-<Post post={samplePost} />
-<Post post={samplePost} />
-
-        </div> 
+        activeMenu === "posts" && <PostsSection/>
       }
       {
         activeMenu === "notifications" && <div>notifications Data Section</div>
