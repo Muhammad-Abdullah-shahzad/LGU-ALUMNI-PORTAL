@@ -11,7 +11,8 @@ export const useFetch = (url) => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
-
+   console.log("fetch data executing");
+   
     const controller = new AbortController();
 
     try {

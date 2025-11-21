@@ -59,7 +59,9 @@ exports.deleteUser = async (req, res) => {
         await userModel.deleteOne({
             _id: delId
         });
+        res.status(200).json({message:"successfully deleted"})
     } catch (error) {
+         res.status(400).json({message:"failed to deleted"})
         console.log("deletion error");
 
     }

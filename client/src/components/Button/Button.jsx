@@ -20,6 +20,7 @@ export default function ButtonComponent(props) {
   const btnUserStyles = props.style || {}
   return (
     <button
+     onClick={props.onClick}
       type={buttonType}
       className={finalClasses}
       // 3. Directly pass the 'style' prop for inline CSS overrides

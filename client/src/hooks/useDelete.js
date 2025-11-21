@@ -7,20 +7,20 @@ export const useDelete = (url) => {
 
   const token = localStorage.getItem("token");
 
-  const remove = async (body,options = {}) => {
+  const remove = async (body = {}, options = {}) => {
     setLoading(true);
     setError(null);
 
     try {
       const res = await fetch(url, {
+        ...options, // ⭐ APPLY USER OPTIONS FIRST
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          ...(options.headers || {}),
           ...(token && { Authorization: `Bearer ${token}` }),
+          ...(options.headers || {}), // ⭐ MERGE CUSTOM HEADERS LAST
         },
-        body:JSON.stringify(body),
-        ...options,
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) {
@@ -28,9 +28,13 @@ export const useDelete = (url) => {
       }
 
       const json = await res.json();
+      console.log("use data result",json);
+      
       setData(json);
       return json;
     } catch (err) {
+      console.log(err);
+      
       setError(err.message);
       return null;
     } finally {

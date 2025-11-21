@@ -1,144 +1,151 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState } from "react";
 import { useFetch } from "../../../hooks/useFetch";
-import Loader from "../../Loader/Loader";
+import { useDelete } from "../../../hooks/useDelete";
 
-import {useDelete} from "../../../hooks/useDelete"
 import Modal from "../Model/Model";
 import FormHeader from "../../FormHeader/FormHeader";
 import ButtonComponent from "../../Button/Button";
+import { Modal as BModal } from "bootstrap";
+import Loader from "../../Loader/Loader";
+
 function AllDescendent({ role }) {
-    const Base_URL = import.meta.env.VITE_API_URL;
-    const { data, loading ,refetch } = useFetch(`${Base_URL}/user/${role}`);
-    const {remove,loading2,data2} = useDelete(`${Base_URL}/user/delete`);
-    const [searchEmail, setSearchEmail] = useState("");
-    const [searchDept, setSearchDept] = useState("");
+  const Base_URL = import.meta.env.VITE_API_URL;
+  const { data, loading, refetch } = useFetch(`${Base_URL}/user/${role}`);
+  const { remove, loading: deleting } = useDelete(`${Base_URL}/user/delete`);
 
-    if (loading || loading2) return <Loader />;
+  const [searchEmail, setSearchEmail] = useState("");
+  const [searchDept, setSearchDept] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
 
-    const users = data?.users ?? [];
+   if(loading || deleting) return <Loader/>
 
-    // --- FILTER LOGIC ---
-    const filteredUsers = users.filter((user) => {
-        const emailMatch = user.email
-            .toLowerCase()
-            .includes(searchEmail.toLowerCase());
+  const users = data?.users || [];
 
-        const deptMatch = user.department?.toLowerCase()
-            .includes(searchDept.toLowerCase());
+  const filteredUsers = users.filter(
+    (user) =>
+      user.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
+      (user.department?.toLowerCase() || "").includes(searchDept.toLowerCase())
+  );
 
-        return emailMatch && deptMatch;
-    });
+  const handleDelete = async () => {
+    console.log("handel del before return");
+    
+    if (!selectedUser) return;
+    console.log("handek del after return");
+    console.log("selected user",selectedUser);
+    
+    try {
+      await remove({ id: selectedUser._id });
+      console.log("remove executed");
+      
+      await refetch();
+      setSelectedUser(null);
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
+  };
 
+  const closeModal = () => {
+    const modalEl = document.getElementById("deleteModal");
+    if (!modalEl) return;
 
-    return (
-        <div className="mt-2">
-            <h2 className="text-xl font-bold mb-3 capitalize">
-                All {role}s ({filteredUsers.length})
-            </h2>
+    const modal = BModal.getInstance(modalEl);
+    if (modal) modal.hide();
+  };
 
-            <div className="mb-4 row g-3">
-                {/* Email Search */}
-                <div className="col-md-6">
-                    <div className="input-group">
-                        <span className="input-group-text" id="email-addon">
-                            <i className="bi bi-envelope-fill"></i>
-                        </span>
-                        <input
-                            type="text"
-                            style={{ boxShadow: "none" }}
-                            className="form-control"
-                            placeholder="Search by email..."
-                            aria-label="Email"
-                            aria-describedby="email-addon"
-                            value={searchEmail}
-                            onChange={(e) => setSearchEmail(e.target.value)}
-                        />
-                    </div>
-                </div>
+  return (
+    <div className="mt-2">
+      <h2 className="text-xl font-bold mb-3 capitalize">
+        All {role}s ({filteredUsers.length})
+      </h2>
 
-                {/* Department Search */}
-                <div className="col-md-6">
-                    <div className="input-group">
-                        <span className="input-group-text">
-                            <i className="bi bi-building"></i>
-                        </span>
-                        <input
-                            type="text"
-                            style={{ boxShadow: "none" }}
-                            className="form-control"
-                            placeholder="Search by department..."
-                            aria-label="Department"
-                            aria-describedby="dept-addon"
-                            value={searchDept}
-                            onChange={(e) => setSearchDept(e.target.value)}
-                        />
-                    </div>
-                </div>
-            </div>
-
-
-            {/* ----- TABLE ----- */}
-            {filteredUsers.length === 0 ? (
-                <p className="text-gray-500">No matching users found.</p>
-            ) : (
-                <div className="overflow-x-auto">
-                    <table className="table table-striped w-full border">
-                        <thead className="bg-gray-100">
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Department</th>
-                                <th>Created At</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {filteredUsers.map((user, i) => (
-                                <tr key={user._id}>
-                                    <td>{i + 1}</td>
-                                    <td>{`${user.firstName} ${user.lastName}`}</td>
-                                    <td>{user.email}</td>
-                                    <td className="capitalize">{user.role}</td>
-                                    <td className="capitalize">{user.department || "—"}</td>
-                                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                                    <td>
-
-                                        {/* Delete Button */}
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger btn-sm rounded-circle"
-                                            style={{ width: "35px", height: "35px", padding: "0" }}
-                                        
-                                            title="Delete"
-                                        
-                                            data-bs-toggle="modal"
-                                             data-bs-target="#deleteModal" // unique modal per user
-                                        >
-                                            <i className="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                <Modal id='deleteModal' onSubmit={(e)=>{
-                                    e.preventDefault();
-                                    remove({id:user._id})
-                                      refetch()
-                                }
-                                   
-                                    } >
-                                 <FormHeader textStyle="text-danger">Do you want to delete  {user.firstName} ?</FormHeader>
-                                 <ButtonComponent type="submit" className="btn-danger">Confirm Delete</ButtonComponent>
-                                </Modal>
-                                </tr>
-                        
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+      {/* Search Inputs */}
+      <div className="mb-4 row g-3">
+        <div className="col-md-6">
+          <input
+            className="form-control"
+            placeholder="Search by email"
+            value={searchEmail}
+            onChange={(e) => setSearchEmail(e.target.value)}
+          />
         </div>
-    );
+        <div className="col-md-6">
+          <input
+            className="form-control"
+            placeholder="Search by department"
+            value={searchDept}
+            onChange={(e) => setSearchDept(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Table */}
+      {filteredUsers.length === 0 ? (
+        <p className="text-gray-500">No matching users found.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table table-striped w-full border">
+            <thead className="bg-gray-100">
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredUsers.map((user, i) => (
+                <tr key={user._id}>
+                  <td>{i + 1}</td>
+                  <td>{`${user.firstName} ${user.lastName}`}</td>
+                  <td>{user.email}</td>
+                  <td className="capitalize">{user.role}</td>
+                  <td className="capitalize">{user.department || "—"}</td>
+                  <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm rounded-circle"
+                      style={{ width: 35, height: 35, padding: 0 }}
+                      title="Delete"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"
+                      onClick={() => setSelectedUser(user)}
+                    >
+                      <i className="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      <Modal id="deleteModal" title="Confirm Delete"onSubmit={(e)=>{
+        e.preventDefault();
+        handleDelete()
+      }} >
+        <FormHeader textStyle="text-danger">
+          {selectedUser
+            ? `Do you want to delete ${selectedUser.firstName}?`
+            : ""}
+        </FormHeader>
+
+        <ButtonComponent
+          className="btn-danger"
+          type="submit"
+      >
+          Confirm Delete
+        </ButtonComponent>
+      </Modal>
+    </div>
+  );
 }
 
-export default React.memo(AllDescendent)
+export default React.memo(AllDescendent);
