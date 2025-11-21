@@ -4,6 +4,8 @@ import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
 import {LinkedInPost as Post, sampleLinkedInPost as samplePost} from "../PostsComponents/Post.jsx";
+import DashboardHeader from "../DashboardHeader/DashboardHeader.jsx"
+
 export default function Main({ activeMenu }) {
 
   const Base_URL = import.meta.env.VITE_API_URL;
