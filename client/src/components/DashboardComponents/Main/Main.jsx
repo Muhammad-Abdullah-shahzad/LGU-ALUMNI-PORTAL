@@ -3,13 +3,13 @@ import CoordinatorsManagement from "../DesendentComponent/CoordinatorsManagement
 import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
-
+import {LinkedInPost as Post, sampleLinkedInPost as samplePost} from "../PostsComponents/Post.jsx";
 export default function Main({ activeMenu }) {
 
   const Base_URL = import.meta.env.VITE_API_URL;
-  
-  const { data, loading} = useFetch(`${Base_URL}/dashboard/admin`);
-  
+
+  const { data, loading } = useFetch(`${Base_URL}/dashboard/admin`);
+
   console.log("admin data from /dashboard/admin", data);
 
   if (loading) {
@@ -82,10 +82,14 @@ export default function Main({ activeMenu }) {
         } />
       }
       {
-        activeMenu === "coordinators" &&<CoordinatorsManagement/>
+        activeMenu === "coordinators" && <CoordinatorsManagement />
       }
       {
-        activeMenu === "posts" && <div>posts Data Section</div>
+        activeMenu === "posts" && <div className="row">
+<Post post={samplePost} />
+<Post post={samplePost} />
+
+        </div> 
       }
       {
         activeMenu === "notifications" && <div>notifications Data Section</div>
