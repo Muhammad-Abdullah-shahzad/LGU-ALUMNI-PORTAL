@@ -27,7 +27,7 @@ function AllDescendent({ role }) {
 
 
     return (
-        <div className="p-4">
+        <div className="mt-2">
             <h2 className="text-xl font-bold mb-3 capitalize">
                 All {role}s ({filteredUsers.length})
             </h2>
