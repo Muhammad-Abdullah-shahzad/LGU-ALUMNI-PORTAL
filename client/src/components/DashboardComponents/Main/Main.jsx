@@ -3,7 +3,8 @@ import CoordinatorsManagement from "../DesendentComponent/CoordinatorsManagement
 import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
-import PostsSection from "../PostsComponents/PostSection.jsx";
+import {LinkedInPost as Post, sampleLinkedInPost as samplePost} from "../PostsComponents/Post.jsx";
+import DashboardHeader from "../DashboardHeader/DashboardHeader.jsx"
 
 export default function Main({ activeMenu }) {
 
