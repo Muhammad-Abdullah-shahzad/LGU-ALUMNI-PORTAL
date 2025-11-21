@@ -28,10 +28,10 @@ function AllDescendent({ role }) {
   );
 
   const handleDelete = async () => {
-    console.log("handel del before return");
+
     
     if (!selectedUser) return;
-    console.log("handek del after return");
+
     console.log("selected user",selectedUser);
     
     try {
@@ -66,11 +66,13 @@ function AllDescendent({ role }) {
             className="form-control"
             placeholder="Search by email"
             value={searchEmail}
+            style={{boxShadow:"none"}}
             onChange={(e) => setSearchEmail(e.target.value)}
           />
         </div>
         <div className="col-md-6">
           <input
+             style={{boxShadow:"none"}}
             className="form-control"
             placeholder="Search by department"
             value={searchDept}
