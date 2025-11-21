@@ -5,7 +5,7 @@ const Post = ({
     authorName, 
     authorTitle, 
     timeAgo, 
-    headerImageUrl, 
+    headerImageURL, 
     authorAvatarUrl, 
     postTitle, 
     postContent,
@@ -18,7 +18,7 @@ const Post = ({
             <div 
                 className="card-img-top bg-dark rounded-top mt-2" 
                 style={{ 
-                    backgroundImage: `url(${headerImageUrl})`, 
+                    backgroundImage: `url(${headerImageURL})`, 
                     backgroundSize: 'cover', 
                     backgroundPosition: 'center', 
                     backgroundRepeat:"no-repeat",

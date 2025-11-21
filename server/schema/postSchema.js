@@ -2,18 +2,23 @@ const mongoose= require("mongoose")
 
 const postSchema = new mongoose.Schema(
   {
-    postId: {type: Number, required: true, unique: true},
-    authorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    header: {type: String, required: true},
-    likes: {type: Number, required: true},
-    commentCount: {type: Number, required: true},
-    content: {type: String, required: true},
+    // postId: {type: Number, unique: true},
+    // authorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    authorName: {type: String},
+    likes: {type: Number},
+    commentCount: {type: Number},
+    content: {type: String},
     createdAt: {type: Date, default: Date.now, required: true},
     postStatus: {
       type: String,
       enum: ["approved", "pending", "rejected"],
-      required: true
     },
+    headerImageURL:String,
+    authorAvatarURL:String,
+    authorTitle:String,
+    postLink:String,
+    postTitle:String,
+    postContent:String
   },
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );

@@ -1,6 +1,6 @@
 import RowWrapper from "../CardsWrapper/CardsWrapper"
 import Post from "./Post"
-
+import Loader from "../../Loader/Loader"
 const postDetails = {
     authorName: 'Abdullah',
     authorTitle: 'SE President',
@@ -11,20 +11,20 @@ const postDetails = {
     postContent: "Join us this Friday for an exciting session on how AI is transforming the software engineering landscape. We'll have guest speakers from leading tech companies.",
     postLink: '/read-more-about-ai-talk'
 }
-
+import ViewPosts from "../ViewPost/ViewPosts"
+import { useFetch } from "../../../hooks/useFetch"
+import AddPost from "../AddPost/AddPost"
+import { usePost } from "../../../hooks/usePost";
 export default function PostsSection() {
+
+    const Base_Url = import.meta.env.VITE_API_URL;
+    const { loading: postLoading, data: posts, refetch, error: postError } = useFetch(`${Base_Url}/post/all`);
+    const { loading, error, post } = usePost(`${Base_Url}/post/create`);
+    if(postLoading || loading) return <Loader/>
     return (
         <>
-            <RowWrapper>
-                <Post {...postDetails} 
-            
-                />
-               <Post 
-  {...postDetails} 
-  
-  headerImageUrl="https://erpnews.com/v2/wp-content/uploads/2022/09/Corporate-Event-1.webp" 
-/>
-            </RowWrapper>
+            <AddPost title='Add Posts' postReq={post} refetch={refetch} />
+            <ViewPosts posts={posts}/>
         </>
     )
 }
