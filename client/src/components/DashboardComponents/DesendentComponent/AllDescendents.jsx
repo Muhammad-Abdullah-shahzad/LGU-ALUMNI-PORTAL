@@ -13,31 +13,21 @@ function AllDescendent({ role }) {
   const { data, loading, refetch } = useFetch(`${Base_URL}/user/${role}`);
   const { remove, loading: deleting } = useDelete(`${Base_URL}/user/delete`);
 
-  const [searchEmail, setSearchEmail] = useState("");
-  const [searchDept, setSearchDept] = useState("");
+  const [search, setSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
-   if(loading || deleting) return <Loader/>
+  if (loading || deleting) return <Loader />;
 
   const users = data?.users || [];
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
-      (user.department?.toLowerCase() || "").includes(searchDept.toLowerCase())
+  const filteredUsers = users.filter((user) =>
+    `${user.email} ${user.department}`.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleDelete = async () => {
-    console.log("handel del before return");
-    
     if (!selectedUser) return;
-    console.log("handek del after return");
-    console.log("selected user",selectedUser);
-    
     try {
       await remove({ id: selectedUser._id });
-      console.log("remove executed");
-      
       await refetch();
       setSelectedUser(null);
     } catch (err) {
@@ -48,44 +38,43 @@ function AllDescendent({ role }) {
   const closeModal = () => {
     const modalEl = document.getElementById("deleteModal");
     if (!modalEl) return;
-
     const modal = BModal.getInstance(modalEl);
     if (modal) modal.hide();
   };
 
   return (
-    <div className="mt-2">
-      <h2 className="text-xl font-bold mb-3 capitalize">
-        All {role}s ({filteredUsers.length})
-      </h2>
+    <div className="mt-4">
 
-      {/* Search Inputs */}
-      <div className="mb-4 row g-3">
-        <div className="col-md-6">
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="fw-bold text-capitalize m-0">
+          All {role}s 
+          <span className="text-muted fs-6"> ({filteredUsers.length})</span>
+        </h2>
+      </div>
+
+      {/* Modern Search Bar */}
+    <div className="top-bar glass-card shadow-sm mb-4">
+        <div className="search-box full-width">
+          <i className="bi bi-search"></i>
           <input
-            className="form-control"
-            placeholder="Search by email"
-            value={searchEmail}
-            onChange={(e) => setSearchEmail(e.target.value)}
-          />
-        </div>
-        <div className="col-md-6">
-          <input
-            className="form-control"
-            placeholder="Search by department"
-            value={searchDept}
-            onChange={(e) => setSearchDept(e.target.value)}
+            className="search-input"
+            placeholder="Search by email or department..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
 
-      {/* Table */}
+      {/* Modern Table */}
       {filteredUsers.length === 0 ? (
-        <p className="text-gray-500">No matching users found.</p>
+        <p className="text-muted text-center py-4 fs-5">
+          No matching users found.
+        </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-striped w-full border">
-            <thead className="bg-gray-100">
+        <div className="table-responsive shadow-sm rounded">
+          <table className="table table-hover align-middle">
+            <thead className="bg-light text-secondary">
               <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -93,24 +82,26 @@ function AllDescendent({ role }) {
                 <th>Role</th>
                 <th>Department</th>
                 <th>Created At</th>
-                <th>Actions</th>
+                <th className="text-center">Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {filteredUsers.map((user, i) => (
                 <tr key={user._id}>
-                  <td>{i + 1}</td>
+                  <td className="fw-semibold">{i + 1}</td>
                   <td>{`${user.firstName} ${user.lastName}`}</td>
                   <td>{user.email}</td>
-                  <td className="capitalize">{user.role}</td>
-                  <td className="capitalize">{user.department || "—"}</td>
+                  <td className="text-capitalize">{user.role}</td>
+                  <td className="text-capitalize">{user.department || "—"}</td>
                   <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                  <td>
+
+                  {/* Delete Button */}
+                  <td className="text-center">
                     <button
                       type="button"
-                      className="btn btn-danger btn-sm rounded-circle"
-                      style={{ width: 35, height: 35, padding: 0 }}
+                      className="btn btn-outline-danger btn-sm rounded-circle"
+                      style={{ width: 36, height: 36 }}
                       title="Delete"
                       data-bs-toggle="modal"
                       data-bs-target="#deleteModal"
@@ -119,6 +110,7 @@ function AllDescendent({ role }) {
                       <i className="bi bi-trash"></i>
                     </button>
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -127,22 +119,61 @@ function AllDescendent({ role }) {
       )}
 
       {/* Delete Modal */}
-      <Modal id="deleteModal" title="Confirm Delete"onSubmit={(e)=>{
-        e.preventDefault();
-        handleDelete()
-      }} >
-        <FormHeader textStyle="text-danger">
-          {selectedUser
-            ? `Do you want to delete ${selectedUser.firstName}?`
-            : ""}
-        </FormHeader>
-
-        <ButtonComponent
-          className="btn-danger"
-          type="submit"
+      <Modal
+        id="deleteModal"
+        title=""
+        centered={true} 
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleDelete();
+        }}
       >
-          Confirm Delete
-        </ButtonComponent>
+        <div className="text-center p-4">
+
+          {/* Warning Icon */}
+          <div
+            className="mb-3"
+            style={{
+              fontSize: "48px",
+              color: "#dc3545",
+            }}
+          >
+            <i className="bi bi-exclamation-triangle-fill"></i>
+          </div>
+
+          {/* Heading */}
+          <h5 className="fw-bold text-danger">Delete Confirmation</h5>
+
+          {/* Text */}
+          <p className="text-muted">
+            {selectedUser ? (
+              <>
+                Are you sure you want to delete {selectedUser.firstName} from <br />
+                coordinators? This action cannot be undone.
+              </>
+            ) : (
+              "Are you sure you want to delete this item?"
+            )}
+          </p>
+
+          {/* Buttons */}
+          <div className="d-flex gap-3 justify-content-center mt-4">
+            <button
+              type="button"
+              className="btn btn-light border rounded-pill px-4"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+
+            <ButtonComponent
+              className="btn-danger rounded-pill px-4"
+              type="submit"
+            >
+              Delete
+            </ButtonComponent>
+          </div>
+        </div>
       </Modal>
     </div>
   );

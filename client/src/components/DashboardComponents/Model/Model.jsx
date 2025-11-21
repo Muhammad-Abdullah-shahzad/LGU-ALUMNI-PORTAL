@@ -23,7 +23,7 @@ export default function Modal({ id, title = "Modal Title", children, onSubmit })
         <div className="modal-content">
 
           {/* Header */}
-          <div className="modal-header">
+          {/* <div className="modal-header">
             <h5 className="modal-title" id={`${id}Label`}>
               {title}
             </h5>
@@ -33,15 +33,15 @@ export default function Modal({ id, title = "Modal Title", children, onSubmit })
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-          </div>
+          </div> */}
 
           {/* Form */}
           <form onSubmit={onSubmit}>
             <div className="modal-body">{children}</div>
 
-            <div className="modal-footer">
+            {/* <div className="modal-footer"> */}
               {/* Optional buttons can go here */}
-            </div>
+            {/* </div> */}
           </form>
 
         </div>
