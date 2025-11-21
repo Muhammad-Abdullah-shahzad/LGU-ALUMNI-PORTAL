@@ -87,11 +87,7 @@ export default function Main({ activeMenu }) {
         activeMenu === "coordinators" && <CoordinatorsManagement />
       }
       {
-        activeMenu === "posts" && <div className="row">
-<Post post={samplePost} />
-<Post post={samplePost} />
-
-        </div> 
+        activeMenu === "posts" && <PostsSection/>
       }
       {
         activeMenu === "notifications" && <div>notifications Data Section</div>
