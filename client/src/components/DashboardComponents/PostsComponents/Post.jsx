@@ -22,16 +22,17 @@ const Post = ({
         >
             {/* Render image only if it exists */}
             {headerImageURL && (
-                <div
-                    className="w-100"
-                    style={{
-                        height: "220px",
-                        backgroundImage: `url(${headerImageURL})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat"
-                    }}
-                ></div>
+                <img
+                src={headerImageURL}
+                alt="header"
+                className="w-100"
+                style={{
+                    height: "220px",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                }}
+                loading="lazy"
+                />
             )}
 
             {/* Body becomes a flexible area */}
