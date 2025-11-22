@@ -1,67 +1,85 @@
-import React from 'react';
+import React from "react";
 
-// A generic card component designed to display a social media-style post or event notice.
-const Post = ({ 
-    authorName, 
-    authorTitle, 
-    timeAgo, 
-    headerImageURL, 
-    authorAvatarUrl, 
-    postTitle, 
+const Post = ({
+    authorName,
+    authorTitle,
+    timeAgo,
+    headerImageURL,
+    authorAvatarUrl,
+    postTitle,
     postContent,
-    postLink = '#',
+    postLink = "#",
     className
 }) => {
     return (
-        <div className={`card shadow-sm ${className}`} >
-            {/* 1. Header Image/Visual Section */}
-            <div 
-                className="card-img-top bg-dark rounded-top mt-2" 
-                style={{ 
-                    backgroundImage: `url(${headerImageURL})`, 
-                    backgroundSize: 'cover', 
-                    backgroundPosition: 'center', 
-                    backgroundRepeat:"no-repeat",
-                    minHeight: '220px' 
+        <div
+            className={`card shadow-sm border-0 rounded-4 overflow-hidden ${className}`}
+            style={{
+                minHeight: "100%",
+                display: "flex",
+                flexDirection: "column"
+            }}
+        >
+            {/* Render image only if it exists */}
+            {headerImageURL && (
+                <div
+                    className="w-100"
+                    style={{
+                        height: "220px",
+                        backgroundImage: `url(${headerImageURL})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat"
+                    }}
+                ></div>
+            )}
+
+            {/* Body becomes a flexible area */}
+            <div
+                className="card-body pb-3"
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flexGrow: 1
                 }}
             >
-                {/* Placeholder for the visual content */}
-            </div>
-
-            {/* 2. Card Body Content */}
-            <div className="card-body">
-                {/* Author Info and Timestamp Row */}
+                {/* Author Section */}
                 <div className="d-flex align-items-center justify-content-between mb-3">
                     <div className="d-flex align-items-center">
-                        {/* Author Profile Picture */}
-                        <img 
-                            src={authorAvatarUrl} 
-                            className="rounded-circle me-3" 
-                            alt={authorName} 
-                            style={{ width: '48px', height: '48px', objectFit: 'cover' }}
+                        <img
+                            src={authorAvatarUrl || "../src/assets/postprofile.png"}
+                            className="rounded-circle me-3"
+                            alt={authorName}
+                            style={{
+                                width: "50px",
+                                height: "50px",
+                                objectFit: "cover"
+                            }}
                         />
                         <div>
-                            {/* Author Name */}
-                            <h6 className="mb-0"><strong>{authorName}</strong></h6>
-                            {/* Author Title/Role */}
-                            <p className="card-text text-muted small">{authorTitle}</p>
+                            <h6 className="mb-0 fw-semibold">{authorName}</h6>
+                            <p className="text-muted small mb-0">{authorTitle}</p>
                         </div>
                     </div>
-                    {/* Timestamp */}
                     <small className="text-muted">{timeAgo}</small>
                 </div>
 
-                {/* Post Title */}
-                <h5 className="card-title fw-bold mt-2">{postTitle}</h5>
+                {/* Title */}
+                <h5 className="fw-bold mb-2">{postTitle}</h5>
 
-                {/* Post Content/Description */}
-                <p className="card-text">
+                {/* Content */}
+                <p className="text-muted mb-3" style={{ fontSize: "0.95rem" }}>
                     {postContent}
                 </p>
 
-                {/* View Post Link */}
-                <div className="text-end">
-                    <a href={postLink} className="btn btn-link p-0 text-decoration-none">View Post &rarr;</a>
+                {/* This pushes the button to bottom always */}
+                <div className="mt-auto text-end">
+                    <a
+                        href={postLink}
+                        className="btn btn-sm btn-outline-success rounded-pill px-3"
+                    >
+                        View Post →
+                    </a>
                 </div>
             </div>
         </div>
