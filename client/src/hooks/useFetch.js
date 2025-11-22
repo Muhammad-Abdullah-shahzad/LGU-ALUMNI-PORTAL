@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
-
+import { useNavigate } from "react-router-dom";
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Get token (you can change this based on your auth flow)
   const token = localStorage.getItem("token");
@@ -23,6 +24,13 @@ export const useFetch = (url) => {
         },
         signal: controller.signal,
       });
+
+// means token expired or wrong role accessing 
+      if(res.status===401 || res.status===403){
+        localStorage.removeItem('token');
+        navigate('/login')
+        return 
+      }
 
       if (!res.ok) {
         throw new Error(`Error: ${res.status} ${res.statusText}`);

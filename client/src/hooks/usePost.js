@@ -1,9 +1,10 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export const usePost = (url) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
@@ -24,6 +25,15 @@ export const usePost = (url) => {
       });
 
       const json = await res.json();
+
+    // means token expired or wrong role accessing 
+      if(res.status===401 || res.status===403){
+        localStorage.removeItem('token');
+        navigate('/login')
+        return 
+      }
+
+
 
       if (!res.ok) {
         throw new Error(json.message || "Something went wrong");

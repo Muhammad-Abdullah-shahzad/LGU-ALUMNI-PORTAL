@@ -10,6 +10,7 @@ import RegisterAlumniUtils from "../../utility/RegisterAlumniUtility";
 import Toast from "../Toast/Toast";
 import {usePost} from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
+import { Link } from "react-router-dom";
 
 //Moazam
 export default function RegisterAlumni() {
@@ -73,6 +74,7 @@ export default function RegisterAlumni() {
         <FormError errors={errors} errorKey="rollNo" />
         <ButtonComponent type="submit">Register</ButtonComponent>
         {error && <Toast type="error" message={error} />}
+        <SubText>Already Have Account ? <Link to='/' >LogIn</Link></SubText>
       </FormLayout>
     </React.Fragment>
   )

@@ -1,4 +1,4 @@
-exports.authenticateRoles = (...validRoles) => {
+exports.verifyRoles = (...validRoles) => {
     return (req, res, next) => {
       const { role } = req.user;
   

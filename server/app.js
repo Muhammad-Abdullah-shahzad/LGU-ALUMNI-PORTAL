@@ -5,6 +5,11 @@ const postRoutes = require("./routes/postRoutes")
 const notificationRoutes = require("./routes/notificationRoute")
 const userRoutes = require("./routes/userRoutes")
 
+
+
+
+require('dotenv').config(); // Load .env variables
+
 const cors = require("cors")
 const connectDB = require("./database/db")
 const app = express()
@@ -14,7 +19,7 @@ connectDB();
 
 
 
-app.use("/auth", authRoutes);
+app.use("/auth",authRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/post", postRoutes);
 app.use("/notification", notificationRoutes);
