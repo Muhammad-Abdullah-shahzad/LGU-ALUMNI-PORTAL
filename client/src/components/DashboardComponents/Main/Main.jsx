@@ -19,7 +19,7 @@ export default function Main({ activeMenu }) {
   }
 
   return (
-    <div className="container-fluid p-3">
+    <div className="container-fluid p-3 ">
       {
         activeMenu === "dashboard" && <StatsPage data={data} />
       }

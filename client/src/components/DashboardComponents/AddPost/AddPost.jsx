@@ -1,4 +1,5 @@
-  import { Modal as BootstrapModal } from 'bootstrap';
+import { Modal as BootstrapModal } from 'bootstrap';
+
 import ActionBtn from '../ActionBtns/ActionBtn';
 import Modal from '../Model/Model';
 import InputField from '../../InputField/InputField';
@@ -53,7 +54,7 @@ const handleSubmit = async (e) => {
 };
 
     return (
-        <>
+        <div style={{overflowY:"scroll"}}>
             {/* Add Button */}
             <ActionBtn
                 action="add"
@@ -136,6 +137,6 @@ const handleSubmit = async (e) => {
                     </div>
                 </div>
             </Modal>
-        </>
+        </div>
     );
 }

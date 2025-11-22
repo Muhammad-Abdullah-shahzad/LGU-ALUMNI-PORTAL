@@ -4,6 +4,8 @@ import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import RegisterAlumni from "./components/auth/RegisterAlumni";
 import AdminDashboard from "./components/Dashboards/AdminDashboard";
 
+
+
 import { Routes, Route } from "react-router-dom";
 export default function App() {
   return (
