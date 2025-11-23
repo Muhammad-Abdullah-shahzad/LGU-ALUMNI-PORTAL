@@ -1,16 +1,18 @@
 const notificationModel = require('../models/notificationModel')
 // create notification
+
 exports.createNotificationController = async (req, res) => {
     try {
-
-        await notificationModel.create(req.body);
+        console.log("req.user=",req.user);
+        
+        await notificationModel.create({ ...req.body, authorId: req.user.id });
         res.status(201).json({ message: 'Notification created successfully' });
-
     }
     catch (error) {
         res.status(500).json({ message: 'failed to create notification', error });
     }
 }
+
 exports.getAdminNotificationsController = async (req, res) => {
     try {
         const notifications = await notificationModel.find({
@@ -85,7 +87,7 @@ exports.getAlumniNotificationsController = async (req, res) => {
 exports.delNotification = async (req, res) => {
     try {
 
-        const {_id} = req.body
+        const { _id } = req.body
         const deleted = await notificationModel.findByIdAndDelete(_id);
         res.status(200).json({ message: "deleted" })
     } catch (error) {

@@ -35,12 +35,12 @@ async function registerUser(req, res) {
             department
         });
 
-        // create notification for coordinator for user approval
+        // create notification for coordinator and admin  for user approval
         await notificationModel.create({
             authorId: newUser._id,       // The user who just registered
             notificationAuthor: "alumni",
-            notificationType: "alumniRegiter", // As per your schema
-            sendTo: "coordinator",
+            notificationType: "alumniRegiter", // As per  schema
+            sendTo:["coordinator","admin"],
             // For alumni registration approvals
             alumniId: newUser._id,
             notificationContent: `${newUser.firstName} ${newUser.lastName}  ${batch}/${degree}/${rollNo} has requested alumni registration approval.`,

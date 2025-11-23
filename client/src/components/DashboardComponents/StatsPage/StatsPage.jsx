@@ -9,7 +9,7 @@ import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
 
-export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch , role }) {
+export default function StatsPage({ data , role }) {
 
     return (
         <div>
@@ -45,11 +45,8 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
                         heading="Recent Notifications"
                         headKey='notificationType'
                         bodyKey='notificationContent'
-                        actionBtns={true}
-                        onAccept={onAccept}
-                        delNotify={delNotify}
-                        rejectFunc={rejectFunc}
-                        refetch={refetch}
+                        actionBtns={false}
+                 
                         notifications={
                             data ? data.notifications : []
                         }

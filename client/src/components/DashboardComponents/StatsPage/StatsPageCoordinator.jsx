@@ -9,7 +9,7 @@ import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
 
-export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch , role }) {
+export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch , role ,notify }) {
     return (
         <div>
             <DashboardHeader title={role} />
@@ -52,6 +52,7 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
                         notifications={
                             data ? data.notifications : []
                         }
+                        notify={notify}
                     />
 
                 </CardsWrapper>

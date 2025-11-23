@@ -2,8 +2,10 @@ import { useRef } from "react";
 import "./longcard.css"
 import expandCard from "./expandCard";
 
-export default function LongCard({ heading, notifications, headKey, bodyKey, actionBtns, onAccept, delNotify, rejectFunc , refetch}) {
-    const ref=useRef();
+export default function LongCard({ heading, notifications, headKey, bodyKey, actionBtns, onAccept, delNotify, rejectFunc, refetch, notify  }) {
+  const ref = useRef();
+  console.log("notification comming from ", notifications);
+
   return (
     <div className="w-100 mb-4 ">
       <div className="card shadow-sm border-0 rounded-3 w-100">
@@ -11,18 +13,18 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
         <div className="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3 px-4 ">
           <h5 className="fw-bold mb-0">{heading}</h5>
           <button className="btn btn-link p-0 m-0 text-decoration-none"
-          onClick={()=>expandCard(ref)}
+            onClick={() => expandCard(ref)}
             style={{ fontSize: "0.9rem" }}>
             View All
           </button>
         </div>
 
         {/* BODY */}
-        <div   ref={ref} className="card-body px-4 pb-4 initialHeight">
+        <div ref={ref} className="card-body px-4 pb-4 initialHeight">
 
           {notifications.slice(0, 2).map((note, index) => (
             <div
-            
+
               key={index}
               className={`d-flex justify-content-between align-items-center p-3 mb-3 rounded-3 initialWidth flex-wrap`}
               style={{ backgroundColor: "#f8f9fa" }}
@@ -47,18 +49,27 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
                     await delNotify({
                       _id: note._id
                     })
-                await  refetch()
+                    await notify(
+                      {
+                        // The user who just registered
+                        notificationAuthor: "coordinator",
+                        notificationType: "alumniRegiter", // As per  schema
+                        sendTo: ["admin"],
+                        notificationContent:`${note.author.department} coordinator approved ${note.author.email}`,
+                      }
+                    )
+                    await refetch()
                   }}
                 >
                   Accept
                 </button>
 
                 <button className="btn btn-outline-danger btn-sm px-3 rounded-1"
-                  onClick={async(event) => {
-                   await rejectFunc({
+                  onClick={async (event) => {
+                    await rejectFunc({
                       id: note.authorId
                     })
-                   await refetch() 
+                    await refetch()
                   }}
                 >
                   Reject

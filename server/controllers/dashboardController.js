@@ -9,15 +9,55 @@ exports.getAdminDashboard = async (req, res) => {
         dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', active: 1 });
         dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", active: 1 });
         dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", active: 1 });
-        dashboardData.notifications = await notificationModel.find({
+      dashboardData.notifications = await notificationModel.aggregate([
+            {
+                $match: {
+                    notificationType: {
+                        $in: ["post", "alumniRegiter", "editAlumni", "deleteAlumni"]
+                    },
+                    sendTo: { $in: ["admin"] }   // Admin dashboard sees admin notifications
+                }
+            },
 
-            $or: [
-                { notificationType: "editAlumni" },
-                { notificationType: "post" },
-                { notificationType: "deleteAlumni" },
-            ]
+            // JOIN authorId -> users._id
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "authorId",
+                    foreignField: "_id",
+                    as: "author"
+                }
+            },
 
-        }).sort({ createdAt: -1 })
+            { 
+                $unwind: { 
+                    path: "$author", 
+                    preserveNullAndEmptyArrays: true 
+                } 
+            },
+
+            // SORT NEWEST FIRST
+            {
+                $sort: { createdAt: -1 }
+            },
+            // SELECT ONLY USEFUL FIELDS
+            {
+                $project: {
+                    _id: 1,
+                    notificationId: 1,
+                    notificationType: 1,
+                    notificationContent: 1,
+                    createdAt: 1,
+                    sendTo: 1,
+                    authorId: 1,
+                    "author.name": 1,
+                    "author.email": 1,
+                    "author.department": 1
+                }
+            }
+        ]);
+
+
 
         dashboardData.departmentWiseCount = await userModel.aggregate([
             { $match: { role: 'alumni', active: 1 } },
@@ -41,7 +81,7 @@ exports.getAdminDashboard = async (req, res) => {
 exports.getCoordinatorDashboard = async (req, res) => {
     const dashboardData = {};
     try {
-        console.log("re.user", req.user);
+
 
         dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', department: req.user.department, active: 1 });
         dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", department: req.user.department, active: 1 });
@@ -53,7 +93,8 @@ exports.getCoordinatorDashboard = async (req, res) => {
                     notificationType: {
                         $in: ["post", "alumniRegiter", "editAlumni", "deleteAlumni"]
                     },
-                    sendTo: "coordinator"
+                   sendTo: { $in: ["coordinator"] }
+
                 }
             },
 
