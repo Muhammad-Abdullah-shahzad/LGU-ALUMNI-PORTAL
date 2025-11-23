@@ -1,4 +1,4 @@
-import StatsPage from "../StatsPage/StatsPage.jsx";
+import StatsPageCoordinator from "../StatsPage/StatsPageCoordinator.jsx";
 import AlumniDataTable from "../AlumniData/AlumniDataTable.jsx";
 import { useFetch } from "../../../hooks/useFetch.js";
 import Loader from "../../Loader/Loader.jsx";
@@ -25,7 +25,7 @@ export default function CoordinatorMain({ activeMenu }) {
 
         <div className="container-fluid p-3 ">
             {
-                activeMenu === "dashboard" && <StatsPage data={data} onAccept={put} delNotify={remove} rejectFunc={removeUser} refetch={refetch} />
+                activeMenu === "dashboard" && <StatsPageCoordinator data={data} onAccept={put} delNotify={remove} rejectFunc={removeUser} refetch={refetch} role="Coordinator" />
             }
 
             {

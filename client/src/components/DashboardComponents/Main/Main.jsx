@@ -21,7 +21,7 @@ export default function Main({ activeMenu }) {
   return (
     <div className="container-fluid p-3 ">
       {
-        activeMenu === "dashboard" && <StatsPage data={data} />
+        activeMenu === "dashboard" && <StatsPage data={data} role="Admin" />
       }
       {
         activeMenu === "alumniData" && <AlumniDataTable data={[

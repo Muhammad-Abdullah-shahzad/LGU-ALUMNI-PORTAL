@@ -1,4 +1,4 @@
-
+import DashboardLineChart from "../Charts/LineChart";
 import StatsCard from "../StatsCard.jsx/StatsCard";
 import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
@@ -10,7 +10,6 @@ import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
 
 export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch , role }) {
-
     return (
         <div>
             <DashboardHeader title={role} />
@@ -57,40 +56,12 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
 
                 </CardsWrapper>
                 <CardsWrapper>
-                    <DashboardBarChart
-                        className='col-md-6 col-sm-12 mb-4'
-                        // data={data ? data.departmentWiseCount : []}
-                        data={[
-                            { department: "CS", count: 120 },
-                            { department: "SE", count: 180 },
-                            { department: "IT", count: 60 },
-                        ]}
-                        Xkey="department"
-                        Ykey="count"
-                        heading="Alumni Count Distribution"
-                        Xtype="category"
-                        Ytype="number"
-                        BarKey="count"
-                        barColor="#053884ff"
-                    />
-                    <DashboardBarChart
-                        className='col-md-6 col-sm-12 mb-4'
-                        // data={data ? data.departmentWiseCount : []}
-                        data={[
-                            { department: "CS", employed: 120 },
-                            { department: "SE", employed: 180 },
-                            { department: "IT", employed: 60 },
-                        ]}
-                        Xkey="employed"
-                        Ykey="department"
-                        heading="Alumni Emplyment Distribution"
-                        layout="vertical"
-                        Xtype="number"
-                        Ytype="category"
-                        BarKey="employed"
-                        barColor="#d17205ff"
-                    />
-
+                <DashboardLineChart
+                    data={data.employeedBygraduationYear}
+                    heading="Final Employment Chart"
+                    Xkey="graduationYear"
+                    Ykey="count"
+                />
                 </CardsWrapper>
             </div>
         </div>
