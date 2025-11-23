@@ -27,6 +27,7 @@ export default function ViewPosts({ posts = [] ,refetchPost }) {
                                 {
                                await delPost({postId:post._id});
                                 await refetchPost();
+                      
                             }}
              
                             timeAgo={`${diffHours} hours ago`}
