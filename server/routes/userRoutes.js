@@ -9,6 +9,9 @@ router.get("/:role",userController.getAllUsersByRole);
 
 // route  to get user by id
 router.get("id/:id", userController.getUserById);
+// update
+
+router.put("/update",userController.updateUser)
 
 // delete user
 

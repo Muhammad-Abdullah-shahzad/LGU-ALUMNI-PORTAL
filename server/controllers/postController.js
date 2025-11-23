@@ -26,7 +26,7 @@ exports.deletePost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
     try {
-        const posts = await postModel.find();
+        const posts = await postModel.find().sort({createdAt:-1});
         res.status(200).json(posts);
     }
     catch (error) {

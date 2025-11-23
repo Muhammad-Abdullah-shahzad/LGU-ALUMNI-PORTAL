@@ -1,0 +1,15 @@
+.initialHeight {
+    height: 100px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    transition: height 0.3s ease-in;
+
+}
+
+.expand{
+    height:400px;
+    overflow-y: scroll;
+    border: 1px solid #eee;
+    transition: all 0.3s ease-in 0s;
+    
+}

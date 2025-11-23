@@ -10,7 +10,7 @@ Router.get("/coordinator", notificationController.getCoordinatorNotificationsCon
 Router.get("/president", notificationController.getPresidentNotificationsController);
 Router.get("/alumni", notificationController.getAlumniNotificationsController);
 Router.post("/create",notificationController.createNotificationController)
-
+Router.delete("/del",notificationController.delNotification)
 module.exports=Router;
 
 

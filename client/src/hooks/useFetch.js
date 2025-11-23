@@ -7,6 +7,7 @@ export const useFetch = (url) => {
   const navigate = useNavigate();
 
   // Get token (you can change this based on your auth flow)
+
   const token = localStorage.getItem("token");
 
   const fetchData = useCallback(async () => {
@@ -20,7 +21,7 @@ export const useFetch = (url) => {
       const res = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
+          ...(token && { Authorization: `Bearer ${localStorage.token}` }),
         },
         signal: controller.signal,
       });

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 async function registerUser(req, res) {
 
     try {
-        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni", active = 0 } = req.body;
+        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni", active = 0 ,department} = req.body;
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
@@ -31,8 +31,21 @@ async function registerUser(req, res) {
             rollNo,
             degree,
             role,
-            active
+            active,
+            department
         });
+
+        // create notification for coordinator for user approval
+        await notificationModel.create({
+            authorId: newUser._id,       // The user who just registered
+            notificationAuthor: "alumni",
+            notificationType: "alumniRegiter", // As per your schema
+            sendTo: "coordinator",
+            // For alumni registration approvals
+            alumniId: newUser._id,
+            notificationContent: `${newUser.firstName} ${newUser.lastName}  ${batch}/${degree}/${rollNo} has requested alumni registration approval.`,
+        });
+
 
         res.status(201).json({
             message: "User registered successfully",

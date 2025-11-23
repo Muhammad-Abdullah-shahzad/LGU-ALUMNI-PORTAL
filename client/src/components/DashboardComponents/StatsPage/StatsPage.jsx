@@ -9,11 +9,11 @@ import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
 
-export default function StatsPage({data}) {
+export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch }) {
 
     return (
         <div>
-            <DashboardHeader title="Admin" />
+            <DashboardHeader title="Coordinator" />
             <div className="container-fluid p-3">
                 <CardsWrapper>
                     <StatsCard
@@ -43,8 +43,13 @@ export default function StatsPage({data}) {
 
                     <LongCard
                         heading="Recent Notifications"
-                        headKey='title'
-                        bodyKey='message'
+                        headKey='notificationType'
+                        bodyKey='notificationContent'
+                        actionBtns={true}
+                        onAccept={onAccept}
+                        delNotify={delNotify}
+                        rejectFunc={rejectFunc}
+                        refetch={refetch}
                         notifications={
                             data ? data.notifications : []
                         }
@@ -59,7 +64,7 @@ export default function StatsPage({data}) {
                             { department: "CS", count: 120 },
                             { department: "SE", count: 180 },
                             { department: "IT", count: 60 },
-                        ]}                    
+                        ]}
                         Xkey="department"
                         Ykey="count"
                         heading="Alumni Count Distribution"
@@ -75,7 +80,7 @@ export default function StatsPage({data}) {
                             { department: "CS", employed: 120 },
                             { department: "SE", employed: 180 },
                             { department: "IT", employed: 60 },
-                        ]}                    
+                        ]}
                         Xkey="employed"
                         Ykey="department"
                         heading="Alumni Emplyment Distribution"

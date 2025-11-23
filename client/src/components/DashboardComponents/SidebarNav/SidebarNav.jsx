@@ -5,14 +5,14 @@ function SidebarNav(props) {
   return (
     <div 
       style={{
-        position: "fixed",
+ 
         top: 0,
         left: 0,
-        maxWidth: "250px",     // Adjust size
+       position:"fixed",
         height: "100vh",
-        overflowY: "auto",
+        width:"250px",
         background: "#fff",
-        borderRight: "1px solid #e5e5e5",
+
         padding: "10px"
       }}
     >

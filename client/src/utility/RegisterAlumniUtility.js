@@ -39,6 +39,10 @@ class RegisterAlumniUtils {
     if (!formData.degree || formData.degree.trim() === "") {
       errors.degree = "Degree is required";
     }
+    // Degree
+    if (!formData.department || formData.degree.trim() === "") {
+      errors.department = "department is required";
+    }
 
     // Roll Number
     if (!formData.rollNo || formData.rollNo.trim() === "") {

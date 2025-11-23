@@ -1,28 +1,32 @@
 const userModel = require('../models/dashboardModel');
 const notificationModel = require("../models/notificationModel")
+
 // stats for admin dashboard  1 request all data
+
 exports.getAdminDashboard = async (req, res) => {
     const dashboardData = {};
     try {
-        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni' });
-        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed" });
-        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed" });
+        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', active: 1 });
+        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", active: 1 });
+        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", active: 1 });
         dashboardData.notifications = await notificationModel.find({
+
             $or: [
                 { notificationType: "editAlumni" },
                 { notificationType: "post" },
                 { notificationType: "deleteAlumni" },
             ]
+
         }).sort({ createdAt: -1 })
 
         dashboardData.departmentWiseCount = await userModel.aggregate([
-            { $match: { role: 'alumni' } },
+            { $match: { role: 'alumni', active: 1 } },
             { $group: { _id: "$department", count: { $sum: 1 } } },
             { $project: { department: "$_id", count: 1, _id: 0 } }
         ]);
 
         dashboardData.departmentWiseEmployed = await userModel.aggregate([
-            { $match: { role: 'alumni', "employmentStatus": "employed" } },
+            { $match: { role: 'alumni', "employmentStatus": "employed", active: 1 } },
             { $group: { _id: "$department", count: { $sum: 1 } } },
             { $project: { department: "$_id", count: 1, _id: 0 } }
         ]);
@@ -33,14 +37,16 @@ exports.getAdminDashboard = async (req, res) => {
     }
 };
 
+
 exports.getCoordinatorDashboard = async (req, res) => {
     const dashboardData = {};
     try {
+        console.log("re.user", req.user);
 
-        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', department: req.user.department });
-        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", department: req.user.department });
-        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", department: req.user.department });
-        // 🔥 NOTIFICATIONS WITH USER JOIN (CORRECT FOR YOUR SCHEMA)
+        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', department: req.user.department, active: 1 });
+        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", department: req.user.department, active: 1 });
+        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", department: req.user.department, active: 1 });
+        //  NOTIFICATIONS WITH USER JOIN 
         dashboardData.notifications = await notificationModel.aggregate([
             {
                 $match: {
@@ -90,7 +96,8 @@ exports.getCoordinatorDashboard = async (req, res) => {
                     "author.department": 1
                 }
             }
-        ]);
+
+        ])
 
         dashboardData.employeedBygraduationYear = await userModel.aggregate([
             { $match: { role: 'alumni', department: req.user.department, employmentStatus: "employed" } },

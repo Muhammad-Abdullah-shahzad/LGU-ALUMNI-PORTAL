@@ -42,7 +42,7 @@ exports.getCoordinatorNotificationsController = async (req, res) => {
 
         res.status(200).json(notifications);
     }
-    
+
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });
@@ -79,5 +79,16 @@ exports.getAlumniNotificationsController = async (req, res) => {
     catch (error) {
 
         res.status(500).json({ message: 'failed to fetch notifications', error });
+    }
+}
+
+exports.delNotification = async (req, res) => {
+    try {
+
+        const {_id} = req.body
+        const deleted = await notificationModel.findByIdAndDelete(_id);
+        res.status(200).json({ message: "deleted" })
+    } catch (error) {
+        res.status(500).json({ message: "server error" })
     }
 }

@@ -8,7 +8,7 @@ import DropDown from "../DropDown/DropDown";
 import FormError from "../ErrorMessage/ErrorMessage";
 import RegisterAlumniUtils from "../../utility/RegisterAlumniUtility";
 import Toast from "../Toast/Toast";
-import {usePost} from "../../hooks/usePost";
+import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
 import { Link } from "react-router-dom";
 
@@ -23,13 +23,15 @@ export default function RegisterAlumni() {
     degree: "",
     rollNo: "",
     email: "",
-    password: ""
+    password: "",
+    department: "",
+    active: 0
   });
-  
+
   const [errors, setErrors] = useState({});
   const { post, loading, error } = usePost(`${Base_Url}/auth/register`);
 
- 
+
 
   if (loading) {
     return <Loader />;
@@ -60,13 +62,24 @@ export default function RegisterAlumni() {
         </DropDown>
         <FormError errors={errors} errorKey="batch" />
         <DropDown
+          onChange={e => setFormData({ ...formData, department: e.target.value })}
+          value={formData.department}
+        >
+          <DropDown.Option>Select Your Department</DropDown.Option>
+          <DropDown.Option>SE</DropDown.Option>
+          <DropDown.Option>CS</DropDown.Option>
+          <DropDown.Option>IT</DropDown.Option>
+
+        </DropDown>
+        <FormError errors={errors} errorKey="department" />
+        <DropDown
           onChange={e => setFormData({ ...formData, degree: e.target.value })}
           value={formData.degree}
         >
           <DropDown.Option>Select Your Degree</DropDown.Option>
           <DropDown.Option>BSSE</DropDown.Option>
           <DropDown.Option>BSCS</DropDown.Option>
-          <DropDown.Option>BSDS</DropDown.Option>
+          <DropDown.Option>BSIT</DropDown.Option>
 
         </DropDown>
         <FormError errors={errors} errorKey="degree" />

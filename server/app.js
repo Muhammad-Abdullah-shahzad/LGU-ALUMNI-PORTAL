@@ -19,7 +19,7 @@ connectDB();
 
 
 
-app.use("/auth",authRoutes);
+app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/post", postRoutes);
 app.use("/notification", notificationRoutes);
