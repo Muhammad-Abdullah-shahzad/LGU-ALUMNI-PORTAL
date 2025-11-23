@@ -8,6 +8,7 @@ import AddPost from "../AddPost/AddPost";
 import { usePost } from "../../../hooks/usePost";
 import { useEffect } from "react";
 
+
 function forceRestoreScroll() {
   try {
     // remove any leftover modal-backdrop elements
@@ -27,7 +28,10 @@ function forceRestoreScroll() {
 export default function PostsSection() {
   const Base_Url = import.meta.env.VITE_API_URL;
 
+ 
+  
   const { loading: postLoading, data: posts, refetch } = useFetch(`${Base_Url}/post/all`);
+  
   const { loading, post } = usePost(`${Base_Url}/post/create`);
 
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function PostsSection() {
     <div className="container px-2 px-md-4 py-3">
       <AddPost title="Add Post" postReq={post} refetch={refetch} />
       <div className="mt-4">
-        <ViewPosts posts={posts || []} />
+        <ViewPosts posts={posts || []} refetchPost={refetch} />
       </div>
     </div>
   );

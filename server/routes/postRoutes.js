@@ -1,10 +1,11 @@
 const postController = require('../controllers/postController');
 const express = require('express');
+const { verifyToken } = require('../middleware/verifyJWT');
 const router = express.Router();
 
-router.post('/create', postController.createPost);
+router.post('/create', verifyToken,postController.createPost);
 
-router.delete('/:postId', postController.deletePost);
+router.delete('/del', postController.deletePost);
 
 router.get('/all', postController.getAllPosts);
 

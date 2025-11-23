@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 async function registerUser(req, res) {
 
     try {
-        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni", active = 0 ,department} = req.body;
+        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni", active = 0, department } = req.body;
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
@@ -89,7 +89,7 @@ async function loginUser(req, res) {
 
         // Create JWT Token
         const token = jwt.sign(
-            { id: user._id, role: user.role, department: user.department },
+            { id: user._id, role:user.role, department: user.department, firstName: user.firstName, lastName: user.lastName },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );

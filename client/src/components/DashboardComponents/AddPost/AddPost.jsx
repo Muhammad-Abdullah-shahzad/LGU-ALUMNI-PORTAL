@@ -82,11 +82,9 @@ export default function AddPost({ title, postReq, refetch }) {
         setPostData({
           headerImageURL: "",
           authorAvatarURL: "",
-          authorTitle: "Software Engineer",
+          authorTitle: "",
           authorId: "",
-          authorName: "M.Abdullah",
-          likes: 0,
-          commentCount: 0,
+          authorName: "",
           postLink: "",
           postTitle: "",
           postContent: "",

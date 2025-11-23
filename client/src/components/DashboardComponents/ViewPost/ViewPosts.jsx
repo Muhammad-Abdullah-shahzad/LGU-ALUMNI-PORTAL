@@ -1,6 +1,10 @@
 import Post from "../PostsComponents/Post";
-
-export default function ViewPosts({ posts = [] }) {
+import { useDelete } from "../../../hooks/useDelete"
+import Loader from "../../Loader/Loader";
+export default function ViewPosts({ posts = [] ,refetchPost }) {
+     const Base_Url = import.meta.env.VITE_API_URL;
+    const { remove: delPost, loading: deleting } = useDelete(`${Base_Url}/post/del`);
+    if (deleting) return <Loader />
     return (
         <div
             className="row g-4 justify-content-center"
@@ -19,6 +23,12 @@ export default function ViewPosts({ posts = [] }) {
                     >
                         <Post
                             {...post}
+                            onDelPost={async()=>
+                                {
+                               await delPost({postId:post._id});
+                                await refetchPost();
+                            }}
+             
                             timeAgo={`${diffHours} hours ago`}
                             className="w-100 h-100"
                         />

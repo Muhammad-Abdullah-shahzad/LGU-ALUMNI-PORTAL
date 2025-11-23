@@ -9,6 +9,8 @@ const Post = ({
     postTitle,
     postContent,
     postLink = "#",
+    onDelPost,
+    _id,
     className
 }) => {
     return (
@@ -74,7 +76,13 @@ const Post = ({
                 </p>
 
                 {/* This pushes the button to bottom always */}
-                <div className="mt-auto text-end">
+                <div className="mt-auto text-end d-flex gap-1">
+                    <a
+                        onClick={onDelPost}
+                        className="btn btn-sm btn-outline-danger rounded-pill px-3 "
+                    >
+                        Delete Post 
+                    </a>
                     <a
                         href={postLink}
                         className="btn btn-sm btn-outline-success rounded-pill px-3"
