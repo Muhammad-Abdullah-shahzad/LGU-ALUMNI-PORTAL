@@ -8,7 +8,7 @@ export default class AuthUtility {
         // Email required
         if (!credentials.email || !credentials.email.trim()) {
             errors.email = "Email is required";
-        } 
+        }
         // Email format
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
             errors.email = "Invalid email format";
@@ -26,10 +26,17 @@ export default class AuthUtility {
         return Object.keys(errors).length === 0;
     }
     // navigate 
-    static navigateByRole(user,navigate){
-       if(user.role==="admin"){
-         navigate('/admin/dashboard');
-       }
+    static navigateByRole(user, navigate) {
+        if (user.active) {
+            if (user.role === "admin") {
+                navigate('/admin/dashboard');
+            }
+
+        }
+        else{
+            navigate("/alumni/pending")
+        }
+
     }
 
     // Handle login request
@@ -45,24 +52,24 @@ export default class AuthUtility {
                 email: credentials.email,
                 password: credentials.password
             });
-            console.log("response after login ",response);
-            
-            
-            if (response || response.token) {
-             
-            // Save token & user
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("user", JSON.stringify(response.user));
-             return response;    
-        }
-       
+            console.log("response after login ", response);
 
-          return false
-          
+
+            if (response || response.token) {
+
+                // Save token & user
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("user", JSON.stringify(response.user));
+                return response;
+            }
+
+
+            return false
+
 
         } catch (err) {
             console.log(error);
-            
+
         }
     }
 }

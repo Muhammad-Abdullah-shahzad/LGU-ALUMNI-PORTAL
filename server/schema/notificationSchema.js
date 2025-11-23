@@ -14,6 +14,7 @@ const notificationSchema = new mongoose.Schema(
       enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval", "commentDiscussion"],
       required: true
     },
+    sendTo:String,
     // for posts
     postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     // for alumni registration

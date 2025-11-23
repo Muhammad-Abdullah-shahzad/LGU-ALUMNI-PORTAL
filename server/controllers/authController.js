@@ -1,11 +1,14 @@
 const userModel = require('../models/authModel');
+const notificationModel = require('../models/notificationModel');
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // Register User
 async function registerUser(req, res) {
+
     try {
-        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni" } = req.body;
+        const { firstName, lastName, email, password, cnic, batch, rollNo, degree, role = "alumni", active = 0 } = req.body;
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
@@ -27,7 +30,8 @@ async function registerUser(req, res) {
             batch,
             rollNo,
             degree,
-            role
+            role,
+            active
         });
 
         res.status(201).json({
@@ -53,7 +57,7 @@ async function registerUser(req, res) {
 // Login User
 async function loginUser(req, res) {
     try {
-        
+
         const { email, password } = req.body;
 
         // Check if user exists
@@ -64,7 +68,7 @@ async function loginUser(req, res) {
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
-        
+
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
@@ -72,7 +76,7 @@ async function loginUser(req, res) {
 
         // Create JWT Token
         const token = jwt.sign(
-            { id: user._id, role: user.role },
+            { id: user._id, role: user.role, department: user.department },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
@@ -85,7 +89,8 @@ async function loginUser(req, res) {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                active: user.active
             }
         });
 
