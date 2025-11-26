@@ -4,7 +4,7 @@ const dashboardRoutes = require("./routes/dashboard")
 const postRoutes = require("./routes/postRoutes")
 const notificationRoutes = require("./routes/notificationRoute")
 const userRoutes = require("./routes/userRoutes")
-
+const surveyRoutes = require("./routes/surveyRoutes")
 
 
 
@@ -24,6 +24,7 @@ app.use("/dashboard", dashboardRoutes);
 app.use("/post", postRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/user", userRoutes);
+app.use("/survey", surveyRoutes);
 
 
 

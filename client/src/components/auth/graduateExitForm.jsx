@@ -8,10 +8,25 @@ import FormError from "../ErrorMessage/ErrorMessage";
 import Toast from "../Toast/Toast";
 import Loader from "../Loader/Loader";
 import { usePost } from "../../hooks/usePost";
-import "./modern-form.css"; // NEW CSS
+import "./modern-form.css";
 
 export default function GraduateExitSurvey() {
-  const Base_Url = "http://localhost:5000";
+  const Base_Url = import.meta.env.VITE_API_URL;
+
+  const PLO_QUESTIONS = [
+    { key: "plo1", text: "Prepared to enter professional life [PLO-1]" },
+    { key: "plo2", text: "Analytical & problem-solving skills [PLO-2]" },
+    { key: "plo3", text: "Analyze complex problems [PLO-3]" },
+    { key: "plo5", text: "Use modern tools & techniques [PLO-5]" },
+    { key: "plo8", text: "Societal/health/safety awareness [PLO-8]" },
+    { key: "plo4", text: "Environmental & sustainable solutions [PLO-4]" },
+    { key: "plo9", text: "Ethical principles understanding [PLO-9]" },
+    { key: "plo6", text: "Work individually & in teams [PLO-6]" },
+    { key: "plo7", text: "Effective communication [PLO-7]" },
+    { key: "plo10", text: "Lifelong learning & innovation [PLO-10]" },
+  ];
+
+  const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
 
   const [formData, setFormData] = useState({
     department: "",
@@ -35,20 +50,52 @@ export default function GraduateExitSurvey() {
   const [errors, setErrors] = useState({});
   const { post, loading, error } = usePost(`${Base_Url}/survey/exit`);
 
-  const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let newErrors = {};
-    Object.keys(formData).forEach((key) => {
-      if (!formData[key]) newErrors[key] = "This field is required";
+    const newErrors = {};
+
+    // Validate personal info
+    ["department", "degree", "fullName", "email", "phone", "participation"].forEach((key) => {
+      if (!formData[key] || formData[key].trim() === "") {
+        newErrors[key] = "This field is required";
+      }
+    });
+
+    // Validate PLO ratings
+    PLO_QUESTIONS.forEach((item) => {
+      if (!formData[item.key] || formData[item.key].trim() === "") {
+        newErrors[item.key] = "Please select a rating";
+      }
     });
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    await post(formData);
+    const alumniId = localStorage.getItem("alumniId");
+
+    // Backend expects PLO answers as separate keys
+    const payload = {
+
+      department: formData.department,
+      degree: formData.degree,
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      participation: formData.participation,
+      plo1: formData.plo1,
+      plo2: formData.plo2,
+      plo3: formData.plo3,
+      plo4: formData.plo4,
+      plo5: formData.plo5,
+      plo6: formData.plo6,
+      plo7: formData.plo7,
+      plo8: formData.plo8,
+      plo9: formData.plo9,
+      plo10: formData.plo10,
+    };
+
+    await post(payload);
   };
 
   if (loading) return <Loader />;
@@ -56,8 +103,6 @@ export default function GraduateExitSurvey() {
   return (
     <div className="modern-form-container container">
       <form onSubmit={handleSubmit} className="modern-form">
-
-        {/* Header */}
         <div className="text-center mb-4">
           <FormHeader>Graduate Exit Survey</FormHeader>
           <SubText>
@@ -66,40 +111,33 @@ export default function GraduateExitSurvey() {
         </div>
 
         <div className="row g-4 mt-2">
-
           {/* LEFT SIDE */}
           <div className="col-md-6">
-
-            {/* Section Card */}
             <div className="form-card shadow-sm p-4">
-
               <h5 className="section-title">Personal Information</h5>
 
-              {/* Department */}
               <DropDown
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
               >
-                <DropDown.Option>Select Department *</DropDown.Option>
-                <DropDown.Option>Software Engineering</DropDown.Option>
-                <DropDown.Option>Computer Science</DropDown.Option>
-                <DropDown.Option>Information Technology</DropDown.Option>
+                <DropDown.Option value="">Select Department *</DropDown.Option>
+                <DropDown.Option value="Software Engineering">Software Engineering</DropDown.Option>
+                <DropDown.Option value="Computer Science">Computer Science</DropDown.Option>
+                <DropDown.Option value="Information Technology">Information Technology</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="department" />
 
-              {/* Degree */}
               <DropDown
                 value={formData.degree}
                 onChange={(e) => setFormData({ ...formData, degree: e.target.value })}
               >
-                <DropDown.Option>Select Degree *</DropDown.Option>
-                <DropDown.Option>BS Software Engineering</DropDown.Option>
-                <DropDown.Option>BS Computer Science</DropDown.Option>
-                <DropDown.Option>BS Information Technology</DropDown.Option>
+                <DropDown.Option value="">Select Degree *</DropDown.Option>
+                <DropDown.Option value="BS Software Engineering">BS Software Engineering</DropDown.Option>
+                <DropDown.Option value="BS Computer Science">BS Computer Science</DropDown.Option>
+                <DropDown.Option value="BS Information Technology">BS Information Technology</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="degree" />
 
-              {/* Name */}
               <InputField
                 type="text"
                 label="Full Name *"
@@ -109,7 +147,6 @@ export default function GraduateExitSurvey() {
               />
               <FormError errors={errors} errorKey="fullName" />
 
-              {/* Email */}
               <InputField
                 type="email"
                 label="Email *"
@@ -119,7 +156,6 @@ export default function GraduateExitSurvey() {
               />
               <FormError errors={errors} errorKey="email" />
 
-              {/* Phone */}
               <InputField
                 type="text"
                 label="Phone Number *"
@@ -129,7 +165,6 @@ export default function GraduateExitSurvey() {
               />
               <FormError errors={errors} errorKey="phone" />
 
-              {/* Participation */}
               <InputField
                 type="text"
                 label="Participation *"
@@ -138,42 +173,30 @@ export default function GraduateExitSurvey() {
                 onChange={(e) => setFormData({ ...formData, participation: e.target.value })}
               />
               <FormError errors={errors} errorKey="participation" />
-
             </div>
           </div>
 
           {/* RIGHT SIDE */}
           <div className="col-md-6">
-
             <div className="form-card shadow-sm p-4">
               <h5 className="section-title">PLO Rating Section</h5>
 
-              {[
-                { key: "plo1", text: "Prepared to enter professional life [PLO-1]" },
-                { key: "plo2", text: "Analytical & problem-solving skills [PLO-2]" },
-                { key: "plo3", text: "Analyze complex problems [PLO-3]" },
-                { key: "plo5", text: "Use modern tools & techniques [PLO-5]" },
-                { key: "plo8", text: "Societal/health/safety awareness [PLO-8]" },
-                { key: "plo4", text: "Environmental & sustainable solutions [PLO-4]" },
-                { key: "plo9", text: "Ethical principles understanding [PLO-9]" },
-                { key: "plo6", text: "Work individually & in teams [PLO-6]" },
-                { key: "plo7", text: "Effective communication [PLO-7]" },
-                { key: "plo10", text: "Lifelong learning & innovation [PLO-10]" },
-              ].map((item) => (
-                <React.Fragment key={item.key}>
+              {PLO_QUESTIONS.map((item) => (
+                <div key={item.key} className="mb-3">
+                  <label className="form-label">{item.text}</label>
                   <DropDown
                     value={formData[item.key]}
-                    onChange={(e) =>
-                      setFormData({ ...formData, [item.key]: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, [item.key]: e.target.value })}
                   >
-                    <DropDown.Option>{item.text} *</DropDown.Option>
+                    <DropDown.Option value="">Select rating *</DropDown.Option>
                     {ratingOptions.map((r) => (
-                      <DropDown.Option key={r}>{r}</DropDown.Option>
+                      <DropDown.Option key={r} value={r}>
+                        {r}
+                      </DropDown.Option>
                     ))}
                   </DropDown>
                   <FormError errors={errors} errorKey={item.key} />
-                </React.Fragment>
+                </div>
               ))}
             </div>
           </div>

@@ -11,7 +11,7 @@ import { usePost } from "../../hooks/usePost";
 import "./modern-form.css"; // shared styles
 
 export default function EmployerSurveyForm() {
-  const Base_Url = "http://localhost:5000";
+  const Base_Url = import.meta.env.VITE_API_URL;
   const { post, loading, error } = usePost(`${Base_Url}/survey/employer`);
 
   const [formData, setFormData] = useState({

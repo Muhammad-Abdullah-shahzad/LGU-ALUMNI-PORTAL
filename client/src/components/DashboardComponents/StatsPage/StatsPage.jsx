@@ -9,7 +9,7 @@ import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
 
-export default function StatsPage({ data , role }) {
+export default function StatsPage({ data, role }) {
 
     return (
         <div>
@@ -46,7 +46,6 @@ export default function StatsPage({ data , role }) {
                         headKey='notificationType'
                         bodyKey='notificationContent'
                         actionBtns={false}
-                 
                         notifications={
                             data ? data.notifications : []
                         }
@@ -54,6 +53,7 @@ export default function StatsPage({ data , role }) {
 
                 </CardsWrapper>
                 <CardsWrapper>
+
                     <DashboardBarChart
                         className='col-md-6 col-sm-12 mb-4'
                         // data={data ? data.departmentWiseCount : []}
@@ -70,6 +70,7 @@ export default function StatsPage({ data , role }) {
                         BarKey="count"
                         barColor="#053884ff"
                     />
+
                     <DashboardBarChart
                         className='col-md-6 col-sm-12 mb-4'
                         // data={data ? data.departmentWiseCount : []}

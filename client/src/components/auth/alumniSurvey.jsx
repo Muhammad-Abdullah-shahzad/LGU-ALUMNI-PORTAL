@@ -11,8 +11,8 @@ import { usePost } from "../../hooks/usePost";
 import "./modern-form.css";
 
 export default function Annex1DAlumniSurvey() {
-  const Base_Url = "http://localhost:5000";
-  const { post, loading, error } = usePost(`${Base_Url}/surveys/annex1D`);
+  const Base_Url = import.meta.env.VITE_API_URL;
+  const { post, loading, error } = usePost(`${Base_Url}/survey/annex1D`);
 
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
 
@@ -110,6 +110,7 @@ export default function Annex1DAlumniSurvey() {
               >
                 <DropDown.Option>Select Program</DropDown.Option>
                 <DropDown.Option>Bachelor of Software Engineering</DropDown.Option>
+                <DropDown.Option>Bachelor of Computer Science</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="program" />
 
@@ -119,6 +120,7 @@ export default function Annex1DAlumniSurvey() {
               >
                 <DropDown.Option>Select Department</DropDown.Option>
                 <DropDown.Option>Software Engineering</DropDown.Option>
+                <DropDown.Option>Computer Science</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="department" />
             </div>

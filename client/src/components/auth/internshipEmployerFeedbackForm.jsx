@@ -51,6 +51,8 @@ export default function EmployerFeedbackForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const [submissionSuccess, setSubmissionSuccess] = useState(false); // State for success message
+  
   const { post, loading, error } = usePost(`${Base_Url}/survey/employer-feedback`);
 
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
@@ -59,16 +61,57 @@ export default function EmployerFeedbackForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmissionSuccess(false); // Reset success state on new submission attempt
 
     let newErrors = {};
+    // Basic validation: check if required string fields are empty
     Object.keys(formData).forEach((key) => {
-      if (!formData[key]) newErrors[key] = "This field is required";
+      if (typeof formData[key] === 'string' && !formData[key].trim()) {
+         newErrors[key] = "This field is required";
+      }
     });
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    await post(formData);
+    // ------------------------------------------------------------------
+    // 🛠️ FIX IMPLEMENTED HERE: Clean and convert fields Mongoose expects as Numbers
+    // ------------------------------------------------------------------
+    const dataToSend = { ...formData };
+    const numberFields = [
+        "totalInterneeCount", 
+        "ai", "devDesign", "marketing", "graphics", "analytics", 
+        "cyber", "technical", "it", "rnd", "other"
+    ];
+
+    numberFields.forEach(key => {
+        const rawValue = dataToSend[key];
+        
+        // 1. Remove all non-digit characters (including commas, spaces, backticks, etc.)
+        const cleanedString = rawValue ? rawValue.toString().replace(/[^0-9]/g, '') : '';
+        
+        // 2. Convert to an Integer. Defaults to 0 if cleaning results in an empty string.
+        dataToSend[key] = parseInt(cleanedString) || 0; 
+    });
+    // ------------------------------------------------------------------
+
+
+    const response = await post(dataToSend);
+    
+    // Handle API response
+    if (response?.success) {
+        setSubmissionSuccess(true);
+        // Clear form data on successful submission
+        setFormData({
+            companyName: "", employerName: "", designation: "", email: "", phone: "",
+            interneeName: "", interneeDiscipline: "", totalInterneeCount: "", departmentInternCount: "",
+            ai: "", devDesign: "", marketing: "", graphics: "", analytics: "", cyber: "", technical: "", it: "", rnd: "", other: "",
+            plo3_problemSolving: "", plo2_dataAnalysis: "", plo1_theoryToPractice: "", plo4_judgement: "", plo5_technicalSkills: "",
+            plo6_teamwork: "", plo7_communication: "", plo8_societalAwareness: "", plo9_ethics: "", plo10_independentThinking: "",
+            plo10_outOfBox: "", comments: "",
+        });
+        setErrors({}); // Clear any residual errors
+    }
   };
 
   if (loading) return <Loader />;
@@ -204,6 +247,7 @@ export default function EmployerFeedbackForm() {
                     label={`${label} Intern Count`}
                     placeholder="0"
                     type="number"
+                    // IMPORTANT: The raw string is kept in state, but cleaned on submit
                     value={formData[key]}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                   />
@@ -268,6 +312,7 @@ export default function EmployerFeedbackForm() {
         </div>
 
         {error && <Toast type="error" message={error} />}
+        {submissionSuccess && <Toast type="success" message="Employer Feedback submitted successfully! Thank you." />}
       </form>
     </div>
   );
