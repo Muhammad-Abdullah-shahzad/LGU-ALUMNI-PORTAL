@@ -1,0 +1,25 @@
+.modern-form-container {
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.form-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  transition: 0.2s ease-in-out;
+}
+
+.form-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #0d6efd;
+  border-left: 4px solid #0d6efd;
+  padding-left: 10px;
+}

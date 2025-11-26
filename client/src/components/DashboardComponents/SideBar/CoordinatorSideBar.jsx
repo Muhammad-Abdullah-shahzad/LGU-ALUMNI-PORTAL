@@ -44,12 +44,6 @@ export default function CoordinatorSideBar({ setActiveMenu }) {
         isActive={activeItem === "posts"}
         onClick={() => handleClick("posts")}
       />
-      <SidebarItem
-        icon="bi bi-bell-fill"
-        text="Notifications"
-        isActive={activeItem === "notifications"}
-        onClick={() => handleClick("notifications")}
-      />
     </SidebarNav>
   );
 }

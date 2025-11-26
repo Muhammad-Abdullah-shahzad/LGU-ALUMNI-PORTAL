@@ -59,12 +59,13 @@ class RegisterAlumniUtils {
     return errors;
   }
 
-  static handleSubmit(event, formData, setErrors, post) {
+  static async handleSubmit(event, formData, setErrors, post, navigate) {
     event.preventDefault();
     const errors = this.validateForm(formData);
     if (Object.keys(errors).length === 0) {
       // No validation errors, proceed with form submission
-      post(formData);
+     await  post(formData);
+     navigate("/login")
     } else {
       // Set validation errors to state to display them     
       setErrors(errors);

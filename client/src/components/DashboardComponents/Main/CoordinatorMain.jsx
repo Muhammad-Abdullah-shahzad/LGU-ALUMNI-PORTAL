@@ -95,9 +95,7 @@ export default function CoordinatorMain({ activeMenu }) {
 
             {activeMenu === "posts" && <PostsSection />}
 
-            {
-                activeMenu === "notifications" && <div>notifications Data Section</div>
-            }
+          
         </div>
     );
 

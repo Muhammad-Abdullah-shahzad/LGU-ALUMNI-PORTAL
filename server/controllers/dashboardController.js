@@ -144,7 +144,7 @@ exports.getCoordinatorDashboard = async (req, res) => {
             { $match: { role: 'alumni', department: req.user.department, employmentStatus: "employed" } },
             { $group: { _id: "$graduationYear", count: { $sum: 1 } } },
             { $project: { graduationYear: "$_id", count: 1, _id: 0 } }
-        ]);
+        ]).sort({ graduationYear: 1 });
 
         // dashboardData.departmentWiseEmployed = await userModel.aggregate([
         //     { $match: { role: 'alumni', "employmentStatus": "employed" } },

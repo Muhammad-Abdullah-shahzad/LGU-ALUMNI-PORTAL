@@ -89,9 +89,7 @@ export default function Main({ activeMenu }) {
       {
         activeMenu === "posts" && <PostsSection/>
       }
-      {
-        activeMenu === "notifications" && <div>notifications Data Section</div>
-      }
+   
     </div>
   );
 

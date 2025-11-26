@@ -10,7 +10,7 @@ import RegisterAlumniUtils from "../../utility/RegisterAlumniUtility";
 import Toast from "../Toast/Toast";
 import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 //Moazam
 export default function RegisterAlumni() {
@@ -29,6 +29,7 @@ export default function RegisterAlumni() {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
   const { post, loading, error } = usePost(`${Base_Url}/auth/register`);
 
 
@@ -39,7 +40,7 @@ export default function RegisterAlumni() {
 
   return (
     <React.Fragment>
-      <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors, post)}>
+      <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors, post, navigate)}>
         <FormHeader>LAHORE GARRISON UNIVERSITY ALUMNI PORTAL</FormHeader>
         <SubText>Fill Your Details To Continue</SubText>
         <InputField type="text" label="Enter Your FirstName" placeholder="First Name Here" onChange={e => setFormData({ ...formData, firstName: e.target.value })} value={formData.firstName} />
@@ -86,6 +87,7 @@ export default function RegisterAlumni() {
         <InputField type="number" placeholder="Enter RollNo e.g 202" label="Enter Your Roll No" onChange={(e) => { setFormData({ ...formData, rollNo: e.target.value }) }} value={formData.rollNo} />
         <FormError errors={errors} errorKey="rollNo" />
         <ButtonComponent type="submit">Register</ButtonComponent>
+
         {error && <Toast type="error" message={error} />}
         <SubText>Already Have Account ? <Link to='/' >LogIn</Link></SubText>
       </FormLayout>
