@@ -8,12 +8,17 @@ import StatsCard1 from "../../../assets/statCard1.jpg";
 import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
 import StatsCard4 from "../../../assets/statCard4.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function StatsPage({ data, role }) {
+    const navigate=useNavigate()
 
     return (
         <div>
-            <DashboardHeader title={role} />
+            <DashboardHeader title={role} onLogout={() => {
+                localStorage.removeItem("token");
+                navigate('/login')
+            }} />
             <div className="container-fluid p-3">
                 <CardsWrapper>
                     <StatsCard
@@ -35,8 +40,8 @@ export default function StatsPage({ data, role }) {
                         bgImage={StatsCard3}
                     />
                     <StatsCard
-                        title="Total Alumni"
-                        value="1,250"
+                        title="Total Coordinators"
+                        value={data?.totalCoordinators}
                         icon="bi bi-people-fill"
                         bgImage={StatsCard4}
                     />
@@ -56,12 +61,12 @@ export default function StatsPage({ data, role }) {
 
                     <DashboardBarChart
                         className='col-md-6 col-sm-12 mb-4'
-                        // data={data ? data.departmentWiseCount : []}
-                        data={[
-                            { department: "CS", count: 120 },
-                            { department: "SE", count: 180 },
-                            { department: "IT", count: 60 },
-                        ]}
+                        data={data ? data.departmentWiseCount : []}
+                        // data={[
+                        //     { department: "CS", count: 120 },
+                        //     { department: "SE", count: 180 },
+                        //     { department: "IT", count: 60 },
+                        // ]}
                         Xkey="department"
                         Ykey="count"
                         heading="Alumni Count Distribution"
@@ -73,12 +78,12 @@ export default function StatsPage({ data, role }) {
 
                     <DashboardBarChart
                         className='col-md-6 col-sm-12 mb-4'
-                        // data={data ? data.departmentWiseCount : []}
-                        data={[
-                            { department: "CS", employed: 120 },
-                            { department: "SE", employed: 180 },
-                            { department: "IT", employed: 60 },
-                        ]}
+                        data={data ? data.departmentWiseEmployed : []}
+                        // data={[
+                        //     { department: "CS", employed: 120 },
+                        //     { department: "SE", employed: 180 },
+                        //     { department: "IT", employed: 60 },
+                        // ]}
                         Xkey="employed"
                         Ykey="department"
                         heading="Alumni Emplyment Distribution"

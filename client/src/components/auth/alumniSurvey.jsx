@@ -9,11 +9,16 @@ import Toast from "../Toast/Toast";
 import Loader from "../Loader/Loader";
 import { usePost } from "../../hooks/usePost";
 import "./modern-form.css";
+import { useNavigate } from "react-router-dom";
+import { useUpdate } from "../../hooks/useUpdate";
 
 export default function Annex1DAlumniSurvey() {
   const Base_Url = import.meta.env.VITE_API_URL;
-  const { post, loading, error } = usePost(`${Base_Url}/survey/annex1D`);
-
+  
+  const { post,loading,error } = usePost(`${Base_Url}/survey/annex1D`);
+  const { put,loading:updating } = useUpdate(`${Base_Url}/user/update`);
+  
+  const navigate = useNavigate();
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
 
   const [formData, setFormData] = useState({
@@ -79,6 +84,10 @@ export default function Annex1DAlumniSurvey() {
     }
     try {
       await post(formData);
+      await put({
+        formsFilled:true
+      })
+      navigate("/login");
     } catch (err) {
       console.error(err);
     }

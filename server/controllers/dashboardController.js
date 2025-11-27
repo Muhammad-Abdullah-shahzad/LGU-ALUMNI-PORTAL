@@ -6,9 +6,9 @@ const notificationModel = require("../models/notificationModel")
 exports.getAdminDashboard = async (req, res) => {
     const dashboardData = {};
     try {
-        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', active: 1 });
-        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", active: 1 });
-        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", active: 1 });
+        dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', active: true });
+        dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", active: true });
+        dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", active: true });
       dashboardData.notifications = await notificationModel.aggregate([
             {
                 $match: {
@@ -60,16 +60,17 @@ exports.getAdminDashboard = async (req, res) => {
 
 
         dashboardData.departmentWiseCount = await userModel.aggregate([
-            { $match: { role: 'alumni', active: 1 } },
+            { $match: { role: 'alumni', active: true } },
             { $group: { _id: "$department", count: { $sum: 1 } } },
             { $project: { department: "$_id", count: 1, _id: 0 } }
         ]);
 
         dashboardData.departmentWiseEmployed = await userModel.aggregate([
-            { $match: { role: 'alumni', "employmentStatus": "employed", active: 1 } },
-            { $group: { _id: "$department", count: { $sum: 1 } } },
-            { $project: { department: "$_id", count: 1, _id: 0 } }
+            { $match: { role: 'alumni', "employmentStatus": "employed", active: true } },
+            { $group: { _id: "$department", employed: { $sum: 1 } } },
+            { $project: { department: "$_id", employed: 1, _id: 0 } }
         ]);
+        dashboardData.totalCoordinators =await userModel.countDocuments({ role: 'coordinator', active: true });
         res.status(200).json(dashboardData);
     }
     catch (error) {

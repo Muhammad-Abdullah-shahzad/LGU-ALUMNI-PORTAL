@@ -21,26 +21,14 @@ async function registerUser(req, res) {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user
-        const newUser = await userModel.create({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            cnic,
-            batch,
-            rollNo,
-            degree,
-            role,
-            active,
-            department
-        });
+        const newUser = await userModel.create({ ...req.body, password: hashedPassword });
 
         // create notification for coordinator and admin  for user approval
         await notificationModel.create({
             authorId: newUser._id,       // The user who just registered
             notificationAuthor: "alumni",
             notificationType: "alumniRegiter", // As per  schema
-            sendTo:["coordinator","admin"],
+            sendTo: ["coordinator", "admin"],
             // For alumni registration approvals
             alumniId: newUser._id,
             notificationContent: `${newUser.firstName} ${newUser.lastName}  ${batch}/${degree}/${rollNo} has requested alumni registration approval.`,
@@ -89,7 +77,7 @@ async function loginUser(req, res) {
 
         // Create JWT Token
         const token = jwt.sign(
-            { id: user._id, role:user.role, department: user.department, firstName: user.firstName, lastName: user.lastName },
+            { id: user._id, role: user.role, department: user.department, firstName: user.firstName, lastName: user.lastName },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
@@ -103,7 +91,8 @@ async function loginUser(req, res) {
                 lastName: user.lastName,
                 email: user.email,
                 role: user.role,
-                active: user.active
+                active: user.active,
+                formsFilled: user.formsFilled
             }
         });
 

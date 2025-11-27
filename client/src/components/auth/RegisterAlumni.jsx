@@ -10,7 +10,7 @@ import RegisterAlumniUtils from "../../utility/RegisterAlumniUtility";
 import Toast from "../Toast/Toast";
 import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Moazam
 export default function RegisterAlumni() {
@@ -25,7 +25,12 @@ export default function RegisterAlumni() {
     email: "",
     password: "",
     department: "",
-    active: 0
+    active: 0,
+  role:'alumni',
+    employmentStatus: "",
+    jobTitle: "",
+    graduationYear: "",
+    companyName: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -61,6 +66,48 @@ export default function RegisterAlumni() {
           <DropDown.Option>Fa-2022</DropDown.Option>
           <DropDown.Option>Fa-2021</DropDown.Option>
         </DropDown>
+
+        {/* Employment Status */}
+        <DropDown
+          onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })}
+          value={formData.employmentStatus}
+        >
+          <DropDown.Option>Select Employment Status</DropDown.Option>
+          <DropDown.Option>employed</DropDown.Option>
+          <DropDown.Option>unemployed</DropDown.Option>
+        </DropDown>
+        <FormError errors={errors} errorKey="employmentStatus" />
+
+        {/* Job Title */}
+        <InputField
+          type="text"
+          label="Job Title"
+          placeholder="e.g. Software Engineer"
+          onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+          value={formData.jobTitle}
+        />
+        <FormError errors={errors} errorKey="jobTitle" />
+
+        {/* Company Name */}
+        <InputField
+          type="text"
+          label="Company Name"
+          placeholder="e.g. Systems Limited"
+          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+          value={formData.companyName}
+        />
+        <FormError errors={errors} errorKey="companyName" />
+
+        {/* Graduation Year */}
+        <InputField
+          type="number"
+          label="Graduation Year"
+          placeholder="e.g. 2024"
+          onChange={(e) => setFormData({ ...formData, graduationYear: e.target.value })}
+          value={formData.graduationYear}
+        />
+        <FormError errors={errors} errorKey="graduationYear" />
+
         <FormError errors={errors} errorKey="batch" />
         <DropDown
           onChange={e => setFormData({ ...formData, department: e.target.value })}
@@ -89,7 +136,7 @@ export default function RegisterAlumni() {
         <ButtonComponent type="submit">Register</ButtonComponent>
 
         {error && <Toast type="error" message={error} />}
-        <SubText>Already Have Account ? <Link to='/' >LogIn</Link></SubText>
+        <SubText>Already Have Account ? <Link to='/login' >LogIn</Link></SubText>
       </FormLayout>
     </React.Fragment>
   )

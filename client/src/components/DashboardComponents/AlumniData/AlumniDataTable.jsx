@@ -10,21 +10,21 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
   if (!surveyData) return null;
 
   // Destructure top-level fields
-  const { 
-    department, 
-    degree, 
-    fullName, 
-    email, 
-    phone, 
-    participation, 
+  const {
+    department,
+    degree,
+    fullName,
+    email,
+    phone,
+    participation,
     questions = [],
-    alumniId 
+    alumniId
   } = surveyData;
 
   // Use the populated alumni details if available (alumniId is an object here)
   const alumniEmail = alumniId?.email || email;
   const alumniName = alumniId?.fullName || fullName;
-  
+
   return (
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
@@ -32,7 +32,7 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
           <h4 className="m-0">Graduate Exit Survey Details 🎓</h4>
           <button className="btn-close" onClick={onClose}></button>
         </div>
-        
+
         <div className="survey-data-display">
           <h5>Alumni Information (from Survey)</h5>
           <div className="row g-2 mb-4 p-2 bg-light rounded">
@@ -44,7 +44,7 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
             <div className="col-md-6"><strong>Participation:</strong> {participation}</div>
             <div className="col-md-12"><strong>Submitted:</strong> {new Date(surveyData.submittedAt).toLocaleDateString()}</div>
           </div>
-          
+
           <h5>PLO Assessment (Questions)</h5>
           {questions.length > 0 ? (
             <div className="list-group">
@@ -115,7 +115,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
         </div>
 
         <div className="survey-data-display">
-          
+
           {/* Section 1: Internee & Submission Info */}
           <h5 className="mt-3">Internee & Submission Details</h5>
           <div className="row g-2 mb-4 p-2 bg-light rounded">
@@ -125,7 +125,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
             <div className="col-md-6"><strong>Dept Intern Count:</strong> {departmentInternCount}</div>
             <div className="col-md-12"><strong>Submitted:</strong> {new Date(submittedAt).toLocaleDateString()}</div>
           </div>
-          
+
           {/* Section 2: Company & Employer Info */}
           <h5 className="mt-3">Company & Employer Information</h5>
           <div className="row g-2 mb-4 p-2 bg-light rounded">
@@ -141,7 +141,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
           {Object.keys(ploRatings).length > 0 ? (
             <div className="list-group mb-4">
               {Object.entries(ploKeys).map(([key, label]) => {
-                if(ploRatings[key]) {
+                if (ploRatings[key]) {
                   return (
                     <div key={key} className="list-group-item d-flex justify-content-between align-items-start">
                       <div>
@@ -174,7 +174,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
               return null;
             })}
           </div>
-          
+
           {/* Section 5: Comments */}
           <h5 className="mt-3">General Comments</h5>
           <p className="p-2 bg-light rounded text-break">{comments || 'No comments provided.'}</p>
@@ -195,46 +195,46 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
 
 // Questions extracted from alumniSurvey.jsx
 const SELF_ASSESSMENT_LABELS = [
-    { id: 1, text: "Ability to design a system component or process (PEO1)" },
-    { id: 2, text: "Adaptation to modern technology or tools (PEO1)" },
-    { id: 3, text: "Intellectual and technical knowledge of Software Engineering (PEO1)" },
-    { id: 4, text: "General professional responsibility (PEO2)" },
-    { id: 5, text: "Fulfilling societal/ethical norms (PEO2)" },
-    { id: 6, text: "Awareness of sustainability in digital and engineering practices (PEO2)" },
-    { id: 7, text: "Computing Core Knowledge (PEO3)" },
-    { id: 8, text: "Adaption to new skills (PEO3)" },
-    { id: 9, text: "Ability to work effectively in teams (PEO3)" },
-    { id: 10, text: "Oral communication (PEO4)" },
-    { id: 11, text: "Report writing skills (PEO4)" },
-    { id: 12, text: "Ability to conduct research (PEO4)" },
+  { id: 1, text: "Ability to design a system component or process (PEO1)" },
+  { id: 2, text: "Adaptation to modern technology or tools (PEO1)" },
+  { id: 3, text: "Intellectual and technical knowledge of Software Engineering (PEO1)" },
+  { id: 4, text: "General professional responsibility (PEO2)" },
+  { id: 5, text: "Fulfilling societal/ethical norms (PEO2)" },
+  { id: 6, text: "Awareness of sustainability in digital and engineering practices (PEO2)" },
+  { id: 7, text: "Computing Core Knowledge (PEO3)" },
+  { id: 8, text: "Adaption to new skills (PEO3)" },
+  { id: 9, text: "Ability to work effectively in teams (PEO3)" },
+  { id: 10, text: "Oral communication (PEO4)" },
+  { id: 11, text: "Report writing skills (PEO4)" },
+  { id: 12, text: "Ability to conduct research (PEO4)" },
 ];
 
 const DEPARTMENT_STANDING_LABELS = [
-    { id: 1, text: "Infrastructure" },
-    { id: 2, text: "Faculty" },
-    { id: 3, text: "Repute at the National level" },
-    { id: 4, text: "Repute at international level" }
+  { id: 1, text: "Infrastructure" },
+  { id: 2, text: "Faculty" },
+  { id: 3, text: "Repute at the National level" },
+  { id: 4, text: "Repute at international level" }
 ];
 
 // Utility function to get displayable data from the numbered key-value pairs
 const formatAssessmentData = (assessment, type) => {
   if (!assessment || Object.keys(assessment).length === 0) return [];
-  
+
   // Determine the correct labels array based on type
   const labelsMap = (type === 'self' ? SELF_ASSESSMENT_LABELS : DEPARTMENT_STANDING_LABELS)
-      .reduce((map, item) => {
-          map[item.id] = item.text;
-          return map;
-      }, {}); // Map: {1: "Question Text", 2: "Question Text", ...}
+    .reduce((map, item) => {
+      map[item.id] = item.text;
+      return map;
+    }, {}); // Map: {1: "Question Text", 2: "Question Text", ...}
 
   return Object.entries(assessment)
-      .map(([key, value]) => {
-          const id = parseInt(key); // The backend data uses 1, 2, 3 as string keys
-          const question = labelsMap[id] || `Question ${key} (Label Not Found)`;
-          return { key: id, question, answer: value };
-      })
-      .sort((a, b) => a.key - b.key) // Sort by ID to maintain order
-      .filter(item => item.answer); // Only keep answered items
+    .map(([key, value]) => {
+      const id = parseInt(key); // The backend data uses 1, 2, 3 as string keys
+      const question = labelsMap[id] || `Question ${key} (Label Not Found)`;
+      return { key: id, question, answer: value };
+    })
+    .sort((a, b) => a.key - b.key) // Sort by ID to maintain order
+    .filter(item => item.answer); // Only keep answered items
 };
 
 
@@ -243,11 +243,11 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
 
   // Access the first item in the 'surveys' array
   const survey = surveyData.surveys[0];
-  
+
   // Destructure for easy access
   const {
-    alumniId, program, department, selfAssessment, generalComments, 
-    departmentStanding, careerOpportunities, name, organizationName, 
+    alumniId, program, department, selfAssessment, generalComments,
+    departmentStanding, careerOpportunities, name, organizationName,
     position, graduationYear, email, telephone, submittedAt
   } = survey;
 
@@ -258,7 +258,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
   // Use the nested alumniId data if available, otherwise use top-level fields
   const alumniEmail = alumniId?.email || email;
   const alumniDepartment = alumniId?.department || department;
-  
+
   return (
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
@@ -268,7 +268,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
         </div>
 
         <div className="survey-data-display">
-          
+
           {/* Section 1: Personal & Employment Info */}
           <h5 className="mt-3">Personal & Employment Information</h5>
           <div className="row g-2 mb-4 p-2 bg-light rounded">
@@ -327,7 +327,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
           {/* Section 5: Comments */}
           <h5 className="mt-3">General Comments</h5>
           <p className="p-2 bg-light rounded text-break">{generalComments || 'No general comments provided.'}</p>
-          
+
           <h5 className="mt-3">Career Opportunities Comments</h5>
           <p className="p-2 bg-light rounded text-break">{careerOpportunities || 'No career opportunities comments provided.'}</p>
 
@@ -347,19 +347,19 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
 // =========================================================
 export default function AlumniDataWrapper() {
   const Base_URL = import.meta.env.VITE_API_URL;
-  
+
   // 1. Fetch Alumni Data
   const { data: alumniData, loading: alumniLoading } = useFetch(`${Base_URL}/user/alumni`);
-  
+
   // 2. Fetch Graduate Exit Survey Details
   const { data: surveyDetails, loading: surveyLoading } = useFetch(`${Base_URL}/survey/graduateExitSurvey`);
-  
+
   // 3. Fetch Employer Feedback Data
   const { data: employerFeedbackData, loading: feedbackLoading } = useFetch(`${Base_URL}/survey/employer-feedback`);
-  
+
   // 4. Fetch Annex 1D Survey Details
   const { data: annex1dData, loading: annex1dLoading } = useFetch(`${Base_URL}/survey/annex1D`);
-  
+
   if (employerFeedbackData) {
     console.log("--- Employer Feedback Data Received ---");
     console.log(employerFeedbackData);
@@ -368,25 +368,25 @@ export default function AlumniDataWrapper() {
 
   // LOGGING FOR ANNEX 1D
   if (annex1dData) {
-      console.log("--- Annex 1D Data Received ---");
-      console.log(annex1dData);
-      console.log("------------------------------");
+    console.log("--- Annex 1D Data Received ---");
+    console.log(annex1dData);
+    console.log("------------------------------");
   }
 
-  
+
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // State for Graduate Exit Survey Modal
-  const [selectedSurvey, setSelectedSurvey] = useState(null); 
-  
+  const [selectedSurvey, setSelectedSurvey] = useState(null);
+
   // State for Employer Feedback Modal
   const [selectedFeedback, setSelectedFeedback] = useState(null);
-  
-  // State for Annex 1D Survey Modal (Integrated)
-  const [selectedAnnex1D, setSelectedAnnex1D] = useState(null); 
 
-  
+  // State for Annex 1D Survey Modal (Integrated)
+  const [selectedAnnex1D, setSelectedAnnex1D] = useState(null);
+
+
 
   const users = alumniData?.users || [];
 
@@ -432,11 +432,11 @@ export default function AlumniDataWrapper() {
 
   const handleViewSurvey = (alumni) => {
     const surveys = surveyDetails?.data || [];
-    const alumniIdToMatch = alumni._id; 
-    const foundSurvey = surveys.find(survey => 
-        (survey.alumniId && survey.alumniId._id === alumniIdToMatch) || (survey.alumniId === alumniIdToMatch)
+    const alumniIdToMatch = alumni._id;
+    const foundSurvey = surveys.find(survey =>
+      (survey.alumniId && survey.alumniId._id === alumniIdToMatch) || (survey.alumniId === alumniIdToMatch)
     );
-    
+
     if (foundSurvey) {
       setSelectedSurvey(foundSurvey);
     } else {
@@ -448,51 +448,51 @@ export default function AlumniDataWrapper() {
   const handleCloseSurvey = () => {
     setSelectedSurvey(null);
   };
-  
+
   // Handler for Employer Feedback
   const handleViewEmployerFeedback = (alumni) => {
     const feedbackList = employerFeedbackData?.data || [];
     const alumniIdToMatch = alumni._id;
-    
-    const foundFeedback = feedbackList.find(feedback => 
-        (feedback.alumniId && feedback.alumniId._id === alumniIdToMatch) || (feedback.alumniId === alumniIdToMatch)
+
+    const foundFeedback = feedbackList.find(feedback =>
+      (feedback.alumniId && feedback.alumniId._id === alumniIdToMatch) || (feedback.alumniId === alumniIdToMatch)
     );
 
     if (foundFeedback) {
-        setSelectedFeedback(foundFeedback);
+      setSelectedFeedback(foundFeedback);
     } else {
-        alert(`No Employer Feedback found for ${alumni.firstName} ${alumni.lastName}.`);
-        setSelectedFeedback(null);
+      alert(`No Employer Feedback found for ${alumni.firstName} ${alumni.lastName}.`);
+      setSelectedFeedback(null);
     }
   };
 
   const handleCloseFeedback = () => {
-      setSelectedFeedback(null);
+    setSelectedFeedback(null);
   };
-  
+
   // Handler for Annex 1D Survey (Integrated)
   const handleViewAnnex1D = (alumni) => {
     // Access the surveys array from the fetched data
-    const annex1dList = annex1dData?.surveys || []; 
+    const annex1dList = annex1dData?.surveys || [];
     const alumniIdToMatch = alumni._id;
-      
-    const foundSurvey = annex1dList.find(survey => 
-        (survey.alumniId && survey.alumniId._id === alumniIdToMatch) || (survey.alumniId === alumniIdToMatch)
+
+    const foundSurvey = annex1dList.find(survey =>
+      (survey.alumniId && survey.alumniId._id === alumniIdToMatch) || (survey.alumniId === alumniIdToMatch)
     );
 
     if (foundSurvey) {
-        // Wrap it back in the 'surveys' structure as expected by the modal
-        setSelectedAnnex1D({ surveys: [foundSurvey] }); 
+      // Wrap it back in the 'surveys' structure as expected by the modal
+      setSelectedAnnex1D({ surveys: [foundSurvey] });
     } else {
-        alert(`No Annex 1D Survey found for ${alumni.firstName} ${alumni.lastName}.`);
-        setSelectedAnnex1D(null);
+      alert(`No Annex 1D Survey found for ${alumni.firstName} ${alumni.lastName}.`);
+      setSelectedAnnex1D(null);
     }
   };
 
   const handleCloseAnnex1D = () => {
-      setSelectedAnnex1D(null);
+    setSelectedAnnex1D(null);
   };
-  
+
 
   const [filters, setFilters] = useState({
     degree: "", batch: "", status: "", year: "", company: "",
@@ -516,21 +516,21 @@ export default function AlumniDataWrapper() {
   });
   // --- End Filtering Logic ---
 
-// Combine loading states
+  // Combine loading states
   if (alumniLoading || surveyLoading || feedbackLoading || annex1dLoading) return <Loader />;
 
   return (
     <div className="container-fluid alumni-wrapper">
-      
+
       {/* Graduate Exit Survey Modal */}
       {selectedSurvey && <ViewSurveyDetails surveyData={selectedSurvey} onClose={handleCloseSurvey} />}
-      
+
       {/* Employer Feedback Modal */}
       {selectedFeedback && <ViewEmployerFeedbackDetails feedbackData={selectedFeedback} onClose={handleCloseFeedback} />}
-      
+
       {/* Annex 1D Survey Modal (Integrated) */}
       {selectedAnnex1D && <ViewAnnex1DDetails surveyData={selectedAnnex1D} onClose={handleCloseAnnex1D} />}
-      
+
       {/* TOP BAR */}
       <div className="top-bar glass-card shadow-sm">
 
@@ -544,23 +544,23 @@ export default function AlumniDataWrapper() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-
+        
         {/* Filter Btn */}
         <button
-          className="filter-toggle-btn"
+          className="filter-toggle-btn btn btn-success"
           onClick={() => setShowFilters(!showFilters)}
         >
           <i className="bi bi-sliders"></i> Filters
         </button>
-        
+
         {/* Download Btn */}
         <button
-          className="filter-toggle-btn"
+          className="filter-toggle-btn btn btn-success"
           onClick={handleDownloadCSV}
         >
           <i className="bi bi-download"></i> Download
         </button>
-        
+
       </div>
 
       {/* FILTER PANEL */}
@@ -568,7 +568,7 @@ export default function AlumniDataWrapper() {
         <div className="filter-panel glass-card shadow-sm mt-3">
 
           <div className="row g-3">
-            
+
             <div className="col-md-2">
               <label className="filter-label">Degree</label>
               <select
@@ -679,11 +679,10 @@ export default function AlumniDataWrapper() {
                   <td>{alumni.degree}</td>
                   <td>
                     <span
-                      className={`status-badge ${
-                        alumni.employmentStatus === "employed"
+                      className={`status-badge ${alumni.employmentStatus === "employed"
                           ? "status-employed"
                           : "status-unemployed"
-                      }`}
+                        }`}
                     >
                       {alumni.employmentStatus}
                     </span>
@@ -694,21 +693,21 @@ export default function AlumniDataWrapper() {
 
                   <td className="action-icons">
                     {/* View Annex 1D Survey Button (Integrated) */}
-                    <i 
-                        className="bi bi-file-earmark-text-fill survey-icon" 
-                        onClick={() => handleViewAnnex1D(alumni)}
-                        title="View Annex 1D Survey"
+                    <i
+                      className="bi bi-file-earmark-text-fill survey-icon"
+                      onClick={() => handleViewAnnex1D(alumni)}
+                      title="View Annex 1D Survey"
                     ></i>
 
                     {/* View Employer Feedback Button */}
-                    <i 
-                        className="bi bi-briefcase-fill survey-icon" 
-                        onClick={() => handleViewEmployerFeedback(alumni)}
-                        title="View Employer Feedback"
+                    <i
+                      className="bi bi-briefcase-fill survey-icon"
+                      onClick={() => handleViewEmployerFeedback(alumni)}
+                      title="View Employer Feedback"
                     ></i>
                     {/* View Survey Button */}
-                    <i 
-                      className="bi bi-list-columns-reverse survey-icon" 
+                    <i
+                      className="bi bi-list-columns-reverse survey-icon"
                       onClick={() => handleViewSurvey(alumni)}
                       title="View Graduate Exit Survey"
                     ></i>

@@ -65,7 +65,7 @@ class RegisterAlumniUtils {
     if (Object.keys(errors).length === 0) {
       // No validation errors, proceed with form submission
      await  post(formData);
-     navigate("/login")
+     navigate("/login");
     } else {
       // Set validation errors to state to display them     
       setErrors(errors);

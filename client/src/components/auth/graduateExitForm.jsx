@@ -9,10 +9,11 @@ import Toast from "../Toast/Toast";
 import Loader from "../Loader/Loader";
 import { usePost } from "../../hooks/usePost";
 import "./modern-form.css";
+import { useNavigate } from "react-router-dom";
 
 export default function GraduateExitSurvey() {
   const Base_Url = import.meta.env.VITE_API_URL;
-
+  const navigate = useNavigate()
   const PLO_QUESTIONS = [
     { key: "plo1", text: "Prepared to enter professional life [PLO-1]" },
     { key: "plo2", text: "Analytical & problem-solving skills [PLO-2]" },
@@ -96,6 +97,7 @@ export default function GraduateExitSurvey() {
     };
 
     await post(payload);
+    navigate("/register/form2");
   };
 
   if (loading) return <Loader />;

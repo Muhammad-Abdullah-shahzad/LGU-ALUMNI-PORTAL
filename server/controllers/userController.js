@@ -78,7 +78,7 @@ exports.updateUser = async function (req, res) {
     try {
 
         await userModel.findOneAndUpdate(
-            { _id: req.body.id },
+            { _id: req.body.id || req.user.id },
             { $set: req.body },
             { new: true }
         );

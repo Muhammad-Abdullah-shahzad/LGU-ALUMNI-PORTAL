@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const { verifyToken } = require("../middleware/verifyJWT");
 // Route to create a user
 router.post("/create", userController.createUser);
 
@@ -11,7 +12,7 @@ router.get("/:role",userController.getAllUsersByRole);
 router.get("id/:id", userController.getUserById);
 // update
 
-router.put("/update",userController.updateUser)
+router.put("/update",verifyToken,userController.updateUser)
 
 // delete user
 

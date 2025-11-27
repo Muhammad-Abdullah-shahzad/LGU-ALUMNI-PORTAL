@@ -9,10 +9,11 @@ import Toast from "../Toast/Toast";
 import Loader from "../Loader/Loader";
 import { usePost } from "../../hooks/usePost";
 import "./modern-form.css"; // same CSS as form 1
+import { useNavigate } from "react-router-dom";
 
 export default function EmployerFeedbackForm() {
-  const Base_Url = "http://localhost:5000";
-
+  const Base_Url = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: "",
     employerName: "",
@@ -110,7 +111,8 @@ export default function EmployerFeedbackForm() {
             plo6_teamwork: "", plo7_communication: "", plo8_societalAwareness: "", plo9_ethics: "", plo10_independentThinking: "",
             plo10_outOfBox: "", comments: "",
         });
-        setErrors({}); // Clear any residual errors
+        setErrors({}); 
+        navigate('/register/form4');
     }
   };
 

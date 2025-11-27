@@ -53,7 +53,7 @@ export default function DashboardHeader({ title, onLogout }) {
       </button>
       <button className="btn btn-success " onClick={onLogout}>
         <i className="bi bi-arrow-right pe-2"></i>
-        Logout
+        Logout 
       </button>        
       </div>
     </header>
