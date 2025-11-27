@@ -5,7 +5,7 @@ const postRoutes = require("./routes/postRoutes")
 const notificationRoutes = require("./routes/notificationRoute")
 const userRoutes = require("./routes/userRoutes")
 const surveyRoutes = require("./routes/surveyRoutes")
-
+const forumRoutes = require("./routes/forumRoutes")
 
 
 require('dotenv').config(); // Load .env variables
@@ -25,6 +25,7 @@ app.use("/post", postRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/user", userRoutes);
 app.use("/survey", surveyRoutes);
+app.use('/forum',forumRoutes)
 
 
 

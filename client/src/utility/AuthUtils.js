@@ -25,7 +25,7 @@ export default class AuthUtility {
         // Return true if no errors
         return Object.keys(errors).length === 0;
     }
-    // navigate 
+    // navigate  user by role after login
     static navigateByRole(user, navigate) {
         if (user.active) {
             if (user.role === "admin") {

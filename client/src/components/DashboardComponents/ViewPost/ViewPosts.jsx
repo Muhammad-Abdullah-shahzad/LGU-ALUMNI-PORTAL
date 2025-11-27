@@ -1,7 +1,7 @@
 import Post from "../PostsComponents/Post";
 import { useDelete } from "../../../hooks/useDelete"
 import Loader from "../../Loader/Loader";
-export default function ViewPosts({ posts = [] ,refetchPost }) {
+export default function ViewPosts({ posts = [] ,refetchPost , readMode}) {
      const Base_Url = import.meta.env.VITE_API_URL;
     const { remove: delPost, loading: deleting } = useDelete(`${Base_Url}/post/del`);
     if (deleting) return <Loader />
@@ -23,6 +23,7 @@ export default function ViewPosts({ posts = [] ,refetchPost }) {
                     >
                         <Post
                             {...post}
+                            readMode={readMode}
                             onDelPost={async()=>
                                 {
                                await delPost({postId:post._id});

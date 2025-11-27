@@ -25,13 +25,13 @@ function forceRestoreScroll() {
   }
 }
 
-export default function PostsSection() {
+export default function PostsSection({ readMode = false }) {
   const Base_Url = import.meta.env.VITE_API_URL;
 
- 
-  
+
+
   const { loading: postLoading, data: posts, refetch } = useFetch(`${Base_Url}/post/all`);
-  
+
   const { loading, post } = usePost(`${Base_Url}/post/create`);
 
   useEffect(() => {
@@ -52,9 +52,10 @@ export default function PostsSection() {
 
   return (
     <div className="container px-2 px-md-4 py-3">
-      <AddPost title="Add Post" postReq={post} refetch={refetch} />
+      {readMode ||
+        <AddPost title="Add Post" postReq={post} refetch={refetch} />}
       <div className="mt-4">
-        <ViewPosts posts={posts || []} refetchPost={refetch} />
+        <ViewPosts posts={posts || []} refetchPost={refetch} readMode={readMode} />
       </div>
     </div>
   );

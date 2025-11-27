@@ -11,7 +11,9 @@ const Post = ({
     postLink = "#",
     onDelPost,
     _id,
-    className
+    readMode,
+    className,
+
 }) => {
     return (
         <div
@@ -25,15 +27,15 @@ const Post = ({
             {/* Render image only if it exists */}
             {headerImageURL && (
                 <img
-                src={headerImageURL}
-                alt="header"
-                className="w-100"
-                style={{
-                    height: "220px",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                }}
-                loading="lazy"
+                    src={headerImageURL}
+                    alt="header"
+                    className="w-100"
+                    style={{
+                        height: "220px",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                    }}
+                    loading="lazy"
                 />
             )}
 
@@ -77,12 +79,12 @@ const Post = ({
 
                 {/* This pushes the button to bottom always */}
                 <div className="mt-auto text-end d-flex gap-1">
-                    <a
+                    {readMode || <a
                         onClick={onDelPost}
                         className="btn btn-sm btn-outline-danger rounded-pill px-3 "
                     >
-                        Delete Post 
-                    </a>
+                        Delete Post
+                    </a>}
                     <a
                         href={postLink}
                         className="btn btn-sm btn-outline-success rounded-pill px-3"
