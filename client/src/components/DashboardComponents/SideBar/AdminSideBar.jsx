@@ -20,30 +20,36 @@ export default function AdminSideBar({ setActiveMenu }) {
         <h5 className="fw-bold text-success mt-3">Lahore Garrison University</h5>
       </AuthorName>
       <AuthorName></AuthorName>
+      
       <SidebarItem
         icon="bi bi-house-door-fill"
         text="Dashboard"
         isActive={activeItem === "dashboard"}
         onClick={() => handleClick("dashboard")}
       />
+      
       <SidebarItem
         icon="bi bi-people-fill"
         text="Alumni Data"
         isActive={activeItem === "alumniData"}
         onClick={() => handleClick("alumniData")}
       />
+      
       <SidebarItem
         icon="bi bi-box-seam-fill"
         text="Coordinators"
         isActive={activeItem === "coordinators"}
         onClick={() => handleClick("coordinators")}
       />
+      
       <SidebarItem
         icon="bi bi-file-post"
         text="Posts"
         isActive={activeItem === "posts"}
         onClick={() => handleClick("posts")}
       />
+
+     
     </SidebarNav>
   );
 }

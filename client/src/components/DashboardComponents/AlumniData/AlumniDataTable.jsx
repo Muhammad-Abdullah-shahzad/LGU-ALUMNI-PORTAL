@@ -711,8 +711,8 @@ export default function AlumniDataWrapper() {
                       onClick={() => handleViewSurvey(alumni)}
                       title="View Graduate Exit Survey"
                     ></i>
-                    <i className="bi bi-pencil-square edit-icon"></i>
-                    <i className="bi bi-trash delete-icon"></i>
+                    {/* <i className="bi bi-pencil-square edit-icon"></i>
+                    <i className="bi bi-trash delete-icon"></i> */}
                   </td>
                 </tr>
               ))

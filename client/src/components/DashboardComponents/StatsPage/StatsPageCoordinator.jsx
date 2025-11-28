@@ -33,12 +33,7 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
                         icon="bi bi-people-fill"
                         bgImage={StatsCard3}
                     />
-                    <StatsCard
-                        title="Total Alumni"
-                        value="1,250"
-                        icon="bi bi-people-fill"
-                        bgImage={StatsCard4}
-                    />
+              
 
                     <LongCard
                         heading="Recent Notifications"

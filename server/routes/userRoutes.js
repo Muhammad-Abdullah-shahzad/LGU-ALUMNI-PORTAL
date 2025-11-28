@@ -9,7 +9,7 @@ router.post("/create", userController.createUser);
 router.get("/:role",userController.getAllUsersByRole);
 
 // route  to get user by id
-router.get("id/:id", userController.getUserById);
+router.get("/id/:id", userController.getUserById);
 // update
 
 router.put("/update",verifyToken,userController.updateUser)

@@ -1,6 +1,6 @@
 export default function StatsCard({ title, value, icon, bgImage }) {
   return (
-    <div className="col-md-6 col-sm-12 col-lg-3 mb-4">
+    <div className="col-md-12 col-sm-12 col-lg-4 mb-4">
       <div
         className="card border-0 shadow-sm rounded-4 p-0 overflow-hidden"
         style={{
@@ -12,6 +12,7 @@ export default function StatsCard({ title, value, icon, bgImage }) {
         }}
       >
         {/* Top bar with icon + button */}
+
         <div className="d-flex justify-content-between align-items-center px-3 pt-3">
           <div
             className="d-flex align-items-center justify-content-center rounded-circle"

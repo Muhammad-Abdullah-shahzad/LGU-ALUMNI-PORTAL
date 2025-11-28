@@ -15,11 +15,14 @@ export default function AlumniSideBar({ setActiveMenu }) {
 
     return (
         <SidebarNav>
+
             <AuthorName>
                 <img src="../src/assets/logo.png" alt="" style={{ width: 90, height: 90 }} />
                 <h5 className="fw-bold text-success mt-3">Lahore Garrison University</h5>
             </AuthorName>
+
             <AuthorName></AuthorName>
+
             <SidebarItem
                 icon="bi bi-house-door-fill"
                 text="Posts"
@@ -33,6 +36,14 @@ export default function AlumniSideBar({ setActiveMenu }) {
                 isActive={activeItem === "forum"}
                 onClick={() => handleClick("forum")}
             />
+
+            <SidebarItem
+                icon="bi bi-file-post"
+                text="Profile"
+                isActive={activeItem === "profile"}
+                onClick={() => handleClick("profile")}
+            />
+
         </SidebarNav>
     );
 }

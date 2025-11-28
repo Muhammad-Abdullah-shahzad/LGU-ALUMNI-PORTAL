@@ -1,6 +1,5 @@
 
-
-
+import ProfileSection from "../Profile/Profile.jsx";
 import PostsSection from "../PostsComponents/PostSection.jsx";
 import AlumniForum from "../Forum/Forum.jsx";
 export default function AlumniMain({ activeMenu }) {
@@ -9,6 +8,7 @@ export default function AlumniMain({ activeMenu }) {
         <div className="container-fluid p-3 ">
             {activeMenu === "posts" && <PostsSection readMode={true} />}
             {activeMenu === "forum" && <AlumniForum/>}
+            {activeMenu === "profile" && <ProfileSection/>}
         </div>
     );
 

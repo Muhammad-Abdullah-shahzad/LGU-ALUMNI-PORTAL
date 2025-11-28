@@ -32,6 +32,8 @@ exports.createUser = async (req, res) => {
 // get user by id
 exports.getUserById = async (req, res) => {
     try {
+        console.log("id recieved " , req.params.id);
+        
         const userId = req.params.id;
         const user = await userModel.findById(userId);
         if (!user) {
