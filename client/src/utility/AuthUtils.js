@@ -42,6 +42,9 @@ export default class AuthUtility {
                     navigate("/register/form1")
                 }
             }
+            else if (user.role==="president"){
+                navigate("/president/dashboard");
+            }
 
         }
         else {

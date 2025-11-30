@@ -10,6 +10,8 @@ import InternshipEmployerFeedbackForm from "./components/auth/internshipEmployer
 import EmployerSurvey from "./components/auth/employersSurvey";
 import AlumniSurvey from "./components/auth/alumniSurvey";
 import AlumniDashboard from "./components/Dashboards/AlumniDashboard";
+import PresidentDashboard from "./components/Dashboards/PresidentDashboard";
+
 import { Routes, Route } from "react-router-dom";
 export default function App() {
   return (
@@ -27,6 +29,7 @@ export default function App() {
           <Route path="/register/form4" element={<AlumniSurvey />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/alumni/dashboard" element={<AlumniDashboard />} />
+          <Route path="/president/dashboard" element={<PresidentDashboard />} />
         </Routes>
       </ErrorBoundary>
     </React.Fragment>

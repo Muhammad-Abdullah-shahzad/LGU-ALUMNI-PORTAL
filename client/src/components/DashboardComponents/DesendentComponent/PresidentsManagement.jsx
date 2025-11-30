@@ -28,7 +28,7 @@ export default function PresidentManagement() {
 
     return (
         <>
-            <AddDescendent title="Fill Coordinator Details" descendent={coordinator} setErrors={setErrors} post={post} errors={errors} setDescendent={setCoordinator} />
+            <AddDescendent title="Fill President Details" descendent={coordinator} setErrors={setErrors} post={post} errors={errors} setDescendent={setCoordinator} />
             <AllDescendent role='president' />
             {error && <Toast type="error" message={error} />}
         </>

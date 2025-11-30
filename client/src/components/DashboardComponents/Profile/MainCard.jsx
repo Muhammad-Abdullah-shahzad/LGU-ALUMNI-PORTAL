@@ -44,17 +44,17 @@ export default function MainCard({ data }) {
 
         <div className="d-flex align-items-center">
           <i className="bi bi-credit-card-2-front-fill text-secondary me-2"></i>
-          <span>{cnic}</span>
+          <span>{cnic || "N/A"}</span>
         </div>
 
         <div className="d-flex align-items-center">
           <i className="bi bi-hash text-secondary me-2"></i>
-          <span>Roll No: {rollNo}</span>
+          <span>Roll No: {rollNo || "N/A"}</span>
         </div>
 
         <div className="d-flex align-items-center">
           <i className="bi bi-mortarboard-fill text-secondary me-2"></i>
-          <span>{degree} — Batch {batch}</span>
+          <span>{degree} Batch {batch || "N/A"}</span>
         </div>
 
         <div className="d-flex align-items-center">
@@ -69,16 +69,16 @@ export default function MainCard({ data }) {
 
       {/* Alumni Status */}
       <div className="d-flex align-items-center justify-content-between px-2">
-        <span className="fw-semibold">Alumni Status</span>
+        <span className="fw-semibold">Profile Status</span>
         <span className="badge bg-success p-2 rounded-pill">
           <i className="bi bi-check-circle"></i> Active
         </span>
       </div>
 
       {/* Button */}
-      <div className="mt-4 text-center">
+      {/* <div className="mt-4 text-center">
         <button className="btn btn-outline-success px-4 rounded-pill">Edit Your Profile</button>
-      </div>
+      </div> */}
     </div>
   );
 }
