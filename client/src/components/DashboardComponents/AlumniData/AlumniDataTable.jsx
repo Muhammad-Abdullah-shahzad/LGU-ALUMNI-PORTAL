@@ -10,9 +10,44 @@ import { useBeforeUnload } from "react-router-dom";
 
 
 // =========================================================
-// 1. ViewSurveyDetails Component (Existing)
+// 1. CSV Download Utility (NEW)
 // =========================================================
-const ViewSurveyDetails = ({ surveyData, onClose }) => {
+
+/**
+ * Converts data (headers and rows) into a CSV string and triggers a download.
+ * @param {string} filename The name for the downloaded file.
+ * @param {string[]} headers Array of column headers.
+ * @param {string[][]} rows Array of data rows, where each row is an array of strings.
+ */
+const downloadCSV = (filename, headers, rows) => {
+  if (!rows || rows.length === 0) {
+    alert("No data available to download.");
+    return;
+  }
+  
+  // Quote all values and join with a comma, then join rows with a newline
+  const csvContent = [headers, ...rows]
+    .map((row) => 
+      row.map((value) => 
+        `"${String(value || '').replace(/"/g, '""')}"` // Handle null/undefined, convert to string, and escape double quotes
+      ).join(",")
+    ).join("\n");
+    
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a); // Append to body to ensure it works in all browsers
+  a.click();
+  document.body.removeChild(a); // Clean up
+  URL.revokeObjectURL(url);
+};
+
+// =========================================================
+// 2. ViewSurveyDetails Component (Existing + Download Button)
+// =========================================================
+const ViewSurveyDetails = ({ surveyData, onClose, onDownload }) => {
   if (!surveyData) return null;
   const { department, degree, fullName, email, phone, participation, questions = [], alumniId } = surveyData;
   const alumniEmail = alumniId?.email || email;
@@ -22,7 +57,7 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4 className="m-0">Graduate Exit Survey Details 雌</h4>
+          <h4 className="m-0">Graduate Exit Survey Details </h4>
           <button className="btn-close" onClick={onClose}></button>
         </div>
         <div className="survey-data-display">
@@ -48,7 +83,10 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
             </div>
           ) : (<p className="text-muted">No PLO assessment questions found.</p>)}
         </div>
-        <div className="mt-4 text-end">
+        <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
+          <button className="btn btn-primary" onClick={() => onDownload(surveyData)}>
+             <i className="bi bi-download me-1"></i> Download CSV
+          </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
@@ -58,9 +96,9 @@ const ViewSurveyDetails = ({ surveyData, onClose }) => {
 
 
 // =========================================================
-// 2. ViewEmployerFeedbackDetails Component (Existing)
+// 3. ViewEmployerFeedbackDetails Component (Existing + Download Button)
 // =========================================================
-const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
+const ViewEmployerFeedbackDetails = ({ feedbackData, onClose, onDownload }) => {
   if (!feedbackData) return null;
   const { companyName, employerName, designation, email, phone, interneeName, interneeDiscipline, totalInterneeCount, departmentInternCount, departmentCounts = {}, ploRatings = {}, comments, submittedAt } = feedbackData;
   const departmentKeys = { ai: "AI", devDesign: "Development & Design", marketing: "Digital Marketing", graphics: "Graphics Designing", analytics: "Data Analytics", cyber: "Cyber Security", technical: "Technical", it: "IT", rnd: "R&D", other: "Other" };
@@ -70,7 +108,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4 className="m-0">Employer Feedback Details 直</h4>
+          <h4 className="m-0">Employer Feedback Details </h4>
           <button className="btn-close" onClick={onClose}></button>
         </div>
         <div className="survey-data-display">
@@ -109,7 +147,10 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
           <h5 className="mt-3">General Comments</h5>
           <p className="p-2 bg-light rounded text-break">{comments || 'No comments provided.'}</p>
         </div>
-        <div className="mt-4 text-end">
+        <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
+           <button className="btn btn-primary" onClick={() => onDownload(feedbackData)}>
+             <i className="bi bi-download me-1"></i> Download CSV
+          </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
@@ -118,7 +159,7 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose }) => {
 };
 
 // =========================================================
-// 3. ViewAnnex1DDetails Component (Existing)
+// 4. ViewAnnex1DDetails Component (Existing + Download Button)
 // =========================================================
 const SELF_ASSESSMENT_LABELS = [ { id: 1, text: "Ability to design a system component or process (PEO1)" }, { id: 2, text: "Adaptation to modern technology or tools (PEO1)" }, { id: 3, text: "Intellectual and technical knowledge of Software Engineering (PEO1)" }, { id: 4, text: "General professional responsibility (PEO2)" }, { id: 5, text: "Fulfilling societal/ethical norms (PEO2)" }, { id: 6, text: "Awareness of sustainability in digital and engineering practices (PEO2)" }, { id: 7, text: "Computing Core Knowledge (PEO3)" }, { id: 8, text: "Adaption to new skills (PEO3)" }, { id: 9, text: "Ability to work effectively in teams (PEO3)" }, { id: 10, text: "Oral communication (PEO4)" }, { id: 11, text: "Report writing skills (PEO4)" }, { id: 12, text: "Ability to conduct research (PEO4)" }, ];
 const DEPARTMENT_STANDING_LABELS = [ { id: 1, text: "Infrastructure" }, { id: 2, text: "Faculty" }, { id: 3, text: "Repute at the National level" }, { id: 4, text: "Repute at international level" } ];
@@ -139,7 +180,7 @@ const formatAssessmentData = (assessment, type) => {
 };
 
 
-const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
+const ViewAnnex1DDetails = ({ surveyData, onClose, onDownload }) => {
   if (!surveyData || !surveyData.surveys || surveyData.surveys.length === 0) return null;
   const survey = surveyData.surveys[0];
   const { alumniId, program, department, selfAssessment, generalComments, departmentStanding, careerOpportunities, name, organizationName, position, graduationYear, email, telephone, submittedAt } = survey;
@@ -153,7 +194,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4 className="m-0">Alumni Survey (Annex 1D) Details 塘</h4>
+          <h4 className="m-0">Alumni Survey (Annex 1D) Details </h4>
           <button className="btn-close" onClick={onClose}></button>
         </div>
         <div className="survey-data-display">
@@ -201,7 +242,10 @@ const ViewAnnex1DDetails = ({ surveyData, onClose }) => {
           <h5 className="mt-3">Career Opportunities Comments</h5>
           <p className="p-2 bg-light rounded text-break">{careerOpportunities || 'No career opportunities comments provided.'}</p>
         </div>
-        <div className="mt-4 text-end">
+        <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
+           <button className="btn btn-primary" onClick={() => onDownload(surveyData)}>
+             <i className="bi bi-download me-1"></i> Download CSV
+          </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
       </div>
@@ -289,22 +333,84 @@ export default function AlumniDataWrapper() {
     console.log("Edit icon clicked. Modal state set to true.");
   }
 
-  // --- Other existing handlers (omitted for brevity, assume they are correct) ---
-  const handleDownloadCSV = () => {
-    const listToDownload = filtered.length > 0 ? filtered : users;
+  // --- DOWNLOAD HANDLERS FOR INDIVIDUAL SURVEYS (NEW) ---
+
+  const handleDownloadAlumniDataCSV = (alumni) => {
+    const listToDownload = alumni ? [alumni] : filtered.length > 0 ? filtered : users;
     if (!listToDownload || listToDownload.length === 0) { alert("No alumni data available to download."); return; }
     const headers = ["Name", "Roll No", "Batch", "Degree", "Status", "Company", "Job Title", "Graduation Year"];
     const rows = listToDownload.map((a) => [ `${a.firstName || ""} ${a.lastName || ""}`, a.rollNo || "", a.batch || "", a.degree || "", a.employmentStatus || "", a.companyName || "", a.jobTitle || "", a.graduationYear || "" ]);
-    const csvContent = [headers, ...rows].map((row) => row.map((value) => `"${value?.toString().replace(/"/g, '""')}"`).join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "alumni_list.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadCSV("alumni_list.csv", headers, rows);
   };
   
+  // NOTE: Renamed the existing CSV handler to use the new utility
+  const handleDownloadCSV = () => {
+    handleDownloadAlumniDataCSV();
+  };
+
+  const handleDownloadGraduateExitSurveyCSV = useCallback((surveyData) => {
+    const { fullName, email, department, degree, phone, participation, questions = [], submittedAt } = surveyData;
+    
+    const baseHeaders = ["Alumni Name", "Email", "Department", "Degree", "Phone", "Participation", "Submitted Date"];
+    const baseRow = [fullName || '', email || '', department || '', degree || '', phone || '', participation || '', new Date(submittedAt).toLocaleDateString()];
+
+    const questionHeaders = questions.map(q => q.key.toUpperCase());
+    const questionAnswers = questions.map(q => q.answer);
+    
+    const headers = [...baseHeaders, ...questionHeaders];
+    const rows = [[...baseRow, ...questionAnswers]];
+
+    downloadCSV(`GES_${fullName?.replace(/\s/g, '_') || 'survey'}.csv`, headers, rows);
+  }, []);
+
+  const handleDownloadEmployerFeedbackCSV = useCallback((feedbackData) => {
+    const { companyName, employerName, designation, email, phone, interneeName, interneeDiscipline, totalInterneeCount, departmentInternCount, departmentCounts = {}, ploRatings = {}, comments, submittedAt } = feedbackData;
+    const departmentKeys = { ai: "AI", devDesign: "Development & Design", marketing: "Digital Marketing", graphics: "Graphics Designing", analytics: "Data Analytics", cyber: "Cyber Security", technical: "Technical", it: "IT", rnd: "R&D", other: "Other" };
+    const ploKeys = { plo3_problemSolving: "Problem formulation & solving (PLO-3)", plo2_dataAnalysis: "Data collection & analysis (PLO-2)", plo1_theoryToPractice: "Theory to practice (PLO-1)", plo4_judgement: "Judgment & decision-making (PLO-4)", plo5_technicalSkills: "Technical / IT Skills (PLO-5)", plo6_teamwork: "Teamwork (PLO-6)", plo7_communication: "Communication skills (PLO-7)", plo8_societalAwareness: "Societal & sustainability awareness (PLO-8)", plo9_ethics: "Workplace ethics (PLO-9)", plo10_independentThinking: "Independent thinking (PLO-10)", plo10_outOfBox: "Out-of-box thinking (PLO-10)" };
+
+    const baseHeaders = ["Company Name", "Employer Name", "Designation", "Employer Email", "Employer Phone", "Internee Name", "Internee Discipline", "Total LGU Interns", "Dept Intern Count", "Submitted Date", "General Comments"];
+    const baseRow = [companyName, employerName, designation, email, phone, interneeName, interneeDiscipline, totalInterneeCount, departmentInternCount, new Date(submittedAt).toLocaleDateString(), comments];
+
+    const ploHeaders = Object.values(ploKeys);
+    const ploAnswers = Object.keys(ploKeys).map(key => ploRatings[key] || 'N/A');
+
+    const deptHeaders = Object.values(departmentKeys).filter(label => departmentCounts[Object.keys(departmentKeys).find(k => departmentKeys[k] === label)] > 0);
+    const deptAnswers = Object.keys(departmentKeys).filter(key => departmentCounts[key] > 0).map(key => departmentCounts[key]);
+
+    const headers = [...baseHeaders, ...ploHeaders, ...deptHeaders];
+    const rows = [[...baseRow, ...ploAnswers, ...deptAnswers]];
+
+    downloadCSV(`EmployerFeedback_${interneeName?.replace(/\s/g, '_') || 'feedback'}.csv`, headers, rows);
+  }, []);
+
+  const handleDownloadAnnex1DCSV = useCallback((surveyData) => {
+    const survey = surveyData.surveys[0];
+    if (!survey) return;
+
+    const { name, organizationName, position, graduationYear, email, telephone, program, department, selfAssessment, generalComments, departmentStanding, careerOpportunities, submittedAt } = survey;
+    
+    // 1. Basic Info
+    const baseHeaders = ["Name", "Email", "Telephone", "Organization", "Position", "Graduation Year", "Program", "Department", "Submitted Date", "General Comments", "Career Opportunities"];
+    const baseRow = [name, email, telephone, organizationName, position, graduationYear, program, department, new Date(submittedAt).toLocaleDateString(), generalComments, careerOpportunities];
+
+    // 2. Self Assessment (PEO)
+    const formattedSelfAssessment = formatAssessmentData(selfAssessment, 'self');
+    const selfHeaders = formattedSelfAssessment.map(q => `SelfAssessment_Q${q.key}: ${q.question}`);
+    const selfAnswers = formattedSelfAssessment.map(q => q.answer);
+    
+    // 3. Department Standing
+    const formattedDepartmentStanding = formatAssessmentData(departmentStanding, 'department');
+    const deptHeaders = formattedDepartmentStanding.map(q => `DeptStanding_Q${q.key}: ${q.question}`);
+    const deptAnswers = formattedDepartmentStanding.map(q => q.answer);
+
+    const headers = [...baseHeaders, ...selfHeaders, ...deptHeaders];
+    const rows = [[...baseRow, ...selfAnswers, ...deptAnswers]];
+
+    downloadCSV(`Annex1D_Survey_${name?.replace(/\s/g, '_') || 'survey'}.csv`, headers, rows);
+  }, []);
+
+
+  // --- Other existing handlers (omitted for brevity, assume they are correct) ---
   const handleViewSurvey = (alumni) => {
     const surveys = surveyDetails?.data || [];
     const alumniIdToMatch = alumni._id;
@@ -328,6 +434,7 @@ export default function AlumniDataWrapper() {
     if (foundSurvey) { setSelectedAnnex1D({ surveys: [foundSurvey] }); } else { alert(`No Annex 1D Survey found for ${alumni.firstName} ${alumni.lastName}.`); setSelectedAnnex1D(null); }
   };
   const handleCloseAnnex1D = () => { setSelectedAnnex1D(null); };
+
 
   // --- Filtering Logic (Omitted for brevity, assume correct) ---
   const degrees = [...new Set(users.map((u) => u.degree))];
@@ -357,10 +464,10 @@ export default function AlumniDataWrapper() {
   return (
     <div className="container-fluid alumni-wrapper">
 
-      {/* MODALS */}
-      {selectedSurvey && <ViewSurveyDetails surveyData={selectedSurvey} onClose={handleCloseSurvey} />}
-      {selectedFeedback && <ViewEmployerFeedbackDetails feedbackData={selectedFeedback} onClose={handleCloseFeedback} />}
-      {selectedAnnex1D && <ViewAnnex1DDetails surveyData={selectedAnnex1D} onClose={handleCloseAnnex1D} />}
+      {/* MODALS: Added onDownload prop to each view component */}
+      {selectedSurvey && <ViewSurveyDetails surveyData={selectedSurvey} onClose={handleCloseSurvey} onDownload={handleDownloadGraduateExitSurveyCSV} />}
+      {selectedFeedback && <ViewEmployerFeedbackDetails feedbackData={selectedFeedback} onClose={handleCloseFeedback} onDownload={handleDownloadEmployerFeedbackCSV} />}
+      {selectedAnnex1D && <ViewAnnex1DDetails surveyData={selectedAnnex1D} onClose={handleCloseAnnex1D} onDownload={handleDownloadAnnex1DCSV} />}
 
       {/* EDIT ALUMNI MODAL (Will render only when editModal is true) */}
       {editModal && (

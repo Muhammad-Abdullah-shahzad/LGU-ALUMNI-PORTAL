@@ -22,7 +22,8 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
         {/* BODY */}
         <div ref={ref} className="card-body px-4 pb-4 initialHeight">
 
-          {notifications.slice(0, 2).map((note, index) => (
+        
+          {notifications.map((note, index) => (
             <div
 
               key={index}
@@ -78,6 +79,7 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
               }
             </div>
           ))}
+
         </div>
 
       </div>

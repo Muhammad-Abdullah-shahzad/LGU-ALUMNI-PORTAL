@@ -14,7 +14,7 @@ export default function FormLayout({onSubmit , children, className, style }) {
 
   return (
     // Use the Bootstrap container classes to center the form on the page for demonstration
-   <div className="container-fluid d-flex justify-content-center align-items-center vh-100"  >
+   <div className="container-fluid d-flex justify-content-center align-items-center vh-100 "  >
    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">

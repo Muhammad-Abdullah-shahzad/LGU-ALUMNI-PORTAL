@@ -12,9 +12,10 @@ import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 
+
 //Moazam
 export default function RegisterAlumni() {
-  const Base_Url = "http://localhost:5000";
+  const Base_Url = import.meta.env.VITE_API_URL;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -46,7 +47,7 @@ export default function RegisterAlumni() {
   return (
     <React.Fragment>
       <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors, post, navigate)}>
-        <FormHeader>LAHORE GARRISON UNIVERSITY ALUMNI PORTAL</FormHeader>
+        <FormHeader >LAHORE GARRISON UNIVERSITY ALUMNI PORTAL</FormHeader>
         <SubText>Fill Your Details To Continue</SubText>
         <InputField type="text" label="Enter Your FirstName" placeholder="First Name Here" onChange={e => setFormData({ ...formData, firstName: e.target.value })} value={formData.firstName} />
         <FormError errors={errors} errorKey="firstName" />

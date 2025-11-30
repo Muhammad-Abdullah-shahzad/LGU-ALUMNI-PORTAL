@@ -2,17 +2,23 @@ import DashboardLineChart from "../Charts/LineChart";
 import StatsCard from "../StatsCard.jsx/StatsCard";
 import CardsWrapper from "../CardsWrapper/CardsWrapper";
 import LongCard from "../LongCard/longCard";
-import DashboardBarChart from "../Charts/BarChart";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
 import StatsCard1 from "../../../assets/statCard1.jpg";
 import StatsCard2 from "../../../assets/statCard2.jpg";
 import StatsCard3 from "../../../assets/statCard3.jpg";
-import StatsCard4 from "../../../assets/statCard4.jpg";
+import { useNavigate } from "react-router-dom";
 
-export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refetch , role ,notify }) {
+export default function StatsPage({ data, delNotify, onAccept, rejectFunc, refetch, role, notify }) {
+    const navigate = useNavigate();
     return (
         <div>
-            <DashboardHeader title={role} />
+            <DashboardHeader title={role} onLogout={() => {
+            
+                localStorage.removeItem("token");
+                navigate('/login')
+                console.log("on logout Run");
+            
+            }}/>
             <div className="container-fluid p-3">
                 <CardsWrapper>
                     <StatsCard
@@ -33,7 +39,7 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
                         icon="bi bi-people-fill"
                         bgImage={StatsCard3}
                     />
-              
+
 
                     <LongCard
                         heading="Recent Notifications"
@@ -52,12 +58,12 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc , refe
 
                 </CardsWrapper>
                 <CardsWrapper>
-                <DashboardLineChart
-                    data={data.employeedBygraduationYear}
-                    heading="Final Employment Chart"
-                    Xkey="graduationYear"
-                    Ykey="count"
-                />
+                    <DashboardLineChart
+                        data={data.employeedBygraduationYear}
+                        heading="Final Employment Chart"
+                        Xkey="graduationYear"
+                        Ykey="count"
+                    />
                 </CardsWrapper>
             </div>
         </div>
