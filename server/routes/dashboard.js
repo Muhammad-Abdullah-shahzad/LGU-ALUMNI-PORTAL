@@ -9,6 +9,6 @@ const dashboardController = require('../controllers/dashboardController.js');
 // Admin Dashboard Route
 router.get('/admin', verifyToken, verifyRoles("admin"), dashboardController.getAdminDashboard);
 // coordinator dashboard
-router.get("/coordinator",verifyToken, verifyRoles("admin","coordinator"),dashboardController.getCoordinatorDashboard)
+router.get("/coordinator",verifyToken, verifyRoles("coordinator"),dashboardController.getCoordinatorDashboard)
 
 module.exports = router;

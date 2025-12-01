@@ -1,6 +1,6 @@
 export default function StatsCard({ title, value, icon, bgImage }) {
   return (
-    <div className="col-md-12 col-sm-12 col-lg-4 mb-4">
+    <div className="col-md-12 col-sm-12 col-lg-3 mb-4">
       <div
         className="card border-0 shadow-sm rounded-4 p-0 overflow-hidden"
         style={{

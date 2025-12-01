@@ -11,7 +11,7 @@ export default function FormHeader(props) {
     const alignmentClass = props.alignment || "text-center"; // Bootstrap class for alignment
 
     return (
-        <div className={`mb-4 mt-5 ${alignmentClass}`}>
+        <div className={`mt-5 ${alignmentClass}`}>
             {/* Main title for the form */}
             <h2 className={`text-success fw-bold ${props.textStyle}`}>
                 {props.children || "your text here"}

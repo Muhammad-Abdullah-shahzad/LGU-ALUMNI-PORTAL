@@ -9,15 +9,15 @@ import React from "react";
  */
 export default function FormLayout({onSubmit , children, className, style }) {
   // Set a default Bootstrap class for padding/margin, allowing override
-  const defaultClasses = "p-4";
+  const defaultClasses = "";
   const finalClasses = className ? `${defaultClasses} ${className}` : defaultClasses;
 
   return (
     // Use the Bootstrap container classes to center the form on the page for demonstration
-   <div className="container-fluid d-flex justify-content-center align-items-center vh-100 "  >
-   <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
+   <div className="container-fluid d-flex justify-content-center align-items-center vh-100 p-0 w-100"  >
+   <div className="container mt-5 p-0 w-100">
+      <div className="row justify-content-center p-0 w-100">
+        <div className="col-md-8 col-lg-6 p-0 w-100">
           <form
             className={finalClasses}
             style={style}
