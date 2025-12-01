@@ -14,10 +14,8 @@ import { useUpdate } from "../../hooks/useUpdate";
 
 export default function Annex1DAlumniSurvey() {
   const Base_Url = import.meta.env.VITE_API_URL;
-  
-  const { post,loading,error } = usePost(`${Base_Url}/survey/annex1D`);
-  const { put,loading:updating } = useUpdate(`${Base_Url}/user/update`);
-  
+  const { post, loading, error } = usePost(`${Base_Url}/survey/annex1D`);
+  const { put } = useUpdate(`${Base_Url}/user/update`);
   const navigate = useNavigate();
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
 
@@ -84,9 +82,7 @@ export default function Annex1DAlumniSurvey() {
     }
     try {
       await post(formData);
-      await put({
-        formsFilled:true
-      })
+      await put({ formsFilled: true });
       navigate("/login");
     } catch (err) {
       console.error(err);
@@ -98,35 +94,26 @@ export default function Annex1DAlumniSurvey() {
   return (
     <div className="modern-form-container container">
       <form onSubmit={handleSubmit} className="modern-form">
+
+        {/* Header */}
         <div className="text-center mb-4">
           <FormHeader>Annex-1D Alumni Survey</FormHeader>
-          <SubText>
-            (To be filled in by Alumni - after the completion of each academic year)
-          </SubText>
-          <SubText>
-            The purpose of this survey is to obtain alumni input on the quality of education they received at LGU.
-          </SubText>
+          <SubText>The purpose of this survey is to obtain alumni input on the quality of education they received at LGU.</SubText>
         </div>
 
         {/* Program & Department */}
         <div className="row g-4 mb-4">
-          <div className="col-md-6">
+          <div className="col-lg-12 col-md-6">
             <div className="form-card shadow-sm p-4 h-100">
-              <h5 className="section-title">Program & Department</h5>
-              <DropDown
-                value={formData.program}
-                onChange={e => setFormData({ ...formData, program: e.target.value })}
-              >
+              <h5 className="section-title mb-3">Program & Department</h5>
+              <DropDown value={formData.program} onChange={e => setFormData({ ...formData, program: e.target.value })}>
                 <DropDown.Option>Select Program</DropDown.Option>
                 <DropDown.Option>Bachelor of Software Engineering</DropDown.Option>
                 <DropDown.Option>Bachelor of Computer Science</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="program" />
 
-              <DropDown
-                value={formData.department}
-                onChange={e => setFormData({ ...formData, department: e.target.value })}
-              >
+              <DropDown value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
                 <DropDown.Option>Select Department</DropDown.Option>
                 <DropDown.Option>Software Engineering</DropDown.Option>
                 <DropDown.Option>Computer Science</DropDown.Option>
@@ -136,83 +123,51 @@ export default function Annex1DAlumniSurvey() {
           </div>
         </div>
 
-        {/* Split Self Assessment & Department Standing */}
+        {/* Self Assessment & Department Standing */}
         <div className="row g-4 mb-4">
-          {/* Self Assessment */}
           <div className="col-md-6">
             <div className="form-card shadow-sm p-4 h-100">
-              <h5 className="section-title">Self Assessment</h5>
+              <h5 className="section-title mb-3">Self Assessment</h5>
               <SubText>How would you rate yourself?</SubText>
               {selfAssessmentQuestions.map(q => (
-                <DropDown
-                  key={q.id}
-                  value={formData.selfAssessment[q.id] || ""}
-                  onChange={e => handleDropdownChange("selfAssessment", q.id, e.target.value)}
-                >
+                <DropDown key={q.id} value={formData.selfAssessment[q.id] || ""} onChange={e => handleDropdownChange("selfAssessment", q.id, e.target.value)}>
                   <DropDown.Option>{q.text}</DropDown.Option>
                   {ratingOptions.map(opt => <DropDown.Option key={opt}>{opt}</DropDown.Option>)}
                 </DropDown>
               ))}
 
-              <InputField
-                label="General Comments"
-                placeholder="Maximum 100 characters"
-                value={formData.generalComments}
-                onChange={e => setFormData({ ...formData, generalComments: e.target.value })}
-              />
+              <InputField label="General Comments" placeholder="Maximum 100 characters" value={formData.generalComments} onChange={e => setFormData({ ...formData, generalComments: e.target.value })} />
             </div>
           </div>
 
-          {/* Department Standing */}
           <div className="col-md-6">
             <div className="form-card shadow-sm p-4 h-100">
-              <h5 className="section-title">Department Standing</h5>
+              <h5 className="section-title mb-3">Department Standing</h5>
               <SubText>Rate your department relative to others</SubText>
               {departmentStandingQuestions.map(q => (
-                <DropDown
-                  key={q.id}
-                  value={formData.departmentStanding[q.id] || ""}
-                  onChange={e => handleDropdownChange("departmentStanding", q.id, e.target.value)}
-                >
+                <DropDown key={q.id} value={formData.departmentStanding[q.id] || ""} onChange={e => handleDropdownChange("departmentStanding", q.id, e.target.value)}>
                   <DropDown.Option>{q.text}</DropDown.Option>
                   {ratingOptions.map(opt => <DropDown.Option key={opt}>{opt}</DropDown.Option>)}
                 </DropDown>
               ))}
 
-              <InputField
-                label="Career Opportunities after graduation"
-                placeholder="Maximum 100 characters"
-                value={formData.careerOpportunities}
-                onChange={e => setFormData({ ...formData, careerOpportunities: e.target.value })}
-              />
+              <InputField label="Career Opportunities after graduation" placeholder="Maximum 100 characters" value={formData.careerOpportunities} onChange={e => setFormData({ ...formData, careerOpportunities: e.target.value })} />
+            <h5 className="section-title my-4">Alumni Information</h5>
+            {[["name", "Name"], ["organizationName", "Organization Name"], ["position", "Position in Organization"], ["graduationYear", "Year of Graduation"], ["email", "Email"], ["telephone", "Telephone"]].map(([key, label]) => (
+              <React.Fragment key={key}>
+                <InputField label={label} value={formData[key]} onChange={e => setFormData({ ...formData, [key]: e.target.value })} />
+                <FormError errors={errors} errorKey={key} />
+              </React.Fragment>
+            ))}
             </div>
           </div>
         </div>
 
-        {/* Alumni Info */}
-        <div className="form-card shadow-sm p-4 mb-4">
-          <h5 className="section-title">Alumni Information</h5>
-          {[
-            ["name", "Name"],
-            ["organizationName", "Organization Name"],
-            ["position", "Position in Organization"],
-            ["graduationYear", "Year of Graduation"],
-            ["email", "Email"],
-            ["telephone", "Telephone"]
-          ].map(([key, label]) => (
-            <React.Fragment key={key}>
-              <InputField
-                label={label}
-                value={formData[key]}
-                onChange={e => setFormData({ ...formData, [key]: e.target.value })}
-              />
-              <FormError errors={errors} errorKey={key} />
-            </React.Fragment>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <ButtonComponent type="submit" className="px-5">Submit Survey</ButtonComponent>
+        {/* Submit Button */}
+        <div className="text-center mt-4">
+          <ButtonComponent type="submit" className="px-5 py-2 fw-bold btn-success" style={{ fontSize: "1.1rem", borderRadius: "8px" }}>
+            Submit Survey
+          </ButtonComponent>
         </div>
 
         {error && <Toast type="error" message={error} />}

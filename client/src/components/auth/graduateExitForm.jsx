@@ -13,7 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function GraduateExitSurvey() {
   const Base_Url = import.meta.env.VITE_API_URL;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const PLO_QUESTIONS = [
     { key: "plo1", text: "Prepared to enter professional life [PLO-1]" },
     { key: "plo2", text: "Analytical & problem-solving skills [PLO-2]" },
@@ -55,47 +56,17 @@ export default function GraduateExitSurvey() {
     e.preventDefault();
 
     const newErrors = {};
-
-    // Validate personal info
     ["department", "degree", "fullName", "email", "phone", "participation"].forEach((key) => {
-      if (!formData[key] || formData[key].trim() === "") {
-        newErrors[key] = "This field is required";
-      }
+      if (!formData[key]?.trim()) newErrors[key] = "This field is required";
     });
-
-    // Validate PLO ratings
     PLO_QUESTIONS.forEach((item) => {
-      if (!formData[item.key] || formData[item.key].trim() === "") {
-        newErrors[item.key] = "Please select a rating";
-      }
+      if (!formData[item.key]?.trim()) newErrors[item.key] = "Please select a rating";
     });
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    const alumniId = localStorage.getItem("alumniId");
-
-    // Backend expects PLO answers as separate keys
-    const payload = {
-
-      department: formData.department,
-      degree: formData.degree,
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      participation: formData.participation,
-      plo1: formData.plo1,
-      plo2: formData.plo2,
-      plo3: formData.plo3,
-      plo4: formData.plo4,
-      plo5: formData.plo5,
-      plo6: formData.plo6,
-      plo7: formData.plo7,
-      plo8: formData.plo8,
-      plo9: formData.plo9,
-      plo10: formData.plo10,
-    };
-
+    const payload = { ...formData };
     await post(payload);
     navigate("/register/form2");
   };
@@ -105,18 +76,18 @@ export default function GraduateExitSurvey() {
   return (
     <div className="modern-form-container container">
       <form onSubmit={handleSubmit} className="modern-form">
-        <div className="text-center mb-4">
+        <div className="text-center mb-5">
           <FormHeader>Graduate Exit Survey</FormHeader>
           <SubText>
             The SPRING - 25 Graduate Exit Survey collects valuable feedback from graduating students.
           </SubText>
         </div>
 
-        <div className="row g-4 mt-2">
+        <div className="row g-4">
           {/* LEFT SIDE */}
-          <div className="col-md-6">
-            <div className="form-card shadow-sm p-4">
-              <h5 className="section-title">Personal Information</h5>
+          <div className="col-lg-6">
+            <div className="form-card shadow-sm p-4 h-100">
+              <h5 className="section-title mb-4">Personal Information</h5>
 
               <DropDown
                 value={formData.department}
@@ -179,10 +150,9 @@ export default function GraduateExitSurvey() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="col-md-6">
-            <div className="form-card shadow-sm p-4">
-              <h5 className="section-title">PLO Rating Section</h5>
-
+          <div className="col-lg-6">
+            <div className="form-card shadow-sm p-4 h-100">
+              <h5 className="section-title mb-4">PLO Rating Section</h5>
               {PLO_QUESTIONS.map((item) => (
                 <div key={item.key} className="mb-3">
                   <label className="form-label">{item.text}</label>
@@ -205,8 +175,12 @@ export default function GraduateExitSurvey() {
         </div>
 
         {/* Submit Button */}
-        <div className="text-center mt-4">
-          <ButtonComponent type="submit" className="px-5">
+        <div className="text-center mt-5">
+          <ButtonComponent
+            type="submit"
+            className="px-5 py-2 fw-bold btn-success"
+            style={{ fontSize: "1.1rem", borderRadius: "8px" }}
+          >
             Submit Survey
           </ButtonComponent>
         </div>
