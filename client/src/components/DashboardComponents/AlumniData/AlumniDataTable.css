@@ -185,3 +185,144 @@
   overflow-y: auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
+.table-responsive {
+  /* Prevent the right-side horizontal scroll */
+  overflow-x: hidden !important;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle !important;
+}
+
+.btn.rounded-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Menu button */
+.menu-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+}
+
+.menu-btn:hover {
+  background: #2563eb;
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 100;
+  top: 35px;
+  right: 0;
+  flex-direction: column;
+}
+
+/* Dropdown button inside content */
+.dropdown-content button {
+  padding: 8px 12px;
+  border: none;
+  background: white;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.dropdown-content button:hover {
+  background: #f3f4f6;
+}
+
+/* Show dropdown on hover or active */
+.dropdown:hover .dropdown-content,
+.dropdown.active .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-dropdown {
+  position: relative;
+}
+
+/* Menu icon button */
+.dropdown-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.dropdown-icon-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Horizontal dropdown menu */
+.dropdown-menu-horizontal {
+  position: absolute;
+  top: 100%;
+  right: 0; /* align with button */
+  display: flex;
+  gap: 6px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 6px;
+  z-index: 1000; /* always on top */
+  white-space: nowrap;
+}
+
+/* Buttons inside dropdown */
+.dropdown-menu-horizontal button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f9fafb;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-menu-horizontal button:hover {
+  background: #e5e7eb;
+}
+
+/* Prevent table overflow from hiding dropdown */
+.table-card {
+  overflow: visible; /* important! */
+}

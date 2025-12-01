@@ -6,7 +6,7 @@ import Loader from "../../Loader/Loader";
 
 // ⚠️ IMPORTANT: Please ensure this import path is correct for your project
 import EditAlumni from "./EditAlumForm";
-import { useBeforeUnload } from "react-router-dom"; 
+import { useBeforeUnload } from "react-router-dom";
 
 
 // =========================================================
@@ -189,6 +189,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose, onDownload }) => {
   const formattedDepartmentStanding = formatAssessmentData(departmentStanding, 'department');
   const alumniEmail = alumniId?.email || email;
   const alumniDepartment = alumniId?.department || department;
+  
 
   return (
     <div className="survey-modal-overlay">
@@ -274,6 +275,7 @@ export default function AlumniDataWrapper() {
   const [showFilters, setShowFilters] = useState(false);
 
   // Modal States
+  const [openIndex, setOpenIndex] = useState(null);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [selectedAnnex1D, setSelectedAnnex1D] = useState(null);
@@ -540,7 +542,7 @@ export default function AlumniDataWrapper() {
               <th>Company</th>
               <th>Job Title</th>
               <th>Year</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -562,18 +564,37 @@ export default function AlumniDataWrapper() {
                   <td>{alumni.companyName || "--"}</td>
                   <td>{alumni.jobTitle || "--"}</td>
                   <td>{alumni.graduationYear}</td>
-                  <td className="action-icons">
-                    <i className="bi bi-file-earmark-text-fill survey-icon" onClick={() => handleViewAnnex1D(alumni)} title="View Annex 1D Survey"></i>
-                    <i className="bi bi-briefcase-fill survey-icon" onClick={() => handleViewEmployerFeedback(alumni)} title="View Employer Feedback"></i>
-                    <i className="bi bi-list-columns-reverse survey-icon" onClick={() => handleViewSurvey(alumni)} title="View Graduate Exit Survey"></i>
-                    
-                    {/* EDIT ACTION: Confirmed to set state and open the modal */}
-                    <i
-                      className="bi bi-pencil-square edit-icon"
-                      onClick={() => handleEditAlumni(alumni)}
-                      title="Edit Alumni"
-                    ></i>
-                  </td>
+                  
+<td style={{ position: "relative" }}>
+  <div className="action-dropdown">
+    <button
+      className="dropdown-icon-btn"
+      onClick={() => setOpenIndex(openIndex === i ? null : i)}
+    >
+      <i className="bi bi-three-dots-vertical"></i>
+    </button>
+
+    {openIndex === i && (
+      <div className="dropdown-menu-horizontal">
+        <button onClick={() => handleViewAnnex1D(alumni)}>
+          <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
+        </button>
+        <button onClick={() => handleViewEmployerFeedback(alumni)}>
+          <i className="bi bi-briefcase me-1"></i> Employer
+        </button>
+        <button onClick={() => handleViewSurvey(alumni)}>
+          <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
+        </button>
+        <button onClick={() => handleEditAlumni(alumni)}>
+          <i className="bi bi-pencil-square me-1"></i> Edit
+        </button>
+      </div>
+    )}
+  </div>
+</td>
+
+
+
                 </tr>
               ))
             )}

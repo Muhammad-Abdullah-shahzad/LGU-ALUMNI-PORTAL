@@ -40,7 +40,6 @@ export default function StatsPage({ data, delNotify, onAccept, rejectFunc, refet
                         bgImage={StatsCard3}
                     />
 
-
                     <LongCard
                         heading="Recent Notifications"
                         headKey='notificationType'
