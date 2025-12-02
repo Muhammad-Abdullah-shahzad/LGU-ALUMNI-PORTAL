@@ -28,13 +28,13 @@ export default function GraduateExitSurvey() {
   ];
 
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
-
+  const user = JSON.parse(localStorage.user)
   const [formData, setFormData] = useState({
-    department: "",
-    degree: "",
-    fullName: "",
-    email: "",
-    phone: "",
+    department: user.department,
+    degree: user.degree,
+    fullName: user.firstName +' ' + user.lastName,
+    email:user.email,
+    phone:user.phoneNumber,
     participation: "",
     plo1: "",
     plo2: "",
@@ -123,9 +123,9 @@ export default function GraduateExitSurvey() {
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
               >
                 <DropDown.Option value="">Select Department *</DropDown.Option>
-                <DropDown.Option value="Software Engineering">Software Engineering</DropDown.Option>
-                <DropDown.Option value="Computer Science">Computer Science</DropDown.Option>
-                <DropDown.Option value="Information Technology">Information Technology</DropDown.Option>
+                <DropDown.Option value="SE">Software Engineering</DropDown.Option>
+                <DropDown.Option value="CS">Computer Science</DropDown.Option>
+                <DropDown.Option value="IT">Information Technology</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="department" />
 
@@ -134,9 +134,9 @@ export default function GraduateExitSurvey() {
                 onChange={(e) => setFormData({ ...formData, degree: e.target.value })}
               >
                 <DropDown.Option value="">Select Degree *</DropDown.Option>
-                <DropDown.Option value="BS Software Engineering">BS Software Engineering</DropDown.Option>
-                <DropDown.Option value="BS Computer Science">BS Computer Science</DropDown.Option>
-                <DropDown.Option value="BS Information Technology">BS Information Technology</DropDown.Option>
+                <DropDown.Option value="BSSE">BS Software Engineering</DropDown.Option>
+                <DropDown.Option value="BSCS">BS Computer Science</DropDown.Option>
+                <DropDown.Option value="BSIT">BS Information Technology</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="degree" />
 

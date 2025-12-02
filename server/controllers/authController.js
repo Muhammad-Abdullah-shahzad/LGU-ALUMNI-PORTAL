@@ -92,7 +92,12 @@ async function loginUser(req, res) {
                 email: user.email,
                 role: user.role,
                 active: user.active,
-                formsFilled: user.formsFilled
+                formsFilled: user.formsFilled,
+                department:user.department,
+                degree:user.degree,
+                batch:user.batch,
+               phoneNumber:user.phoneNumber,
+               rollNo:user.rollNo
             }
         });
 
