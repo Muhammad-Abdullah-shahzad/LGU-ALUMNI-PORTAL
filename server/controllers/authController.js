@@ -99,7 +99,8 @@ async function loginUser(req, res) {
                phoneNumber:user.phoneNumber,
                rollNo:user.rollNo,
                graduationYear:user.graduationYear,
-               company:user.companyName
+               company:user.companyName,
+               employmentStatus:user.employmentStatus
             }
         });
 

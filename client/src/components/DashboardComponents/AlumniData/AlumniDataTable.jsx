@@ -490,6 +490,8 @@ export default function AlumniDataWrapper() {
     const idSet = getFilteredAlumniIdSet();
     const selectedSurveys = surveys.filter(s => {
       const aid = s.alumniId && s.alumniId._id ? String(s.alumniId._id) : String(s.alumniId);
+      // Logic: Download if the survey alumni ID is in the filtered list ID set. 
+      // If idSet is empty (no filters applied), download all (return true).
       return idSet.size === 0 ? true : idSet.has(aid);
     });
 
@@ -536,6 +538,8 @@ export default function AlumniDataWrapper() {
     const idSet = getFilteredAlumniIdSet();
     const selectedFeedbacks = feedbacks.filter(f => {
       const aid = f.alumniId && f.alumniId._id ? String(f.alumniId._id) : String(f.alumniId);
+      // Logic: Download if the feedback alumni ID is in the filtered list ID set. 
+      // If idSet is empty (no filters applied), download all (return true).
       return idSet.size === 0 ? true : idSet.has(aid);
     });
 
@@ -585,6 +589,8 @@ export default function AlumniDataWrapper() {
     const idSet = getFilteredAlumniIdSet();
     const selectedAnnexes = annexes.filter(s => {
       const aid = s.alumniId && s.alumniId._id ? String(s.alumniId._id) : String(s.alumniId);
+      // Logic: Download if the survey alumni ID is in the filtered list ID set. 
+      // If idSet is empty (no filters applied), download all (return true).
       return idSet.size === 0 ? true : idSet.has(aid);
     });
 
@@ -680,29 +686,33 @@ export default function AlumniDataWrapper() {
           />
         </div>
         <button className=" btn btn-success" onClick={() => setShowFilters(!showFilters)}><i className="bi bi-sliders"></i> Filters</button>
-        <button className=" btn btn-success" onClick={() => setShowDownload(!showDownload)}><i className="bi bi-sliders"></i> Download</button>
+        <button className=" btn btn-success" onClick={() => setShowDownload(!showDownload)}><i className="bi bi-download"></i> Download</button> {/* UPDATED ICON */}
       </div>
 
       {/* DOwnload PANEL */}
       {showDownload && (
-        <div className="filter-panel glass-card shadow-sm mt-3">
+        <div ref={downloadRef} className="filter-panel glass-card shadow-sm mt-3"> {/* ADDED ref={downloadRef} */}
           <div className="row g-3">
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleDownloadAlumniDataCSV(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text"></i> Basic Data
+                  <i className="bi bi-file-earmark-text me-1"></i> Basic Data
                 </button>      
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkGraduateExitDownload(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text"></i> Graduate Exit Survey
+                  <i className="bi bi-file-earmark-text me-1"></i> Graduate Exit Survey
                 </button>      
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkAnnex1DDownload(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text"></i> Annex Alumni Survey
+                  <i className="bi bi-file-earmark-text me-1"></i> Annex Alumni Survey
                 </button>      
             </div>
-
+            {/* <div className="col-md-3"> 
+                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkEmployerFeedbackDownload(); setShowDownload(false); }}>
+                  <i className="bi bi-file-earmark-text me-1"></i> Employer Feedback
+                </button>      
+            </div> */}
           </div>
         </div>
       )}
@@ -784,9 +794,9 @@ export default function AlumniDataWrapper() {
         <button onClick={() => handleViewAnnex1D(alumni)}>
           <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
         </button>
-        <button onClick={() => handleViewEmployerFeedback(alumni)}>
+        {/* <button onClick={() => handleViewEmployerFeedback(alumni)}>
           <i className="bi bi-briefcase me-1"></i> Employer
-        </button>
+        </button> */}
         <button onClick={() => handleViewSurvey(alumni)}>
           <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
         </button>

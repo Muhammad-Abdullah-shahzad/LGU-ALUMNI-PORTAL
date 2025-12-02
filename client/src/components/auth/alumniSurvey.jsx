@@ -18,19 +18,23 @@ export default function Annex1DAlumniSurvey() {
   const { put } = useUpdate(`${Base_Url}/user/update`);
   const navigate = useNavigate();
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
- const user = JSON.parse(localStorage.user);
+  const user = JSON.parse(localStorage.user);
   const [formData, setFormData] = useState({
-    program:user.degree,
-    department:user.department,
+    degree: user.degree,
+    department: user.department,
+     batch:user.batch,
+    employeeStatus:user.employeeStatus,
+    graduationYear:user.graduationYear,
+    company:user.company,
     selfAssessment: {},
     generalComments: "",
     careerOpportunities: "",
     departmentStanding: {},
-    name:user.firstName + ' ' + user.lastName,
-    organizationName:user.company,
+    name: user.firstName + ' ' + user.lastName,
+    organizationName: user.company,
     position: "",
-    graduationYear:user.graduationYear,
-    email:user.email,
+    graduationYear: user.graduationYear,
+    email: user.email,
     telephone: ""
   });
 
@@ -71,7 +75,7 @@ export default function Annex1DAlumniSurvey() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    const required = ["program", "department", "name", "email"];
+    const required = ["degree", "department", "name", "email"];
     const newErrors = {};
     required.forEach(field => {
       if (!formData[field]) newErrors[field] = "This field is required";
@@ -106,13 +110,13 @@ export default function Annex1DAlumniSurvey() {
           <div className="col-lg-12 col-md-6">
             <div className="form-card shadow-sm p-4 h-100">
               <h5 className="section-title mb-3">Program & Department</h5>
-              <DropDown value={formData.program} onChange={e => setFormData({ ...formData, program: e.target.value })}>
+              <DropDown value={formData.degree} onChange={e => setFormData({ ...formData, degree: e.target.value })}>
                 <DropDown.Option value={''}>Select Program</DropDown.Option>
                 <DropDown.Option value={"BSSE"} >Bachelor of Software Engineering</DropDown.Option>
                 <DropDown.Option value={"BSCS"}>Bachelor of Computer Science</DropDown.Option>
                 <DropDown.Option value={"BSIT"}>Bachelor of Computer Science</DropDown.Option>
               </DropDown>
-              <FormError errors={errors} errorKey="program" />
+              <FormError errors={errors} errorKey="degree" />
 
               <DropDown value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
                 <DropDown.Option>Select Department</DropDown.Option>
@@ -154,13 +158,13 @@ export default function Annex1DAlumniSurvey() {
               ))}
 
               <InputField label="Career Opportunities after graduation" placeholder="Maximum 100 characters" value={formData.careerOpportunities} onChange={e => setFormData({ ...formData, careerOpportunities: e.target.value })} />
-            <h5 className="section-title my-4">Alumni Information</h5>
-            {[["name", "Name"], ["organizationName", "Organization Name"], ["position", "Position in Organization"], ["graduationYear", "Year of Graduation"], ["email", "Email"], ["telephone", "Telephone"]].map(([key, label]) => (
-              <React.Fragment key={key}>
-                <InputField label={label} value={formData[key]} onChange={e => setFormData({ ...formData, [key]: e.target.value })} />
-                <FormError errors={errors} errorKey={key} />
-              </React.Fragment>
-            ))}
+              <h5 className="section-title my-4">Alumni Information</h5>
+              {[["name", "Name"], ["organizationName", "Organization Name"], ["position", "Position in Organization"], ["graduationYear", "Year of Graduation"], ["email", "Email"], ["telephone", "Telephone"]].map(([key, label]) => (
+                <React.Fragment key={key}>
+                  <InputField label={label} value={formData[key]} onChange={e => setFormData({ ...formData, [key]: e.target.value })} />
+                  <FormError errors={errors} errorKey={key} />
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>
