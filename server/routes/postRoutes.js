@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.post('/create', verifyToken,postController.createPost);
 
-router.delete('/del', postController.deletePost);
+router.delete('/del',verifyToken, postController.deletePost);
 
-router.get('/all', postController.getAllPosts);
+router.get('/all',verifyToken, postController.getAllPosts);
 
-router.get('/:postId', postController.getPostById);
+router.get('/:postId', verifyToken,postController.getPostById);
 
 module.exports = router;
