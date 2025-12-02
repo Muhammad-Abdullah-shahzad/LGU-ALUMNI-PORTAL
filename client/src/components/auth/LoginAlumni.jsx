@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonComponent from "../Button/Button";
 import InputField from "../InputField/InputField";
 import FormLayout from "../FormLayout/FormLayout";
@@ -12,11 +12,18 @@ import { useNavigate, Link } from "react-router-dom";
 import img from "../../assets/registerimg.png";
 
 export default function LoginAlumni() {
+
   const Base_URL = import.meta.env.VITE_API_URL;
   const { post, loading, error } = usePost(`${Base_URL}/auth/login`);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.token && localStorage.user) {
+      const user = JSON.parse(localStorage.user)
+      navigate(`/${user.role}/dashboard`)
+    }
+  }, [])
 
   if (loading) return <div>Loading...</div>; // You can replace with Loader component if you want
 
