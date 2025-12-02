@@ -11,9 +11,8 @@ import Toast from "../Toast/Toast";
 import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
+import img from "../../assets/registerimg.png";
 
-
-//Moazam
 export default function RegisterAlumni() {
   const Base_Url = import.meta.env.VITE_API_URL;
   const [formData, setFormData] = useState({
@@ -27,7 +26,7 @@ export default function RegisterAlumni() {
     password: "",
     department: "",
     active: 0,
-  role:'alumni',
+    role: "alumni",
     employmentStatus: "",
     jobTitle: "",
     graduationYear: "",
@@ -38,107 +37,265 @@ export default function RegisterAlumni() {
   const navigate = useNavigate();
   const { post, loading, error } = usePost(`${Base_Url}/auth/register`);
 
-
-
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
-    <React.Fragment>
-      <FormLayout onSubmit={(e) => RegisterAlumniUtils.handleSubmit(e, formData, setErrors, post, navigate)}>
-        <FormHeader >LAHORE GARRISON UNIVERSITY ALUMNI PORTAL</FormHeader>
-        <SubText>Fill Your Details To Continue</SubText>
-        <InputField type="text" label="Enter Your FirstName" placeholder="First Name Here" onChange={e => setFormData({ ...formData, firstName: e.target.value })} value={formData.firstName} />
-        <FormError errors={errors} errorKey="firstName" />
-        <InputField type="text" label="Enter Your Last Name" placeholder="Last Name Here" onChange={(e) => { setFormData({ ...formData, lastName: e.target.value }) }} value={formData.lastName} />
-        <FormError errors={errors} errorKey="lastName" />
-        <InputField type="email" label="Enter Your Email" placeholder="e.g xyx@lgu.edu.pk" onChange={(e) => { setFormData({ ...formData, email: e.target.value }) }} value={formData.email} />
-        <FormError errors={errors} errorKey="email" />
-        <InputField type="password" label="Enter Your Password" placeholder="Enter Strong Password" onChange={(e) => { setFormData({ ...formData, password: e.target.value }) }} value={formData.password} />
-        <FormError errors={errors} errorKey="password" />
-        <InputField type="text" label="Enter Your Cnic" placeholder="e.g xxxxx-xxxxxxx-x" onChange={(e) => { setFormData({ ...formData, cnic: e.target.value }) }} value={formData.cnic} />
-        <FormError errors={errors} errorKey="cnic" />
-        <DropDown
-          onChange={e => setFormData({ ...formData, batch: e.target.value })}
-          value={formData.batch}>
-          <DropDown.Option>Select Your Batch</DropDown.Option>
-          <DropDown.Option>Fa-2023</DropDown.Option>
-          <DropDown.Option>Fa-2022</DropDown.Option>
-          <DropDown.Option>Fa-2021</DropDown.Option>
-        </DropDown>
+    <div 
+      style={{
+        display: "flex",
+        height: "100vh",
+        width: "100%",
+        overflow: "hidden"
+      }}
+    >
+      {/* LEFT SECTION - 50% Fixed Background */}
+      <div
+        style={{
+          width: "50%",
+          height: "100vh",
+          background: `url(${img}) no-repeat center center`,
+          objectFit: "cover",
+          backgroundSize: "cover",
+          color: "white",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          padding: "60px 40px",
+          textAlign: "center",
+          position: "fixed",
+          left: 0,
+          top: 0
+        }}
+      >
+        <h1 style={{ 
+          fontSize: "48px", 
+          fontWeight: "700", 
+          marginBottom: "24px",
+          lineHeight: "1.2"
+        }}>
+          LGU Alumni Portal
+        </h1>
 
-        {/* Employment Status */}
-        <DropDown
-          onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })}
-          value={formData.employmentStatus}
-        >
-          <DropDown.Option>Select Employment Status</DropDown.Option>
-          <DropDown.Option>employed</DropDown.Option>
-          <DropDown.Option>unemployed</DropDown.Option>
-        </DropDown>
-        <FormError errors={errors} errorKey="employmentStatus" />
+        <p style={{ 
+          fontSize: "20px", 
+          opacity: 0.9, 
+          maxWidth: "80%",
+          lineHeight: "1.6"
+        }}>
+          Join our alumni network, stay connected, <br /> and access exclusive opportunities.
+        </p>
+      </div>
 
-        {/* Job Title */}
-        <InputField
-          type="text"
-          label="Job Title"
-          placeholder="e.g. Software Engineer"
-          onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-          value={formData.jobTitle}
-        />
-        <FormError errors={errors} errorKey="jobTitle" />
+      {/* RIGHT SECTION - 50% Scrollable Form */}
+      <div
+        style={{
+          width: "50%",
+          height: "100vh",
+          marginLeft: "50%",
+          overflowY: "scroll",
+          background: "#f5f7fa",
+        }}
+      >
+        <div style={{ 
+          width: "500px",
+          margin: "0 auto",
+        }}>
+          <FormLayout
+          style={{ marginTop: "600px", marginBottom: "40px" }}
+            onSubmit={(e) =>
+              RegisterAlumniUtils.handleSubmit(
+                e,
+                formData,
+                setErrors,
+                post,
+                navigate
+              )
+            }
+          >
+            <div style={{ marginBottom: "0px" }}>
+              <FormHeader>Register as Alumni</FormHeader>
+              <SubText>Fill your details to continue</SubText>
+            </div>
 
-        {/* Company Name */}
-        <InputField
-          type="text"
-          label="Company Name"
-          placeholder="e.g. Systems Limited"
-          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-          value={formData.companyName}
-        />
-        <FormError errors={errors} errorKey="companyName" />
+            {/* First Name - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="text" 
+                label="First Name"
+                placeholder="Enter your first name"
+                onChange={e => setFormData({ ...formData, firstName: e.target.value })}
+                value={formData.firstName}
+              />
+              <FormError errors={errors} errorKey="firstName" />
+            </div>
 
-        {/* Graduation Year */}
-        <InputField
-          type="number"
-          label="Graduation Year"
-          placeholder="e.g. 2024"
-          onChange={(e) => setFormData({ ...formData, graduationYear: e.target.value })}
-          value={formData.graduationYear}
-        />
-        <FormError errors={errors} errorKey="graduationYear" />
+            {/* Last Name - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="text" 
+                label="Last Name"
+                placeholder="Enter your last name"
+                onChange={e => setFormData({ ...formData, lastName: e.target.value })}
+                value={formData.lastName}
+              />
+              <FormError errors={errors} errorKey="lastName" />
+            </div>
 
-        <FormError errors={errors} errorKey="batch" />
-        <DropDown
-          onChange={e => setFormData({ ...formData, department: e.target.value })}
-          value={formData.department}
-        >
-          <DropDown.Option>Select Your Department</DropDown.Option>
-          <DropDown.Option>SE</DropDown.Option>
-          <DropDown.Option>CS</DropDown.Option>
-          <DropDown.Option>IT</DropDown.Option>
+            {/* Email - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="email" 
+                label="Email Address"
+                placeholder="e.g xyz@lgu.edu.pk"
+                onChange={e => setFormData({ ...formData, email: e.target.value })}
+                value={formData.email}
+              />
+              <FormError errors={errors} errorKey="email" />
+            </div>
 
-        </DropDown>
-        <FormError errors={errors} errorKey="department" />
-        <DropDown
-          onChange={e => setFormData({ ...formData, degree: e.target.value })}
-          value={formData.degree}
-        >
-          <DropDown.Option>Select Your Degree</DropDown.Option>
-          <DropDown.Option>BSSE</DropDown.Option>
-          <DropDown.Option>BSCS</DropDown.Option>
-          <DropDown.Option>BSIT</DropDown.Option>
+            {/* Password - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="password" 
+                label="Password"
+                placeholder="Enter a strong password"
+                onChange={e => setFormData({ ...formData, password: e.target.value })}
+                value={formData.password}
+              />
+              <FormError errors={errors} errorKey="password" />
+            </div>
 
-        </DropDown>
-        <FormError errors={errors} errorKey="degree" />
-        <InputField type="number" placeholder="Enter RollNo e.g 202" label="Enter Your Roll No" onChange={(e) => { setFormData({ ...formData, rollNo: e.target.value }) }} value={formData.rollNo} />
-        <FormError errors={errors} errorKey="rollNo" />
-        <ButtonComponent type="submit">Register</ButtonComponent>
+            {/* CNIC - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="text" 
+                label="CNIC"
+                placeholder="xxxxx-xxxxxxx-x"
+                onChange={e => setFormData({ ...formData, cnic: e.target.value })}
+                value={formData.cnic}
+              />
+              <FormError errors={errors} errorKey="cnic" />
+            </div>
 
-        {error && <Toast type="error" message={error} />}
-        <SubText>Already Have Account ? <Link to='/login' >LogIn</Link></SubText>
-      </FormLayout>
-    </React.Fragment>
-  )
+            {/* Department - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, department: e.target.value })}
+                value={formData.department}
+              >
+                <DropDown.Option>Select Your Department</DropDown.Option>
+                <DropDown.Option>SE</DropDown.Option>
+                <DropDown.Option>CS</DropDown.Option>
+                <DropDown.Option>IT</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="department" />
+            </div>
+
+            {/* Degree - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, degree: e.target.value })}
+                value={formData.degree}
+              >
+                <DropDown.Option>Select Your Degree</DropDown.Option>
+                <DropDown.Option>BSSE</DropDown.Option>
+                <DropDown.Option>BSCS</DropDown.Option>
+                <DropDown.Option>BSIT</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="degree" />
+            </div>
+
+            {/* Batch - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, batch: e.target.value })}
+                value={formData.batch}
+              >
+                <DropDown.Option>Select Your Batch</DropDown.Option>
+                <DropDown.Option>Fa-2023</DropDown.Option>
+                <DropDown.Option>Fa-2022</DropDown.Option>
+                <DropDown.Option>Fa-2021</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="batch" />
+            </div>
+
+            {/* Roll No - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField 
+                type="number" 
+                placeholder="e.g 202"
+                label="Roll Number"
+                onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
+                value={formData.rollNo}
+              />
+              <FormError errors={errors} errorKey="rollNo" />
+            </div>
+
+            {/* Graduation Year - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField
+                type="number"
+                label="Graduation Year"
+                placeholder="e.g 2024"
+                onChange={(e) => setFormData({ ...formData, graduationYear: e.target.value })}
+                value={formData.graduationYear}
+              />
+              <FormError errors={errors} errorKey="graduationYear" />
+            </div>
+
+            {/* Employment Status - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, employmentStatus: e.target.value })}
+                value={formData.employmentStatus}
+              >
+                <DropDown.Option>Select Employment Status</DropDown.Option>
+                <DropDown.Option>employed</DropDown.Option>
+                <DropDown.Option>unemployed</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="employmentStatus" />
+            </div>
+
+            {/* Job Title - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField
+                type="text"
+                label="Job Title"
+                placeholder="e.g Software Engineer"
+                onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                value={formData.jobTitle}
+              />
+              <FormError errors={errors} errorKey="jobTitle" />
+            </div>
+
+            {/* Company Name - Full Width */}
+            <div style={{ marginBottom: "40px" }}>
+              <InputField
+                type="text"
+                label="Company Name"
+                placeholder="e.g Systems Limited"
+                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                value={formData.companyName}
+              />
+              <FormError errors={errors} errorKey="companyName" />
+            </div>
+
+            {/* Submit Button */}
+            <div style={{ marginBottom: "20px" }}>
+              <ButtonComponent type="submit">Register</ButtonComponent>
+            </div>
+
+            {error && <Toast type="error" message={error} />}
+
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              <SubText>
+                Already Have Account? <Link to="/login">Log In</Link>
+              </SubText>
+            </div>
+          </FormLayout>
+        </div>
+      </div>
+    </div>
+  );
 }

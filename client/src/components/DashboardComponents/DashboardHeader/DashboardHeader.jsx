@@ -41,13 +41,11 @@ export default function DashboardHeader({ title, onLogout }) {
       </h1>
 
       {/* Logout button */}
-      <div>
+      <div className="d-flex">
       <button
         type="button"
         className="btn btn-success btn-sm rounded-circle me-2"
         style={{ width: 36, height: 36 }}
-        title="Delete"
-        // onClick={}
       >
         <i className="bi bi-bell-fill"></i>
       </button>

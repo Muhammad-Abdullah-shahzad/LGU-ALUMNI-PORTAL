@@ -51,7 +51,11 @@ export default function PostsSection({ readMode = false }) {
   if (postLoading || loading) return <Loader />;
 
   return (
-    <div className="container px-2 px-md-4 py-3">
+    <div className="container px-2 px-md-4 py-3 ">
+      <h1 className="fs-1 fw-bold mb-2 text-center">Community Posts</h1>
+      <p className="text-muted fs-5 text-center">
+        Share your thoughts, experiences, and connect with alumni members
+      </p>
       {readMode ||
         <AddPost title="Add Post" postReq={post} refetch={refetch} />}
       <div className="mt-4">

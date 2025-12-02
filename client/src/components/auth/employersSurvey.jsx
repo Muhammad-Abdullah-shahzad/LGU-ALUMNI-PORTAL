@@ -73,7 +73,6 @@ export default function EmployerSurveyForm() {
         {/* Header */}
         <div className="text-center mb-4">
           <FormHeader>Employer Survey</FormHeader>
-          <SubText>(To be filled in by Employer after completion of each academic year)</SubText>
           <SubText>This survey pertains to LGU graduates employed at your organization.</SubText>
         </div>
 
@@ -186,7 +185,7 @@ export default function EmployerSurveyForm() {
 
         {/* Submit Button */}
         <div className="text-center mt-4">
-          <ButtonComponent type="submit" className="px-5">Submit Survey</ButtonComponent>
+          <ButtonComponent type="submit" className="px-5 btn-success">Submit Survey</ButtonComponent>
         </div>
 
         {error && <Toast type="error" message={error} />}

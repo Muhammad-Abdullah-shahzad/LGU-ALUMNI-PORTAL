@@ -16,7 +16,7 @@ function SidebarNav(props) {
         padding: "10px"
       }}
     >
-      <ul className="nav nav-pills flex-column mb-auto">
+      <ul className="nav nav-pills flex-column mb-auto ">
         {props.children}
       </ul>
     </div>

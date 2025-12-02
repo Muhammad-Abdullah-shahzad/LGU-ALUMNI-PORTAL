@@ -36,7 +36,7 @@ export default function DashboardLayout(props) {
 
           {/* Mobile Toggle Button */}
           <button
-            className="btn btn-primary d-md-none mb-3"
+            className="btn btn-success d-md-none mb-3"
             data-bs-toggle="offcanvas"
             data-bs-target="#mobileSidebar"
           >
