@@ -21,9 +21,9 @@ router.post("/employer-feedback", verifyToken, submitEmployerFeedback);
 
 router.post("/exit", verifyToken, submitGraduateExitSurvey);
 
-router.get("/employer-feedback",getEmployerFeedbacks)
+router.get("/employer-feedback",verifyToken,getEmployerFeedbacks)
 
 // MAIN ROUTE = /surveys
 router.post("/annex1D",verifyToken, submitAnnex1D);
-router.get("/annex1D", getAllAnnex1D);
+router.get("/annex1D",verifyToken, getAllAnnex1D);
 module.exports = router;
