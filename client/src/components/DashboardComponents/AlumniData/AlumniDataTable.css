@@ -77,6 +77,8 @@
 .filter-panel {
   border-radius: 16px;
   padding: 20px;
+  width: 100%;
+    margin-top: 15px !important;
 }
 
 .filter-label {
@@ -325,4 +327,33 @@
 /* Prevent table overflow from hiding dropdown */
 .table-card {
   overflow: visible; /* important! */
+}
+
+.dropdown-container {
+    /* This makes the download button's container the anchor point for the absolute dropdown */
+    position: relative;
+    /* Optional: Ensure the button and dropdown content display nicely in the top-bar */
+    display: inline-block;
+}
+
+/* 2. Dropdown Content for Absolute Positioning */
+.download-dropdown {
+    /* This is the key fix: it takes the element out of the normal flow */
+    position: absolute;
+    /* Position the dropdown below the button */
+    top: 100%; /* Places it right below the button's height */
+    right: 0;  /* Aligns the right edge of the dropdown with the right edge of the button's container */
+    /* If you want it aligned to the left: left: 0; */
+
+    /* Add some spacing */
+    margin-top: 10px; 
+    
+    /* Set a width so it's readable */
+    min-width: 400px; 
+    
+    /* Ensure it appears above other content */
+    z-index: 1000; 
+    
+    /* Optional: Add padding/styling if the filter-panel's default isn't quite right for a dropdown */
+    padding: 15px; 
 }

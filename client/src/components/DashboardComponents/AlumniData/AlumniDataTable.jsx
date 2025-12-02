@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import "./alumniDataTable.css";
 import { useFetch } from "../../../hooks/useFetch";
 import { useUpdate } from "../../../hooks/useUpdate"; 
@@ -7,7 +7,6 @@ import Loader from "../../Loader/Loader";
 // ⚠️ IMPORTANT: Please ensure this import path is correct for your project
 import EditAlumni from "./EditAlumForm";
 import { useBeforeUnload } from "react-router-dom";
-
 
 // =========================================================
 // 1. CSV Download Utility (NEW)
@@ -284,6 +283,10 @@ export default function AlumniDataWrapper() {
   const [editModal, setEditModal] = useState(false);
   const [selectedAlumni, setSelectedAlumni] = useState({});
 
+  // Download dropdown state
+  const [showDownload, setShowDownload] = useState(false);
+  const downloadRef = useRef(null);
+
   const users = alumniData?.users || [];
 
   // --- HANDLER FOR UPDATE LOGIC (KEY FIX APPLIED HERE) ---
@@ -336,7 +339,6 @@ export default function AlumniDataWrapper() {
   }
 
   // --- DOWNLOAD HANDLERS FOR INDIVIDUAL SURVEYS (NEW) ---
-
   const handleDownloadAlumniDataCSV = (alumni) => {
     const listToDownload = alumni ? [alumni] : filtered.length > 0 ? filtered : users;
     if (!listToDownload || listToDownload.length === 0) { alert("No alumni data available to download."); return; }
@@ -460,6 +462,191 @@ export default function AlumniDataWrapper() {
   });
   // --- End Filtering Logic ---
 
+  // Click outside to close download panel
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (downloadRef.current && !downloadRef.current.contains(e.target)) {
+        setShowDownload(false);
+      }
+    };
+    if (showDownload) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [showDownload]);
+
+  // Helper: get set of filtered alumni IDs
+  const getFilteredAlumniIdSet = () => {
+    const ids = new Set();
+    filtered.forEach(u => {
+      if (u._id) ids.add(String(u._id));
+    });
+    return ids;
+  };
+
+  // --- BULK DOWNLOAD HANDLERS (for dropdown buttons) ---
+  const handleBulkGraduateExitDownload = () => {
+    const surveys = surveyDetails?.data || [];
+    const idSet = getFilteredAlumniIdSet();
+    const selectedSurveys = surveys.filter(s => {
+      const aid = s.alumniId && s.alumniId._id ? String(s.alumniId._id) : String(s.alumniId);
+      return idSet.size === 0 ? true : idSet.has(aid);
+    });
+
+    if (!selectedSurveys || selectedSurveys.length === 0) {
+      alert("No Graduate Exit Surveys found for the current filters.");
+      return;
+    }
+
+    // Collect union of question keys across all selected surveys
+    const questionKeySet = new Set();
+    selectedSurveys.forEach(s => {
+      const qs = s.questions || [];
+      qs.forEach(q => questionKeySet.add(q.key.toUpperCase()));
+    });
+    const questionKeys = Array.from(questionKeySet).sort();
+
+    const baseHeaders = ["Alumni Name", "Email", "Department", "Degree", "Phone", "Participation", "Submitted Date"];
+    const headers = [...baseHeaders, ...questionKeys];
+
+    const rows = selectedSurveys.map(s => {
+      const name = s.fullName || (s.alumniId && s.alumniId.fullName) || "";
+      const email = s.email || (s.alumniId && s.alumniId.email) || "";
+      const department = s.department || (s.alumniId && s.alumniId.department) || "";
+      const degree = s.degree || "";
+      const phone = s.phone || "";
+      const participation = s.participation || "";
+      const submitted = s.submittedAt ? new Date(s.submittedAt).toLocaleDateString() : "";
+
+      const answerMap = {};
+      (s.questions || []).forEach(q => {
+        answerMap[q.key.toUpperCase()] = q.answer;
+      });
+
+      const questionAnswers = questionKeys.map(k => answerMap[k] || "");
+      return [name, email, department, degree, phone, participation, submitted, ...questionAnswers];
+    });
+
+    downloadCSV("graduate_exit_all.csv", headers, rows);
+    setShowDownload(false);
+  };
+
+  const handleBulkEmployerFeedbackDownload = () => {
+    const feedbacks = employerFeedbackData?.data || [];
+    const idSet = getFilteredAlumniIdSet();
+    const selectedFeedbacks = feedbacks.filter(f => {
+      const aid = f.alumniId && f.alumniId._id ? String(f.alumniId._id) : String(f.alumniId);
+      return idSet.size === 0 ? true : idSet.has(aid);
+    });
+
+    if (!selectedFeedbacks || selectedFeedbacks.length === 0) {
+      alert("No Employer Feedback forms found for the current filters.");
+      return;
+    }
+
+    // standard PLO keys & department keys (keep consistent)
+    const departmentKeys = { ai: "AI", devDesign: "Development & Design", marketing: "Digital Marketing", graphics: "Graphics Designing", analytics: "Data Analytics", cyber: "Cyber Security", technical: "Technical", it: "IT", rnd: "R&D", other: "Other" };
+    const ploKeys = { plo3_problemSolving: "Problem formulation & solving (PLO-3)", plo2_dataAnalysis: "Data collection & analysis (PLO-2)", plo1_theoryToPractice: "Theory to practice (PLO-1)", plo4_judgement: "Judgment & decision-making (PLO-4)", plo5_technicalSkills: "Technical / IT Skills (PLO-5)", plo6_teamwork: "Teamwork (PLO-6)", plo7_communication: "Communication skills (PLO-7)", plo8_societalAwareness: "Societal & sustainability awareness (PLO-8)", plo9_ethics: "Workplace ethics (PLO-9)", plo10_independentThinking: "Independent thinking (PLO-10)", plo10_outOfBox: "Out-of-box thinking (PLO-10)" };
+
+    const baseHeaders = ["Company Name", "Employer Name", "Designation", "Employer Email", "Employer Phone", "Internee Name", "Internee Discipline", "Total LGU Interns", "Dept Intern Count", "Submitted Date", "General Comments"];
+    const ploHeaders = Object.values(ploKeys);
+    // For departments, include all department labels to keep columns consistent
+    const deptHeaders = Object.values(departmentKeys);
+
+    const headers = [...baseHeaders, ...ploHeaders, ...deptHeaders];
+
+    const rows = selectedFeedbacks.map(f => {
+      const baseRow = [
+        f.companyName || "",
+        f.employerName || "",
+        f.designation || "",
+        f.email || "",
+        f.phone || "",
+        f.interneeName || "",
+        f.interneeDiscipline || "",
+        f.totalInterneeCount || "",
+        f.departmentInternCount || "",
+        f.submittedAt ? new Date(f.submittedAt).toLocaleDateString() : "",
+        f.comments || ""
+      ];
+
+      const ploAnswers = Object.keys(ploKeys).map(k => (f.ploRatings && f.ploRatings[k]) ? f.ploRatings[k] : "");
+      const deptAnswers = Object.keys(departmentKeys).map(k => (f.departmentCounts && f.departmentCounts[k]) ? f.departmentCounts[k] : "");
+
+      return [...baseRow, ...ploAnswers, ...deptAnswers];
+    });
+
+    downloadCSV("employer_feedback_all.csv", headers, rows);
+    setShowDownload(false);
+  };
+
+  const handleBulkAnnex1DDownload = () => {
+    const annexes = annex1dData?.surveys || [];
+    const idSet = getFilteredAlumniIdSet();
+    const selectedAnnexes = annexes.filter(s => {
+      const aid = s.alumniId && s.alumniId._id ? String(s.alumniId._id) : String(s.alumniId);
+      return idSet.size === 0 ? true : idSet.has(aid);
+    });
+
+    if (!selectedAnnexes || selectedAnnexes.length === 0) {
+      alert("No Annex 1D surveys found for the current filters.");
+      return;
+    }
+
+    // Gather union of self assessment keys and department standing keys across selected surveys
+    const selfKeySet = new Set();
+    const deptKeySet = new Set();
+
+    selectedAnnexes.forEach(s => {
+      if (s.selfAssessment) {
+        Object.keys(s.selfAssessment).forEach(k => selfKeySet.add(k));
+      }
+      if (s.departmentStanding) {
+        Object.keys(s.departmentStanding).forEach(k => deptKeySet.add(k));
+      }
+    });
+
+    const selfKeys = Array.from(selfKeySet).map(k => parseInt(k)).sort((a,b) => a-b);
+    const deptKeys = Array.from(deptKeySet).map(k => parseInt(k)).sort((a,b) => a-b);
+
+    const baseHeaders = ["Name", "Email", "Telephone", "Organization", "Position", "Graduation Year", "Program", "Department", "Submitted Date", "General Comments", "Career Opportunities"];
+    const selfHeaders = selfKeys.map(k => {
+      const label = SELF_ASSESSMENT_LABELS.find(l => l.id === k)?.text || `Self_Q${k}`;
+      return `Self_Q${k}: ${label}`;
+    });
+    const deptHeaders = deptKeys.map(k => {
+      const label = DEPARTMENT_STANDING_LABELS.find(l => l.id === k)?.text || `Dept_Q${k}`;
+      return `Dept_Q${k}: ${label}`;
+    });
+
+    const headers = [...baseHeaders, ...selfHeaders, ...deptHeaders];
+
+    const rows = selectedAnnexes.map(s => {
+      const name = s.name || (s.alumniId && s.alumniId.fullName) || "";
+      const email = s.email || (s.alumniId && s.alumniId.email) || "";
+      const telephone = s.telephone || "";
+      const organizationName = s.organizationName || "";
+      const position = s.position || "";
+      const graduationYear = s.graduationYear || "";
+      const program = s.program || "";
+      const department = s.department || "";
+      const submitted = s.submittedAt ? new Date(s.submittedAt).toLocaleDateString() : "";
+      const generalComments = s.generalComments || "";
+      const careerOpportunities = s.careerOpportunities || "";
+
+      const selfMap = s.selfAssessment || {};
+      const deptMap = s.departmentStanding || {};
+
+      const selfAnswers = selfKeys.map(k => selfMap[k] || "");
+      const deptAnswers = deptKeys.map(k => deptMap[k] || "");
+
+      return [name, email, telephone, organizationName, position, graduationYear, program, department, submitted, generalComments, careerOpportunities, ...selfAnswers, ...deptAnswers];
+    });
+
+    downloadCSV("annex1d_all.csv", headers, rows);
+    setShowDownload(false);
+  };
+
   // Combine loading states
   if (alumniLoading || surveyLoading || feedbackLoading || annex1dLoading || updateLoading) return <Loader />;
 
@@ -481,7 +668,7 @@ export default function AlumniDataWrapper() {
         />
       )}
 
-      {/* TOP BAR */}
+       {/* TOP BAR */}
       <div className="top-bar glass-card ">
         <div className="search-box full-width">
           <i className="bi bi-search"></i>
@@ -493,35 +680,53 @@ export default function AlumniDataWrapper() {
           />
         </div>
         <button className=" btn btn-success" onClick={() => setShowFilters(!showFilters)}><i className="bi bi-sliders"></i> Filters</button>
-        <button className=" btn btn-success" onClick={handleDownloadCSV}><i className="bi bi-download"></i> Download</button>
+        <button className=" btn btn-success" onClick={() => setShowDownload(!showDownload)}><i className="bi bi-sliders"></i> Download</button>
       </div>
+
+      {/* DOwnload PANEL */}
+      {showDownload && (
+        <div className="filter-panel glass-card shadow-sm mt-3">
+          <div className="row g-3">
+            <div className="col-md-4">
+                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleDownloadAlumniDataCSV(); setShowDownload(false); }}>
+                  <i className="bi bi-file-earmark-text"></i> Basic Data
+                </button>      
+            </div>
+            <div className="col-md-4">
+                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkGraduateExitDownload(); setShowDownload(false); }}>
+                  <i className="bi bi-file-earmark-text"></i> Graduate Exit Survey
+                </button>      
+            </div>
+            <div className="col-md-4">
+                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkAnnex1DDownload(); setShowDownload(false); }}>
+                  <i className="bi bi-file-earmark-text"></i> Annex Alumni Survey
+                </button>      
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* FILTER PANEL */}
       {showFilters && (
         <div className="filter-panel glass-card shadow-sm mt-3">
           <div className="row g-3">
             <div className="col-md-2">
-              <label className="filter-label">Degree</label>
-              <select className="filter-select" value={filters.degree} onChange={(e) => setFilters({ ...filters, degree: e.target.value })}><option value="">All</option>{degrees.map((d, i) => (<option key={i} value={d}>{d}</option>))}</select>
+              <select className="filter-select" value={filters.degree} onChange={(e) => setFilters({ ...filters, degree: e.target.value })}><option value="">Degree</option>{degrees.map((d, i) => (<option key={i} value={d}>{d}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <label className="filter-label">Batch</label>
-              <select className="filter-select" value={filters.batch} onChange={(e) => setFilters({ ...filters, batch: e.target.value })}><option value="">All</option>{batches.map((b, i) => (<option key={i} value={b}>{b}</option>))}</select>
+              <select className="filter-select" value={filters.batch} onChange={(e) => setFilters({ ...filters, batch: e.target.value })}><option value="">Batch</option>{batches.map((b, i) => (<option key={i} value={b}>{b}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <label className="filter-label">Status</label>
-              <select className="filter-select" value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">All</option><option value="employed">Employed</option><option value="unemployed">Unemployed</option></select>
+              <select className="filter-select" value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">Status</option><option value="employed">Employed</option><option value="unemployed">Unemployed</option></select>
             </div>
             <div className="col-md-2">
-              <label className="filter-label">Year</label>
-              <select className="filter-select" value={filters.year} onChange={(e) => setFilters({ ...filters, year: e.target.value })}><option value="">All</option>{years.map((y, i) => (<option key={i} value={y}>{y}</option>))}</select>
+              <select className="filter-select" value={filters.year} onChange={(e) => setFilters({ ...filters, year: e.target.value })}><option value="">Year</option>{years.map((y, i) => (<option key={i} value={y}>{y}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <label className="filter-label">Company</label>
-              <select className="filter-select" value={filters.company} onChange={(e) => setFilters({ ...filters, company: e.target.value })}><option value="">All</option>{companies.map((c, i) => (<option key={i} value={c}>{c}</option>))}</select>
+              <select className="filter-select" value={filters.company} onChange={(e) => setFilters({ ...filters, company: e.target.value })}><option value="">Company</option>{companies.map((c, i) => (<option key={i} value={c}>{c}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <label className="filter-label">&nbsp;</label>
               <button className="reset-btn w-100" onClick={() => setFilters({ degree: "", batch: "", status: "", year: "", company: "", })}>Reset</button>
             </div>
           </div>
@@ -529,7 +734,7 @@ export default function AlumniDataWrapper() {
       )}
 
       {/* TABLE */}
-      <div className="table-card glass-card shadow-sm mt-4">
+      <div className="table-card glass-card shadow-sm mt-4 z-0">
         <table className="table interactive-table">
           <thead>
             <tr>
@@ -592,8 +797,6 @@ export default function AlumniDataWrapper() {
     )}
   </div>
 </td>
-
-
 
                 </tr>
               ))

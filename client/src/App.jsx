@@ -24,9 +24,7 @@ export default function App() {
           <Route path="/" element={<LoginAlumni />} />
           <Route path="/register" element={<RegisterAlumni />} />
           <Route path="/register/form1" element={<GraduateExitForm />} />
-          <Route path="/register/form2" element={<InternshipEmployerFeedbackForm />} />
-          <Route path="/register/form3" element={<EmployerSurvey />} />
-          <Route path="/register/form4" element={<AlumniSurvey />} />
+          <Route path="/register/form2" element={<AlumniSurvey />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/alumni/dashboard" element={<AlumniDashboard />} />
           <Route path="/president/dashboard" element={<PresidentDashboard />} />
