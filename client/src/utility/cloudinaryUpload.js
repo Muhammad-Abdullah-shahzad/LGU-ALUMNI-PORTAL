@@ -10,7 +10,7 @@ export async function cloudinaryUpload(file) {
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     {
       method: "POST",
-      body: formData,
+      body: formData ,
     }
   );
 

@@ -39,7 +39,7 @@ export default class AuthUtility {
                     navigate("/alumni/dashboard")
                 }
                 else{
-                    navigate("/register/form1")
+                    navigate("/register/graduateExitSurvey")
                 }
             }
             else if (user.role==="president"){

@@ -17,18 +17,13 @@ app.use(cors())
 app.use(express.json())
 connectDB();
 
-
-
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/post", postRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/user", userRoutes);
 app.use("/survey", surveyRoutes);
-app.use('/forum',forumRoutes)
-
-
-
+app.use('/forum', forumRoutes);
 
 
 app.listen(5000, () => {

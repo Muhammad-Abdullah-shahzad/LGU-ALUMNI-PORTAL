@@ -18,7 +18,7 @@ export default function App() {
     <React.Fragment>
       <ErrorBoundary>
         <Routes>
-          <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
+          <Route path="/coordinator/dashboard" element={< CoordinatorDashboard />} />
           <Route path="/alumni/pending" element={<FallBack />} />
           <Route path="/login" element={<LoginAlumni />} />
           <Route path="/" element={<LoginAlumni />} />
