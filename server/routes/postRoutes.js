@@ -4,9 +4,9 @@ const { verifyToken } = require('../middleware/verifyJWT');
 const { verifyRoles } = require('../middleware/verifyRole')
 const router = express.Router();
 
-router.post('/create', verifyToken, verifyRoles('coordinator', 'president'), postController.createPost);
+router.post('/create', verifyToken, postController.createPost);
 
-router.delete('/del', verifyToken, verifyRoles('coordinator', 'president'), postController.deletePost);
+router.delete('/del', verifyToken, postController.deletePost);
 
 router.get('/all', verifyToken, postController.getAllPosts);
 
