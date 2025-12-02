@@ -8,8 +8,8 @@ router.post('/create', verifyToken, verifyRoles('coordinator', 'president'), pos
 
 router.delete('/del', verifyToken, verifyRoles('coordinator', 'president'), postController.deletePost);
 
-router.get('/all', verifyToken, verifyRoles('coordinator', 'president'), postController.getAllPosts);
+router.get('/all', verifyToken, postController.getAllPosts);
 
-router.get('/:postId', verifyToken, verifyRoles('coordinator', 'president'), postController.getPostById);
+router.get('/:postId', verifyToken,  postController.getPostById);
 
 module.exports = router;
