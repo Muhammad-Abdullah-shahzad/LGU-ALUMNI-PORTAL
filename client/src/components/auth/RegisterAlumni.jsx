@@ -216,6 +216,15 @@ export default function RegisterAlumni() {
                 <DropDown.Option>Fa-2023</DropDown.Option>
                 <DropDown.Option>Fa-2022</DropDown.Option>
                 <DropDown.Option>Fa-2021</DropDown.Option>
+                <DropDown.Option>Fa-2020</DropDown.Option>
+                <DropDown.Option>Fa-2019</DropDown.Option>
+                <DropDown.Option>Fa-2018</DropDown.Option>
+                <DropDown.Option>Fa-2017</DropDown.Option>
+                <DropDown.Option>Fa-2016</DropDown.Option>
+                <DropDown.Option>Fa-2015</DropDown.Option>
+                <DropDown.Option>Fa-2014</DropDown.Option>
+                <DropDown.Option>Fa-2013</DropDown.Option>
+                <DropDown.Option>Fa-2012</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="batch" />
             </div>
