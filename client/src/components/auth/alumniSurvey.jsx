@@ -18,19 +18,19 @@ export default function Annex1DAlumniSurvey() {
   const { put } = useUpdate(`${Base_Url}/user/update`);
   const navigate = useNavigate();
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
-
+ const user = JSON.parse(localStorage.user);
   const [formData, setFormData] = useState({
-    program: "",
-    department: "",
+    program:user.degree,
+    department:user.department,
     selfAssessment: {},
     generalComments: "",
     careerOpportunities: "",
     departmentStanding: {},
-    name: "",
-    organizationName: "",
+    name:user.firstName + ' ' + user.lastName,
+    organizationName:user.company,
     position: "",
-    graduationYear: "",
-    email: "",
+    graduationYear:user.graduationYear,
+    email:user.email,
     telephone: ""
   });
 
@@ -107,16 +107,18 @@ export default function Annex1DAlumniSurvey() {
             <div className="form-card shadow-sm p-4 h-100">
               <h5 className="section-title mb-3">Program & Department</h5>
               <DropDown value={formData.program} onChange={e => setFormData({ ...formData, program: e.target.value })}>
-                <DropDown.Option>Select Program</DropDown.Option>
-                <DropDown.Option>Bachelor of Software Engineering</DropDown.Option>
-                <DropDown.Option>Bachelor of Computer Science</DropDown.Option>
+                <DropDown.Option value={''}>Select Program</DropDown.Option>
+                <DropDown.Option value={"BSSE"} >Bachelor of Software Engineering</DropDown.Option>
+                <DropDown.Option value={"BSCS"}>Bachelor of Computer Science</DropDown.Option>
+                <DropDown.Option value={"BSIT"}>Bachelor of Computer Science</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="program" />
 
               <DropDown value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
                 <DropDown.Option>Select Department</DropDown.Option>
-                <DropDown.Option>Software Engineering</DropDown.Option>
-                <DropDown.Option>Computer Science</DropDown.Option>
+                <DropDown.Option value={'SE'} >Software Engineering</DropDown.Option>
+                <DropDown.Option value={'CS'}>Computer Science</DropDown.Option>
+                <DropDown.Option value={'IT'}>Computer Science</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="department" />
             </div>

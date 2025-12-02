@@ -30,6 +30,8 @@ export default function GraduateExitSurvey() {
 
   const ratingOptions = ["Excellent", "Very Good", "Good", "Fair", "Poor"];
   const user = JSON.parse(localStorage.user)
+ 
+  
   const [formData, setFormData] = useState({
     department: user.department,
     degree: user.degree,

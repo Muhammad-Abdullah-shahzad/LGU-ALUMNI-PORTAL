@@ -97,7 +97,9 @@ async function loginUser(req, res) {
                 degree:user.degree,
                 batch:user.batch,
                phoneNumber:user.phoneNumber,
-               rollNo:user.rollNo
+               rollNo:user.rollNo,
+               graduationYear:user.graduationYear,
+               company:user.companyName
             }
         });
 
