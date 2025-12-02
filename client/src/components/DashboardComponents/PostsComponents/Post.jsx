@@ -78,16 +78,16 @@ const Post = ({
                 </p>
 
                 {/* This pushes the button to bottom always */}
-                <div className="mt-auto text-end d-flex gap-1">
+                <div className="mt-auto text-center d-flex justify-content-around">
                     {readMode || <a
                         onClick={onDelPost}
-                        className="btn btn-sm btn-outline-danger rounded-pill px-3 "
+                        className="btn btn-sm w-50 btn-outline-danger rounded-pill px-3 mx-2"
                     >
                         Delete Post
                     </a>}
                     <a
                         href={postLink}
-                        className="btn btn-sm btn-outline-success rounded-pill px-3"
+                        className="btn btn-sm w-50 btn-outline-success rounded-pill px-3 mx-2"
                     >
                         View Post →
                     </a>
