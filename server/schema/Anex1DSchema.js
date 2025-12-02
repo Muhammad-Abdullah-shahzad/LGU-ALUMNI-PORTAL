@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const Annex1DSchema = new mongoose.Schema({
-   alumniId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-    ,
+  alumniId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  ,
   // Basic Program Info
-  program: { type: String, required: true },
+  degree: { type: String, required: true },
   department: { type: String, required: true },
 
   // Self Assessment — dynamic ratings stored as key/value
