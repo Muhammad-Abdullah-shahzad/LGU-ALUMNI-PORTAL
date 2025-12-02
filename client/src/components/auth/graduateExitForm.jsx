@@ -70,7 +70,7 @@ export default function GraduateExitSurvey() {
 
     const payload = { ...formData };
     await post(payload);
-    navigate("/register/form2");
+    navigate("/register/annex");
   };
 
   if (loading) return <Loader />;
