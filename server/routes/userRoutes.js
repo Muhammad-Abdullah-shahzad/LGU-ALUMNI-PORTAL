@@ -9,18 +9,18 @@ router.post("/create",userController.createUser);
 
 // route to get all users (optional, can be used for testing)
 
-router.get("/:role",verifyToken,verifyRoles('coordinator'),userController.getAllUsersByRole);
+router.get("/:role",verifyToken,verifyRoles('coordinator',"admin"),userController.getAllUsersByRole);
 
 // route  to get user by id
 
-router.get("/id/:id",verifyToken,verifyRoles('coordinator'),userController.getUserById);
+router.get("/id/:id",verifyToken,verifyRoles('coordinator',"admin"),userController.getUserById);
 
 // update
 
-router.put("/update",verifyToken,verifyRoles('coordinator'),userController.updateUser)
+router.put("/update",verifyToken,verifyRoles('coordinator',"admin"),userController.updateUser)
 
 // delete user
 
-router.delete("/delete",verifyToken,verifyRoles('coordinator'),userController.deleteUser)
+router.delete("/delete",verifyToken,verifyRoles('coordinator',"admin"),userController.deleteUser)
 
 module.exports = router
