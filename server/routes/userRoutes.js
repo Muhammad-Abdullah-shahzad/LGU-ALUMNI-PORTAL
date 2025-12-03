@@ -13,14 +13,14 @@ router.get("/:role",verifyToken,verifyRoles('coordinator',"admin"),userControlle
 
 // route  to get user by id
 
-router.get("/id/:id",verifyToken,verifyRoles('coordinator',"admin"),userController.getUserById);
+router.get("/id/:id",verifyToken,userController.getUserById);
 
 // update
 
-router.put("/update",verifyToken,verifyRoles('coordinator',"admin"),userController.updateUser)
+router.put("/update",verifyToken,userController.updateUser)
 
 // delete user
 
-router.delete("/delete",verifyToken,verifyRoles('coordinator',"admin"),userController.deleteUser)
+router.delete("/delete",verifyToken,userController.deleteUser)
 
 module.exports = router

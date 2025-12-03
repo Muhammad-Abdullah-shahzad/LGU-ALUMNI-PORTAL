@@ -161,7 +161,7 @@ export default function Annex1DAlumniSurvey() {
               <h5 className="section-title my-4">Alumni Information</h5>
               {[["name", "Name"], ["organizationName", "Organization Name"], ["position", "Position in Organization"], ["graduationYear", "Year of Graduation"], ["email", "Email"], ["telephone", "Telephone"]].map(([key, label]) => (
                 <React.Fragment key={key}>
-                  <InputField label={label} value={formData[key]} onChange={e => setFormData({ ...formData, [key]: e.target.value })} />
+                  <InputField  label={label} value={formData[key]} onChange={e => setFormData({ ...formData, [key]: e.target.value })} />
                   <FormError errors={errors} errorKey={key} />
                 </React.Fragment>
               ))}

@@ -33,6 +33,7 @@ export default function GraduateExitSurvey() {
 
 
   const [formData, setFormData] = useState({
+    
     department: user.department,
     degree: user.degree,
     fullName: user.firstName + ' ' + user.lastName,

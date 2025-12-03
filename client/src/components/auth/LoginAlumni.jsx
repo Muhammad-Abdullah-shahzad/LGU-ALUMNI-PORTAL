@@ -19,7 +19,7 @@ export default function LoginAlumni() {
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    if (localStorage.token && localStorage.user) {
+    if (localStorage.token && localStorage.user && localStorage.user && localStorage.user.active) {
       const user = JSON.parse(localStorage.user)
       navigate(`/${user.role}/dashboard`)
     }

@@ -11,10 +11,12 @@ export default function InputField(props) {
 
   return (
     <div className="mb-1">
+      
       <label htmlFor={props.id} className="form-label">
         {/* Placeholder for the label text */}
         {props.label}
       </label>
+      
       <input
        onChange={event=>props.onChange(event)}
         type={inputType}
@@ -23,8 +25,8 @@ export default function InputField(props) {
         id={props.id}
         placeholder={props.placeholder || "Enter value"}
         value={props.value}
-        
       />
+
     </div>
   );
 }
