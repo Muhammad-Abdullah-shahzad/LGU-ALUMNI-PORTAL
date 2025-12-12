@@ -3,7 +3,8 @@ const {
     getAllProblems,
     getProblemById,
     createProblem,
-    addCommentToProblem
+    addCommentToProblem,
+    addReplyToComment
 } = require('../controllers/forumController');
 
 const { verifyToken } = require("../middleware/verifyJWT");
@@ -20,5 +21,6 @@ router.get('/problems/:id', verifyToken, getProblemById);
 
 // Comments/Replies (nested under the problem)
 router.post('/problems/:id/comments', verifyToken, addCommentToProblem);
+router.post('/problems/:id/comments/:commentId/reply', verifyToken, addReplyToComment);
 
 module.exports = router;

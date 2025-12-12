@@ -24,6 +24,7 @@ app.use("/notification", notificationRoutes);
 app.use("/user", userRoutes);
 app.use("/survey", surveyRoutes);
 app.use('/forum', forumRoutes);
+app.use('/comment', require("./routes/commentRoutes"));
 
 
 app.listen(5000, () => {

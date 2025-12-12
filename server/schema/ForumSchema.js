@@ -12,6 +12,14 @@ const commentSchema = new mongoose.Schema({
         id: { type: mongoose.Schema.Types.ObjectId, required: true },
         name: { type: String, required: true }
     },
+    replies: [{
+        content: { type: String, required: true },
+        author: {
+            id: { type: mongoose.Schema.Types.ObjectId, required: true },
+            name: { type: String, required: true }
+        },
+        createdAt: { type: Date, default: Date.now }
+    }],
     createdAt: {
         type: Date,
         default: Date.now
@@ -20,7 +28,7 @@ const commentSchema = new mongoose.Schema({
     // We explicitly set timestamps to false here since we added a 'createdAt' field,
     // but the main document (Question) will still use timestamps.
     timestamps: false,
-    _id: true 
+    _id: true
 });
 
 
@@ -45,7 +53,7 @@ const questionSchema = new mongoose.Schema({
         trim: true
     }],
     // All responses are now embedded as comments
-    comments: [commentSchema] 
+    comments: [commentSchema]
 }, {
     timestamps: true // Adds createdAt and updatedAt for the main question
 });

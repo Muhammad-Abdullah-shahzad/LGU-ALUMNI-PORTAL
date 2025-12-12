@@ -11,7 +11,7 @@ const getAuthUser = (req) => ({
 const getAllProblems = async (req, res) => {
     try {
         const questions = await Question.find()
-            .select('title author createdAt tags comments')
+            .select('title body author createdAt tags comments')
             .sort({ createdAt: -1 })
             .lean();
 
@@ -91,9 +91,40 @@ const addCommentToProblem = async (req, res) => {
     }
 };
 
+// POST /api/problems/:id/comments/:commentId/reply - Add a reply to a comment
+const addReplyToComment = async (req, res) => {
+    const { content } = req.body;
+    const { authorId, authorName } = getAuthUser(req);
+    const { id, commentId } = req.params;
+
+    const newReply = {
+        content,
+        author: { id: authorId, name: authorName },
+        createdAt: new Date()
+    };
+
+    try {
+        const question = await Question.findOneAndUpdate(
+            { _id: id, "comments._id": commentId },
+            {
+                $push: { "comments.$.replies": newReply }
+            },
+            { new: true }
+        );
+
+        if (!question) return res.status(404).json({ message: "Problem or comment not found." });
+
+        res.status(201).json({ message: "Reply added successfully.", reply: newReply });
+    } catch (error) {
+        console.error("Error adding reply:", error);
+        res.status(400).json({ message: "Error adding reply." });
+    }
+};
+
 module.exports = {
     getAllProblems,
     getProblemById,
     createProblem,
-    addCommentToProblem
+    addCommentToProblem,
+    addReplyToComment
 };

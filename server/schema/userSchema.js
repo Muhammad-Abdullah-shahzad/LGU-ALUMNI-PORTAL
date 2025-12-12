@@ -14,6 +14,8 @@ const userSchema = new mongoose.Schema(
     companyName: String,
     jobTitle: String,
     graduationYear: Number,
+    sector:String,
+    designation:String,
     employmentStatus: {
       type: String,
       enum: ["employed", "unemployed"],

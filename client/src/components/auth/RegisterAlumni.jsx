@@ -30,8 +30,79 @@ export default function RegisterAlumni() {
     employmentStatus: "",
     jobTitle: "",
     graduationYear: "",
-    companyName: ""
+    companyName: "",
+    sector: "",
+    designation: ""
   });
+
+  const sectorOptions = [
+    "Information Technology",
+    "Education",
+    "Healthcare",
+    "Finance",
+    "Marketing",
+    "Engineering",
+    "Government",
+    "Other"
+  ];
+
+  const designationOptions = [
+    "Intern",
+    "Associate",
+    "Senior",
+    "Lead",
+    "Manager",
+    "Director",
+    "VP",
+    "C-Level",
+    "Other"
+  ];
+
+  const jobTitleOptions = [
+    "Software Engineer",
+    "Product Manager",
+    "Data Scientist",
+    "Graphic Designer",
+    "HR Manager",
+    "Teacher",
+    "Accountant",
+    "Consultant",
+    "Other"
+  ];
+
+  const companyOptions = [
+    "Systems Limited",
+    "NetSol Technologies",
+    "10Pearls",
+    "Tkxel",
+    "Nextbridge",
+    "Techlogix",
+    "Contour Software",
+    "Arbisoft",
+    "Confiz",
+    "CureMD",
+    "Cubix",
+    "VentureDive",
+    "Arpatech",
+    "Ovex Technologies",
+    "iCreativez Technologies",
+    "Folio3",
+    "Avanza Solutions",
+    "i2c Inc",
+    "TRG Pakistan",
+    "Other"
+  ];
+
+  const OtherInput = ({ field, placeholder }) => (
+    <div style={{ marginTop: "10px" }}>
+      <InputField
+        type="text"
+        placeholder={placeholder}
+        value={formData[field]}
+        onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+      />
+    </div>
+  );
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -40,7 +111,7 @@ export default function RegisterAlumni() {
   if (loading) return <Loader />;
 
   return (
-    <div 
+    <div
       style={{
         display: "flex",
         height: "100vh",
@@ -68,18 +139,18 @@ export default function RegisterAlumni() {
           top: 0
         }}
       >
-        <h1 style={{ 
-          fontSize: "48px", 
-          fontWeight: "700", 
+        <h1 style={{
+          fontSize: "48px",
+          fontWeight: "700",
           marginBottom: "24px",
           lineHeight: "1.2"
         }}>
           LGU Alumni Portal
         </h1>
 
-        <p style={{ 
-          fontSize: "20px", 
-          opacity: 0.9, 
+        <p style={{
+          fontSize: "20px",
+          opacity: 0.9,
           maxWidth: "80%",
           lineHeight: "1.6"
         }}>
@@ -97,12 +168,12 @@ export default function RegisterAlumni() {
           background: "#f5f7fa",
         }}
       >
-        <div style={{ 
+        <div style={{
           width: "500px",
           margin: "0 auto",
         }}>
           <FormLayout
-          style={{ marginTop: "600px", marginBottom: "40px" }}
+            style={{ marginTop: "600px", marginBottom: "40px" }}
             onSubmit={(e) =>
               RegisterAlumniUtils.handleSubmit(
                 e,
@@ -120,8 +191,8 @@ export default function RegisterAlumni() {
 
             {/* First Name - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="text" 
+              <InputField
+                type="text"
                 label="First Name"
                 placeholder="Enter your first name"
                 onChange={e => setFormData({ ...formData, firstName: e.target.value })}
@@ -132,8 +203,8 @@ export default function RegisterAlumni() {
 
             {/* Last Name - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="text" 
+              <InputField
+                type="text"
                 label="Last Name"
                 placeholder="Enter your last name"
                 onChange={e => setFormData({ ...formData, lastName: e.target.value })}
@@ -144,8 +215,8 @@ export default function RegisterAlumni() {
 
             {/* Email - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="email" 
+              <InputField
+                type="email"
                 label="Email Address"
                 placeholder="e.g xyz@lgu.edu.pk"
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
@@ -156,8 +227,8 @@ export default function RegisterAlumni() {
 
             {/* Password - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="password" 
+              <InputField
+                type="password"
                 label="Password"
                 placeholder="Enter a strong password"
                 onChange={e => setFormData({ ...formData, password: e.target.value })}
@@ -168,8 +239,8 @@ export default function RegisterAlumni() {
 
             {/* CNIC - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="text" 
+              <InputField
+                type="text"
                 label="CNIC"
                 placeholder="xxxxx-xxxxxxx-x"
                 onChange={e => setFormData({ ...formData, cnic: e.target.value })}
@@ -231,8 +302,8 @@ export default function RegisterAlumni() {
 
             {/* Roll No - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField 
-                type="number" 
+              <InputField
+                type="number"
                 placeholder="e.g 202"
                 label="Roll Number"
                 onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
@@ -266,27 +337,112 @@ export default function RegisterAlumni() {
               <FormError errors={errors} errorKey="employmentStatus" />
             </div>
 
+            {/* Sector - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData({ ...formData, sector: value === "Other" ? "Other" : value });
+                }}
+                value={sectorOptions.includes(formData.sector) ? formData.sector : (formData.sector ? "Other" : "")}
+              >
+                <DropDown.Option value="">Select Sector</DropDown.Option>
+                {sectorOptions.map((opt) => (
+                  <DropDown.Option key={opt} value={opt}>{opt}</DropDown.Option>
+                ))}
+              </DropDown>
+              {(formData.sector === "Other" || (!sectorOptions.includes(formData.sector) && formData.sector !== "")) && (
+                <div style={{ marginTop: "10px" }}>
+                  <InputField
+                    type="text"
+                    placeholder="Enter Sector"
+                    value={formData.sector === "Other" ? "" : formData.sector}
+                    onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                  />
+                </div>
+              )}
+              <FormError errors={errors} errorKey="sector" />
+            </div>
+
+            {/* Designation - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData({ ...formData, designation: value === "Other" ? "Other" : value });
+                }}
+                value={designationOptions.includes(formData.designation) ? formData.designation : (formData.designation ? "Other" : "")}
+              >
+                <DropDown.Option value="">Select Designation</DropDown.Option>
+                {designationOptions.map((opt) => (
+                  <DropDown.Option key={opt} value={opt}>{opt}</DropDown.Option>
+                ))}
+              </DropDown>
+              {(formData.designation === "Other" || (!designationOptions.includes(formData.designation) && formData.designation !== "")) && (
+                <div style={{ marginTop: "10px" }}>
+                  <InputField
+                    type="text"
+                    placeholder="Enter Designation"
+                    value={formData.designation === "Other" ? "" : formData.designation}
+                    onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  />
+                </div>
+              )}
+              <FormError errors={errors} errorKey="designation" />
+            </div>
+
             {/* Job Title - Full Width */}
             <div style={{ marginBottom: "20px" }}>
-              <InputField
-                type="text"
-                label="Job Title"
-                placeholder="e.g Software Engineer"
-                onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                value={formData.jobTitle}
-              />
+              <DropDown
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData({ ...formData, jobTitle: value === "Other" ? "Other" : value });
+                }}
+                value={jobTitleOptions.includes(formData.jobTitle) ? formData.jobTitle : (formData.jobTitle ? "Other" : "")}
+              >
+                <DropDown.Option value="">Select Job Title</DropDown.Option>
+                {jobTitleOptions.map((opt) => (
+                  <DropDown.Option key={opt} value={opt}>{opt}</DropDown.Option>
+                ))}
+              </DropDown>
+              {(formData.jobTitle === "Other" || (!jobTitleOptions.includes(formData.jobTitle) && formData.jobTitle !== "")) && (
+                <div style={{ marginTop: "10px" }}>
+                  <InputField
+                    type="text"
+                    placeholder="Enter Job Title"
+                    value={formData.jobTitle === "Other" ? "" : formData.jobTitle}
+                    onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                  />
+                </div>
+              )}
               <FormError errors={errors} errorKey="jobTitle" />
             </div>
 
             {/* Company Name - Full Width */}
             <div style={{ marginBottom: "40px" }}>
-              <InputField
-                type="text"
-                label="Company Name"
-                placeholder="e.g Systems Limited"
-                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                value={formData.companyName}
-              />
+              <DropDown
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData({ ...formData, companyName: value === "Other" ? "Other" : value });
+                }}
+                value={companyOptions.includes(formData.companyName) ? formData.companyName : (formData.companyName ? "Other" : "")}
+              >
+                <DropDown.Option value="">Select Company Name</DropDown.Option>
+                {companyOptions.map((opt) => (
+                  <DropDown.Option key={opt} value={opt}>{opt}</DropDown.Option>
+                ))}
+              </DropDown>
+              {(formData.companyName === "Other" || (!companyOptions.includes(formData.companyName) && formData.companyName !== "")) && (
+                <div style={{ marginTop: "10px" }}>
+                  <InputField
+                    type="text"
+                    label="Company Name"
+                    placeholder="Enter Company Name"
+                    value={formData.companyName === "Other" ? "" : formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                  />
+                </div>
+              )}
               <FormError errors={errors} errorKey="companyName" />
             </div>
 

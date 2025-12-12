@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function MainCard({ data }) {
-  const {user} = data; 
+  const { user } = data;
   const {
     firstName,
     lastName,
@@ -27,7 +27,7 @@ export default function MainCard({ data }) {
       </div>
 
       {/* Title */}
-      <h5 className="fw-bold text-center mb-4">My Profile</h5>
+      <h5 className="fw-bold text-center mb-4">Profile</h5>
 
       {/* Info */}
       <div className="d-flex flex-column gap-2 px-2">

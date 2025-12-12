@@ -11,6 +11,7 @@ import EmployerSurvey from "./components/auth/employersSurvey";
 import AlumniSurvey from "./components/auth/alumniSurvey";
 import AlumniDashboard from "./components/Dashboards/AlumniDashboard";
 import PresidentDashboard from "./components/Dashboards/PresidentDashboard";
+import UserProfile from "./components/DashboardComponents/Profile/UserProfile";
 
 import { Routes, Route } from "react-router-dom";
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/alumni/dashboard" element={<AlumniDashboard />} />
           <Route path="/president/dashboard" element={<PresidentDashboard />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
         </Routes>
       </ErrorBoundary>
     </React.Fragment>
