@@ -15,6 +15,7 @@ import UserProfile from "./components/DashboardComponents/Profile/UserProfile";
 
 import { Routes, Route } from "react-router-dom";
 export default function App() {
+
   return (
     <React.Fragment>
       <ErrorBoundary>
@@ -36,4 +37,5 @@ export default function App() {
       </ErrorBoundary>
     </React.Fragment>
   )
+
 }

@@ -142,9 +142,9 @@ const ForumOverlayModal = ({
         <div
           className="d-flex flex-column"
           style={{
-            width: "50%",
-            flex: 1, // Full width on mobile
-            height: "100%"
+            flex: 1, // Takes remaining 50% on desktop, 100% on mobile
+            height: "100%",
+            minWidth: 0
           }}
         >
           {/* Header (Mobile Only) */}

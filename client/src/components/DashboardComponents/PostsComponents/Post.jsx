@@ -100,6 +100,24 @@ const InstagramStyleModal = ({
         }
     };
 
+    const handleDeleteComment = async (commentId) => {
+        if (!confirm("Are you sure you want to delete this comment?")) return;
+
+        try {
+            const response = await fetch(`${Base_Url}/comment/${commentId}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                setComments(comments.filter(c => c._id !== commentId));
+            } else {
+                console.error("Failed to delete comment");
+            }
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+        }
+    };
+
     /* 
        DESIGN NOTE: 
        We use a fixed backdrop with z-index 1050 (Bootstrap modal level).
@@ -146,9 +164,11 @@ const InstagramStyleModal = ({
                 <div
                     className="d-flex flex-column"
                     style={{
-                        width: headerImageURL ? "45%" : "100%",
-                        flex: headerImageURL ? "initial" : 1, // Fix flex value for resizing
-                        height: "100%"
+                        // On mobile (flex-column), this takes full width automatically if no width is set.
+                        // On desktop (flex-row), 'flex: 1' takes the remaining space after the image's 55%.
+                        flex: 1,
+                        height: "100%",
+                        minWidth: 0 // Prevent flex overflow issues
                     }}
                 >
                     {/* Header */}
@@ -224,6 +244,17 @@ const InstagramStyleModal = ({
                                             >
                                                 Reply
                                             </button>
+
+                                            {/* Delete Button for Author */}
+                                            {(currentUser.id === comment.authorId || currentUser._id === comment.authorId) && (
+                                                <button
+                                                    className="btn btn-link p-0 text-decoration-none text-danger small"
+                                                    style={{ fontSize: "0.75rem" }}
+                                                    onClick={() => handleDeleteComment(comment._id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            )}
                                         </div>
 
                                         {/* Reply Input */}

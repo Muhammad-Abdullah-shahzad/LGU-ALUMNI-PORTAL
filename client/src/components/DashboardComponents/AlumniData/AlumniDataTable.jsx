@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import "./alumniDataTable.css";
 import { useFetch } from "../../../hooks/useFetch";
-import { useUpdate } from "../../../hooks/useUpdate"; 
+import { useUpdate } from "../../../hooks/useUpdate";
 import Loader from "../../Loader/Loader";
 
 // ⚠️ IMPORTANT: Please ensure this import path is correct for your project
@@ -23,15 +23,15 @@ const downloadCSV = (filename, headers, rows) => {
     alert("No data available to download.");
     return;
   }
-  
+
   // Quote all values and join with a comma, then join rows with a newline
   const csvContent = [headers, ...rows]
-    .map((row) => 
-      row.map((value) => 
+    .map((row) =>
+      row.map((value) =>
         `"${String(value || '').replace(/"/g, '""')}"` // Handle null/undefined, convert to string, and escape double quotes
       ).join(",")
     ).join("\n");
-    
+
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -51,7 +51,7 @@ const ViewSurveyDetails = ({ surveyData, onClose, onDownload }) => {
   const { department, degree, fullName, email, phone, participation, questions = [], alumniId } = surveyData;
   const alumniEmail = alumniId?.email || email;
   const alumniName = alumniId?.fullName || fullName;
-  
+
   return (
     <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg">
@@ -84,7 +84,7 @@ const ViewSurveyDetails = ({ surveyData, onClose, onDownload }) => {
         </div>
         <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
           <button className="btn btn-primary" onClick={() => onDownload(surveyData)}>
-             <i className="bi bi-download me-1"></i> Download CSV
+            <i className="bi bi-download me-1"></i> Download CSV
           </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
@@ -147,8 +147,8 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose, onDownload }) => {
           <p className="p-2 bg-light rounded text-break">{comments || 'No comments provided.'}</p>
         </div>
         <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
-           <button className="btn btn-primary" onClick={() => onDownload(feedbackData)}>
-             <i className="bi bi-download me-1"></i> Download CSV
+          <button className="btn btn-primary" onClick={() => onDownload(feedbackData)}>
+            <i className="bi bi-download me-1"></i> Download CSV
           </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
@@ -160,22 +160,22 @@ const ViewEmployerFeedbackDetails = ({ feedbackData, onClose, onDownload }) => {
 // =========================================================
 // 4. ViewAnnex1DDetails Component (Existing + Download Button)
 // =========================================================
-const SELF_ASSESSMENT_LABELS = [ { id: 1, text: "Ability to design a system component or process (PEO1)" }, { id: 2, text: "Adaptation to modern technology or tools (PEO1)" }, { id: 3, text: "Intellectual and technical knowledge of Software Engineering (PEO1)" }, { id: 4, text: "General professional responsibility (PEO2)" }, { id: 5, text: "Fulfilling societal/ethical norms (PEO2)" }, { id: 6, text: "Awareness of sustainability in digital and engineering practices (PEO2)" }, { id: 7, text: "Computing Core Knowledge (PEO3)" }, { id: 8, text: "Adaption to new skills (PEO3)" }, { id: 9, text: "Ability to work effectively in teams (PEO3)" }, { id: 10, text: "Oral communication (PEO4)" }, { id: 11, text: "Report writing skills (PEO4)" }, { id: 12, text: "Ability to conduct research (PEO4)" }, ];
-const DEPARTMENT_STANDING_LABELS = [ { id: 1, text: "Infrastructure" }, { id: 2, text: "Faculty" }, { id: 3, text: "Repute at the National level" }, { id: 4, text: "Repute at international level" } ];
+const SELF_ASSESSMENT_LABELS = [{ id: 1, text: "Ability to design a system component or process (PEO1)" }, { id: 2, text: "Adaptation to modern technology or tools (PEO1)" }, { id: 3, text: "Intellectual and technical knowledge of Software Engineering (PEO1)" }, { id: 4, text: "General professional responsibility (PEO2)" }, { id: 5, text: "Fulfilling societal/ethical norms (PEO2)" }, { id: 6, text: "Awareness of sustainability in digital and engineering practices (PEO2)" }, { id: 7, text: "Computing Core Knowledge (PEO3)" }, { id: 8, text: "Adaption to new skills (PEO3)" }, { id: 9, text: "Ability to work effectively in teams (PEO3)" }, { id: 10, text: "Oral communication (PEO4)" }, { id: 11, text: "Report writing skills (PEO4)" }, { id: 12, text: "Ability to conduct research (PEO4)" },];
+const DEPARTMENT_STANDING_LABELS = [{ id: 1, text: "Infrastructure" }, { id: 2, text: "Faculty" }, { id: 3, text: "Repute at the National level" }, { id: 4, text: "Repute at international level" }];
 
 const formatAssessmentData = (assessment, type) => {
   if (!assessment || Object.keys(assessment).length === 0) return [];
   const labelsMap = (type === 'self' ? SELF_ASSESSMENT_LABELS : DEPARTMENT_STANDING_LABELS)
-    .reduce((map, item) => { map[item.id] = item.text; return map; }, {}); 
+    .reduce((map, item) => { map[item.id] = item.text; return map; }, {});
 
   return Object.entries(assessment)
     .map(([key, value]) => {
-      const id = parseInt(key); 
+      const id = parseInt(key);
       const question = labelsMap[id] || `Question ${key} (Label Not Found)`;
       return { key: id, question, answer: value };
     })
-    .sort((a, b) => a.key - b.key) 
-    .filter(item => item.answer); 
+    .sort((a, b) => a.key - b.key)
+    .filter(item => item.answer);
 };
 
 
@@ -188,7 +188,7 @@ const ViewAnnex1DDetails = ({ surveyData, onClose, onDownload }) => {
   const formattedDepartmentStanding = formatAssessmentData(departmentStanding, 'department');
   const alumniEmail = alumniId?.email || email;
   const alumniDepartment = alumniId?.department || department;
-  
+
 
   return (
     <div className="survey-modal-overlay">
@@ -243,8 +243,8 @@ const ViewAnnex1DDetails = ({ surveyData, onClose, onDownload }) => {
           <p className="p-2 bg-light rounded text-break">{careerOpportunities || 'No career opportunities comments provided.'}</p>
         </div>
         <div className="mt-4 d-flex justify-content-end gap-2"> {/* Modified for download button */}
-           <button className="btn btn-primary" onClick={() => onDownload(surveyData)}>
-             <i className="bi bi-download me-1"></i> Download CSV
+          <button className="btn btn-primary" onClick={() => onDownload(surveyData)}>
+            <i className="bi bi-download me-1"></i> Download CSV
           </button>
           <button className="btn btn-secondary" onClick={onClose}>Close</button>
         </div>
@@ -267,7 +267,7 @@ export default function AlumniDataWrapper() {
   const { data: annex1dData, loading: annex1dLoading } = useFetch(`${Base_URL}/survey/annex1D`);
 
   // 2. Setup Update Hook
-  const { put , loading: updateLoading} = useUpdate(`${Base_URL}/user/update`) 
+  const { put, loading: updateLoading } = useUpdate(`${Base_URL}/user/update`)
 
   // --- STATE ---
   const [search, setSearch] = useState("");
@@ -293,14 +293,14 @@ export default function AlumniDataWrapper() {
   const handleUpdateAlumni = useCallback(async (alumniId, updatedFields) => {
     try {
       const payload = {
-        id: alumniId, 
+        id: alumniId,
         ...updatedFields,
       };
 
       console.log("Sending PUT Update Payload:", payload);
 
       const response = await put(payload);
-      
+
       // ✅ FIX: Check for the success message explicitly. 
       // Treat the update as successful if the response contains the 'user updated successfully' message,
       // even if the HTTP status code was non-200, causing useUpdate to flag it otherwise.
@@ -309,19 +309,19 @@ export default function AlumniDataWrapper() {
       if (isSuccess) {
         alert("Alumni data updated successfully!");
         setEditModal(false); // Close the modal
-        
+
         // 3. Refetch alumni data to show changes on the UI (as requested)
-        window.location.reload(); 
+        window.location.reload();
       } else {
         // Log the full response for better debugging
-        console.error("Update failed response:", response); 
+        console.error("Update failed response:", response);
         alert(`Update failed: ${response?.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error("Error updating alumni:", error);
       alert("An error occurred during update.");
     }
-  }, [put]); 
+  }, [put]);
 
   // --- EDIT MODAL HANDLERS ---
   const handleCloseEditModal = () => {
@@ -331,10 +331,10 @@ export default function AlumniDataWrapper() {
 
   const handleEditAlumni = (alumni) => {
     console.log("handel alumni clicked");
-    
+
     // Set the selected alumni data and open the modal
     setSelectedAlumni(alumni);
-    setEditModal(true); 
+    setEditModal(true);
     console.log("Edit icon clicked. Modal state set to true.");
   }
 
@@ -343,10 +343,10 @@ export default function AlumniDataWrapper() {
     const listToDownload = alumni ? [alumni] : filtered.length > 0 ? filtered : users;
     if (!listToDownload || listToDownload.length === 0) { alert("No alumni data available to download."); return; }
     const headers = ["Name", "Roll No", "Batch", "Degree", "Status", "Company", "Job Title", "Graduation Year"];
-    const rows = listToDownload.map((a) => [ `${a.firstName || ""} ${a.lastName || ""}`, a.rollNo || "", a.batch || "", a.degree || "", a.employmentStatus || "", a.companyName || "", a.jobTitle || "", a.graduationYear || "" ]);
+    const rows = listToDownload.map((a) => [`${a.firstName || ""} ${a.lastName || ""}`, a.rollNo || "", a.batch || "", a.degree || "", a.employmentStatus || "", a.companyName || "", a.jobTitle || "", a.graduationYear || ""]);
     downloadCSV("alumni_list.csv", headers, rows);
   };
-  
+
   // NOTE: Renamed the existing CSV handler to use the new utility
   const handleDownloadCSV = () => {
     handleDownloadAlumniDataCSV();
@@ -354,13 +354,13 @@ export default function AlumniDataWrapper() {
 
   const handleDownloadGraduateExitSurveyCSV = useCallback((surveyData) => {
     const { fullName, email, department, degree, phone, participation, questions = [], submittedAt } = surveyData;
-    
+
     const baseHeaders = ["Alumni Name", "Email", "Department", "Degree", "Phone", "Participation", "Submitted Date"];
     const baseRow = [fullName || '', email || '', department || '', degree || '', phone || '', participation || '', new Date(submittedAt).toLocaleDateString()];
 
     const questionHeaders = questions.map(q => q.key.toUpperCase());
     const questionAnswers = questions.map(q => q.answer);
-    
+
     const headers = [...baseHeaders, ...questionHeaders];
     const rows = [[...baseRow, ...questionAnswers]];
 
@@ -392,7 +392,7 @@ export default function AlumniDataWrapper() {
     if (!survey) return;
 
     const { name, organizationName, position, graduationYear, email, telephone, program, department, selfAssessment, generalComments, departmentStanding, careerOpportunities, submittedAt } = survey;
-    
+
     // 1. Basic Info
     const baseHeaders = ["Name", "Email", "Telephone", "Organization", "Position", "Graduation Year", "Program", "Department", "Submitted Date", "General Comments", "Career Opportunities"];
     const baseRow = [name, email, telephone, organizationName, position, graduationYear, program, department, new Date(submittedAt).toLocaleDateString(), generalComments, careerOpportunities];
@@ -401,7 +401,7 @@ export default function AlumniDataWrapper() {
     const formattedSelfAssessment = formatAssessmentData(selfAssessment, 'self');
     const selfHeaders = formattedSelfAssessment.map(q => `SelfAssessment_Q${q.key}: ${q.question}`);
     const selfAnswers = formattedSelfAssessment.map(q => q.answer);
-    
+
     // 3. Department Standing
     const formattedDepartmentStanding = formatAssessmentData(departmentStanding, 'department');
     const deptHeaders = formattedDepartmentStanding.map(q => `DeptStanding_Q${q.key}: ${q.question}`);
@@ -445,8 +445,10 @@ export default function AlumniDataWrapper() {
   const batches = [...new Set(users.map((u) => u.batch))];
   const companies = [...new Set(users.map((u) => u.companyName).filter(Boolean))];
   const years = [...new Set(users.map((u) => u.graduationYear))];
+  const sectors = [...new Set(users.map((u) => u.sector).filter(Boolean))];
+  const jobTitles = [...new Set(users.map((u) => u.jobTitle).filter(Boolean))];
 
-  const [filters, setFilters] = useState({ degree: "", batch: "", status: "", year: "", company: "", });
+  const [filters, setFilters] = useState({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "" });
 
 
   const filtered = users.filter((alumni) => {
@@ -458,7 +460,9 @@ export default function AlumniDataWrapper() {
     const matchesStatus = filters.status ? alumni.employmentStatus === filters.status : true;
     const matchesYear = filters.year ? alumni.graduationYear == filters.year : true;
     const matchesCompany = filters.company ? alumni.companyName === filters.company : true;
-    return ( matchesSearch && matchesDegree && matchesBatch && matchesStatus && matchesYear && matchesCompany );
+    const matchesSector = filters.sector ? alumni.sector === filters.sector : true;
+    const matchesJobTitle = filters.jobTitle ? alumni.jobTitle === filters.jobTitle : true;
+    return (matchesSearch && matchesDegree && matchesBatch && matchesStatus && matchesYear && matchesCompany && matchesSector && matchesJobTitle);
   });
   // --- End Filtering Logic ---
 
@@ -612,8 +616,8 @@ export default function AlumniDataWrapper() {
       }
     });
 
-    const selfKeys = Array.from(selfKeySet).map(k => parseInt(k)).sort((a,b) => a-b);
-    const deptKeys = Array.from(deptKeySet).map(k => parseInt(k)).sort((a,b) => a-b);
+    const selfKeys = Array.from(selfKeySet).map(k => parseInt(k)).sort((a, b) => a - b);
+    const deptKeys = Array.from(deptKeySet).map(k => parseInt(k)).sort((a, b) => a - b);
 
     const baseHeaders = ["Name", "Email", "Telephone", "Organization", "Position", "Graduation Year", "Program", "Department", "Submitted Date", "General Comments", "Career Opportunities"];
     const selfHeaders = selfKeys.map(k => {
@@ -666,15 +670,15 @@ export default function AlumniDataWrapper() {
 
       {/* EDIT ALUMNI MODAL (Will render only when editModal is true) */}
       {editModal && (
-        <EditAlumni 
+        <EditAlumni
           alumniData={selectedAlumni}
           onClose={handleCloseEditModal}
-          onUpdate={handleUpdateAlumni} 
+          onUpdate={handleUpdateAlumni}
           isLoading={updateLoading}
         />
       )}
 
-       {/* TOP BAR */}
+      {/* TOP BAR */}
       <div className="top-bar glass-card ">
         <div className="search-box full-width">
           <i className="bi bi-search"></i>
@@ -694,19 +698,19 @@ export default function AlumniDataWrapper() {
         <div ref={downloadRef} className="filter-panel glass-card shadow-sm mt-3"> {/* ADDED ref={downloadRef} */}
           <div className="row g-3">
             <div className="col-md-3">
-                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleDownloadAlumniDataCSV(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text me-1"></i> Basic Data
-                </button>      
+              <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleDownloadAlumniDataCSV(); setShowDownload(false); }}>
+                <i className="bi bi-file-earmark-text me-1"></i> Basic Data
+              </button>
             </div>
             <div className="col-md-3">
-                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkGraduateExitDownload(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text me-1"></i> Graduate Exit Survey
-                </button>      
+              <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkGraduateExitDownload(); setShowDownload(false); }}>
+                <i className="bi bi-file-earmark-text me-1"></i> Graduate Exit Survey
+              </button>
             </div>
             <div className="col-md-3">
-                <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkAnnex1DDownload(); setShowDownload(false); }}>
-                  <i className="bi bi-file-earmark-text me-1"></i> Annex Alumni Survey
-                </button>      
+              <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkAnnex1DDownload(); setShowDownload(false); }}>
+                <i className="bi bi-file-earmark-text me-1"></i> Annex Alumni Survey
+              </button>
             </div>
             {/* <div className="col-md-3"> 
                 <button className="btn btn-outline-success w-100 mt-2" onClick={() => { handleBulkEmployerFeedbackDownload(); setShowDownload(false); }}>
@@ -737,7 +741,13 @@ export default function AlumniDataWrapper() {
               <select className="filter-select" value={filters.company} onChange={(e) => setFilters({ ...filters, company: e.target.value })}><option value="">Company</option>{companies.map((c, i) => (<option key={i} value={c}>{c}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <button className="reset-btn w-100" onClick={() => setFilters({ degree: "", batch: "", status: "", year: "", company: "", })}>Reset</button>
+              <select className="filter-select" value={filters.sector} onChange={(e) => setFilters({ ...filters, sector: e.target.value })}><option value="">Sector</option>{sectors.map((s, i) => (<option key={i} value={s}>{s}</option>))}</select>
+            </div>
+            <div className="col-md-2">
+              <select className="filter-select" value={filters.jobTitle} onChange={(e) => setFilters({ ...filters, jobTitle: e.target.value })}><option value="">Job Title</option>{jobTitles.map((j, i) => (<option key={i} value={j}>{j}</option>))}</select>
+            </div>
+            <div className="col-md-2">
+              <button className="reset-btn w-100" onClick={() => setFilters({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "" })}>Reset</button>
             </div>
           </div>
         </div>
@@ -779,34 +789,34 @@ export default function AlumniDataWrapper() {
                   <td>{alumni.companyName || "--"}</td>
                   <td>{alumni.jobTitle || "--"}</td>
                   <td>{alumni.graduationYear}</td>
-                  
-<td style={{ position: "relative" }}>
-  <div className="action-dropdown">
-    <button
-      className="dropdown-icon-btn"
-      onClick={() => setOpenIndex(openIndex === i ? null : i)}
-    >
-      <i className="bi bi-three-dots-vertical"></i>
-    </button>
 
-    {openIndex === i && (
-      <div className="dropdown-menu-horizontal">
-        <button onClick={() => handleViewAnnex1D(alumni)}>
-          <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
-        </button>
-        {/* <button onClick={() => handleViewEmployerFeedback(alumni)}>
+                  <td style={{ position: "relative" }}>
+                    <div className="action-dropdown">
+                      <button
+                        className="dropdown-icon-btn"
+                        onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                      >
+                        <i className="bi bi-three-dots-vertical"></i>
+                      </button>
+
+                      {openIndex === i && (
+                        <div className="dropdown-menu-horizontal">
+                          <button onClick={() => handleViewAnnex1D(alumni)}>
+                            <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
+                          </button>
+                          {/* <button onClick={() => handleViewEmployerFeedback(alumni)}>
           <i className="bi bi-briefcase me-1"></i> Employer
         </button> */}
-        <button onClick={() => handleViewSurvey(alumni)}>
-          <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
-        </button>
-        <button onClick={() => handleEditAlumni(alumni)}>
-          <i className="bi bi-pencil-square me-1"></i> Edit
-        </button>
-      </div>
-    )}
-  </div>
-</td>
+                          <button onClick={() => handleViewSurvey(alumni)}>
+                            <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
+                          </button>
+                          <button onClick={() => handleEditAlumni(alumni)}>
+                            <i className="bi bi-pencil-square me-1"></i> Edit
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
 
                 </tr>
               ))
