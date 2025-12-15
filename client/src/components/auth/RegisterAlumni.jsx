@@ -22,6 +22,8 @@ export default function RegisterAlumni() {
     batch: "",
     degree: "",
     rollNo: "",
+    StdRollNo: ``,
+    FatherName: "",
     email: "",
     password: "",
     department: "",
@@ -107,6 +109,52 @@ export default function RegisterAlumni() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { post, loading, error } = usePost(`${Base_Url}/auth/register`);
+
+  React.useEffect(() => {
+    const fetchStudentData = async () => {
+      if (formData.batch && formData.degree && formData.rollNo) {
+        try {
+          const paddedRollNo = formData.rollNo.toString().padStart(3, '0');
+          const response = await fetch(`${Base_Url}/auth/register/formdata/${formData.batch}/${formData.degree}/${paddedRollNo}`);
+          if (response.ok) {
+            const json = await response.json();
+
+            if (json.alumniData && json.alumniData.length > 0) {
+              const data = json.alumniData[0];
+
+              // Parse StudentName into firstName and lastName
+              let fName = "";
+              let lName = "";
+
+              if (data.StudentName) {
+                const nameParts = data.StudentName.trim().split(" ");
+                if (nameParts.length > 0) {
+                  // Strategy: Last word is Last Name, everything else is First Name
+                  if (nameParts.length === 1) {
+                    fName = nameParts[0];
+                  } else {
+                    lName = nameParts.pop();
+                    fName = nameParts.join(" ");
+                  }
+                }
+              }
+
+              setFormData(prev => ({
+                ...prev,
+                firstName: data.firstName || fName || prev.firstName,
+                lastName: data.lastName || lName || prev.lastName,
+                FatherName: data.FatherName || prev.FatherName
+              }));
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch student data", error);
+        }
+      }
+    };
+
+    fetchStudentData();
+  }, [formData.batch, formData.degree, formData.rollNo, Base_Url]);
 
   if (loading) return <Loader />;
 
@@ -213,6 +261,18 @@ export default function RegisterAlumni() {
               <FormError errors={errors} errorKey="lastName" />
             </div>
 
+            {/* Father Name - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField
+                type="text"
+                label="Father Name"
+                placeholder="Enter your father name"
+                onChange={e => setFormData({ ...formData, FatherName: e.target.value })}
+                value={formData.FatherName}
+              />
+              <FormError errors={errors} errorKey="FatherName" />
+            </div>
+
             {/* Email - Full Width */}
             <div style={{ marginBottom: "20px" }}>
               <InputField
@@ -270,9 +330,9 @@ export default function RegisterAlumni() {
                 value={formData.degree}
               >
                 <DropDown.Option>Select Your Degree</DropDown.Option>
-                <DropDown.Option>BSSE</DropDown.Option>
-                <DropDown.Option>BSCS</DropDown.Option>
-                <DropDown.Option>BSIT</DropDown.Option>
+                <DropDown.Option>BS SE</DropDown.Option>
+                <DropDown.Option>BS CS</DropDown.Option>
+                <DropDown.Option>BS IT</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="degree" />
             </div>
@@ -285,17 +345,29 @@ export default function RegisterAlumni() {
               >
                 <DropDown.Option>Select Your Batch</DropDown.Option>
                 <DropDown.Option>Fa-2023</DropDown.Option>
+                <DropDown.Option>Sp-2023</DropDown.Option>
                 <DropDown.Option>Fa-2022</DropDown.Option>
+                <DropDown.Option>Sp-2022</DropDown.Option>
                 <DropDown.Option>Fa-2021</DropDown.Option>
+                <DropDown.Option>Sp-2021</DropDown.Option>
                 <DropDown.Option>Fa-2020</DropDown.Option>
+                <DropDown.Option>Sp-2020</DropDown.Option>
                 <DropDown.Option>Fa-2019</DropDown.Option>
+                <DropDown.Option>Sp-2019</DropDown.Option>
                 <DropDown.Option>Fa-2018</DropDown.Option>
+                <DropDown.Option>Sp-2018</DropDown.Option>
                 <DropDown.Option>Fa-2017</DropDown.Option>
+                <DropDown.Option>Sp-2017</DropDown.Option>
                 <DropDown.Option>Fa-2016</DropDown.Option>
+                <DropDown.Option>Sp-2016</DropDown.Option>
                 <DropDown.Option>Fa-2015</DropDown.Option>
+                <DropDown.Option>Sp-2015</DropDown.Option>
                 <DropDown.Option>Fa-2014</DropDown.Option>
+                <DropDown.Option>Sp-2014</DropDown.Option>
                 <DropDown.Option>Fa-2013</DropDown.Option>
+                <DropDown.Option>Sp-2013</DropDown.Option>
                 <DropDown.Option>Fa-2012</DropDown.Option>
+                <DropDown.Option>Sp-2012</DropDown.Option>
               </DropDown>
               <FormError errors={errors} errorKey="batch" />
             </div>

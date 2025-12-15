@@ -1,0 +1,82 @@
+[
+    {
+        "StdRollNo": "Sp-2020/BS SE/001",
+        "StudentName": "Abdul Basit",
+        "FatherName": "Zahid Mahmood",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/002",
+        "StudentName": "Irmana Ahmed",
+        "FatherName": "Muhammad Khalid Jamal",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/003",
+        "StudentName": "Abu Sufyan",
+        "FatherName": "Amanat Ali",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/004",
+        "StudentName": "Muhammad Abdulrehman",
+        "FatherName": "Imdad Ali",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/005",
+        "StudentName": "Muhammad Daniyal Khan",
+        "FatherName": "Kamran Riaz",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/006",
+        "StudentName": "Mehar Ali Aziz Sial",
+        "FatherName": "Mehar Abdul Aziz Sial",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/007",
+        "StudentName": "Ali Hasan",
+        "FatherName": "Muhammad Riaz",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/008",
+        "StudentName": "Muhammad Kashir Khan",
+        "FatherName": "Kamran Riaz",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/009",
+        "StudentName": "Muhammad Usman",
+        "FatherName": "Bait Ullah Jan",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    },
+    {
+        "StdRollNo": "Sp-2020/BS SE/010",
+        "StudentName": "Mohammad Ahras",
+        "FatherName": "Muhammad Imran Yasin",
+        "ClassSection": "A",
+        "degreeid": "BS SE",
+        "JoiningSession": "Sp-2020"
+    }
+]

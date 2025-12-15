@@ -16,6 +16,11 @@ class RegisterAlumniUtils {
     if (!formData.lastName || formData.lastName.trim() === "") {
       errors.lastName = "Last name is required";
     }
+
+    // Father Name
+    if (!formData.FatherName || formData.FatherName.trim() === "") {
+      errors.FatherName = "Father name is required";
+    }
     // Email
     if (!formData.email || formData.email.trim() === "") {
       errors.email = "Email is required";
@@ -64,8 +69,8 @@ class RegisterAlumniUtils {
     const errors = this.validateForm(formData);
     if (Object.keys(errors).length === 0) {
       // No validation errors, proceed with form submission
-     await  post(formData);
-     navigate("/login");
+      await post(formData);
+      navigate("/login");
     } else {
       // Set validation errors to state to display them     
       setErrors(errors);

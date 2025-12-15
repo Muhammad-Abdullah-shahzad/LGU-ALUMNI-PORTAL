@@ -1,4 +1,5 @@
 const userModel = require('../models/authModel');
+const ERPAlumniData = require('../schema/ERPAlumniData')
 const notificationModel = require('../models/notificationModel');
 
 const bcrypt = require('bcryptjs');
@@ -93,14 +94,14 @@ async function loginUser(req, res) {
                 role: user.role,
                 active: user.active,
                 formsFilled: user.formsFilled,
-                department:user.department,
-                degree:user.degree,
-                batch:user.batch,
-               phoneNumber:user.phoneNumber,
-               rollNo:user.rollNo,
-               graduationYear:user.graduationYear,
-               company:user.companyName,
-               employmentStatus:user.employmentStatus
+                department: user.department,
+                degree: user.degree,
+                batch: user.batch,
+                phoneNumber: user.phoneNumber,
+                rollNo: user.rollNo,
+                graduationYear: user.graduationYear,
+                company: user.companyName,
+                employmentStatus: user.employmentStatus
             }
         });
 
@@ -110,4 +111,25 @@ async function loginUser(req, res) {
     }
 }
 
-module.exports = { registerUser, loginUser };
+// get form data for autofill user info
+async function getFormData(req, res) {
+    try {
+        const { rollNo  , batch , degree} = req.params;
+
+        console.log("alumni roll no recieved from front end is ", rollNo);
+
+        const alumniData = await ERPAlumniData.find({ StdRollNo: `${batch}/${degree}/${rollNo}` })
+
+        res.status(200).json({ alumniData })
+
+
+    } catch (error) {
+        res.status(400).json({
+            message: "failed to get alumni"
+        })
+        console.log("error fetching alumni auto fill data ", error);
+
+    }
+}
+
+module.exports = { registerUser, loginUser, getFormData };
