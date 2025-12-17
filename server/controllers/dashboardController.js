@@ -9,7 +9,12 @@ exports.getAdminDashboard = async (req, res) => {
         dashboardData.totalAlumni = await userModel.countDocuments({ role: 'alumni', active: true });
         dashboardData.totalEmployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "employed", active: true });
         dashboardData.totalUnemployedAlumni = await userModel.countDocuments({ role: 'alumni', "employmentStatus": "unemployed", active: true });
-      dashboardData.notifications = await notificationModel.aggregate([
+
+        // Undergraduate Stats
+        dashboardData.totalUndergrad = await userModel.countDocuments({ role: 'undergraduate', active: true });
+        dashboardData.totalEmployedUndergrad = await userModel.countDocuments({ role: 'undergraduate', "employmentStatus": "employed", active: true });
+        dashboardData.totalUnemployedUndergrad = await userModel.countDocuments({ role: 'undergraduate', "employmentStatus": "unemployed", active: true });
+        dashboardData.notifications = await notificationModel.aggregate([
             {
                 $match: {
                     notificationType: {
@@ -29,11 +34,11 @@ exports.getAdminDashboard = async (req, res) => {
                 }
             },
 
-            { 
-                $unwind: { 
-                    path: "$author", 
-                    preserveNullAndEmptyArrays: true 
-                } 
+            {
+                $unwind: {
+                    path: "$author",
+                    preserveNullAndEmptyArrays: true
+                }
             },
 
             // SORT NEWEST FIRST
@@ -70,7 +75,7 @@ exports.getAdminDashboard = async (req, res) => {
             { $group: { _id: "$department", employed: { $sum: 1 } } },
             { $project: { department: "$_id", employed: 1, _id: 0 } }
         ]);
-        dashboardData.totalCoordinators =await userModel.countDocuments({ role: 'coordinator', active: true });
+        dashboardData.totalCoordinators = await userModel.countDocuments({ role: 'coordinator', active: true });
         res.status(200).json(dashboardData);
     }
     catch (error) {
@@ -94,7 +99,7 @@ exports.getCoordinatorDashboard = async (req, res) => {
                     notificationType: {
                         $in: ["post", "alumniRegiter", "editAlumni", "deleteAlumni"]
                     },
-                   sendTo: { $in: ["coordinator"] }
+                    sendTo: { $in: ["coordinator"] }
 
                 }
             },

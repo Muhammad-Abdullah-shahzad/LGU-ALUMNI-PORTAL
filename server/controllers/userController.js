@@ -12,7 +12,6 @@ exports.createUser = async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-
         // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -32,8 +31,8 @@ exports.createUser = async (req, res) => {
 // get user by id
 exports.getUserById = async (req, res) => {
     try {
-        console.log("id recieved " , req.params.id);
-        
+        console.log("id recieved ", req.params.id);
+
         const userId = req.params.id;
         const user = await userModel.findById(userId);
         if (!user) {
@@ -50,12 +49,15 @@ exports.getUserById = async (req, res) => {
 exports.getAllUsersByRole = async (req, res) => {
     try {
         const role = req.params.role;
-        const users = await userModel.find(
-            {
-                role: role || "alumni",
-                active: 1
-            }
-        );
+        let query = { active: 1 };
+
+        if (role === 'alumni') {
+            query.role = { $in: ['alumni', 'undergraduate'] };
+        } else {
+            query.role = role || "alumni";
+        }
+
+        const users = await userModel.find(query);
         res.status(200).json({ users });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });

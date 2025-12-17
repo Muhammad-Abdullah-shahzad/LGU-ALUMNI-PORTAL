@@ -2,7 +2,7 @@ import { useRef } from "react";
 import "./longcard.css"
 import expandCard from "./expandCard";
 
-export default function LongCard({ heading, notifications, headKey, bodyKey, actionBtns, onAccept, delNotify, rejectFunc, refetch, notify  }) {
+export default function LongCard({ heading, notifications, headKey, bodyKey, actionBtns, onAccept, delNotify, rejectFunc, refetch, notify }) {
   const ref = useRef();
   console.log("notification comming from ", notifications);
 
@@ -22,7 +22,7 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
         {/* BODY */}
         <div ref={ref} className="card-body px-4 pb-4 initialHeight">
 
-        
+
           {notifications.map((note, index) => (
             <div
 
@@ -45,18 +45,21 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
                   onClick={async (event) => {
                     await onAccept({
                       id: note.authorId,
-                      active: 1
+                      active: 1,
+                      formsFilled: note.authorRole === "alumni" ? 0 : 1
                     });
+
                     await delNotify({
                       _id: note._id
                     })
+
                     await notify(
                       {
                         // The user who just registered
                         notificationAuthor: "coordinator",
                         notificationType: "alumniRegiter", // As per  schema
                         sendTo: ["admin"],
-                        notificationContent:`${note.author.department} coordinator approved ${note.author.email}`,
+                        notificationContent: `${note.author.department} coordinator approved ${note.author.email}`,
                       }
                     )
                     await refetch()

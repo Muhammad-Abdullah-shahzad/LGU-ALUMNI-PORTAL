@@ -9,12 +9,13 @@ const notificationSchema = new mongoose.Schema(
       enum: ["admin", "coordinator", "president", "vice_president", "alumni"],
       required: true
     },
+    authorRole: String,
     notificationType: {
       type: String,
       enum: ["post", "alumniRegiter", "editAlumni", "deleteAlumni", "postApproval", "commentDiscussion"],
       required: true
     },
-    sendTo:Array,
+    sendTo: Array,
     // for posts
     postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     // for alumni registration
@@ -28,7 +29,7 @@ const notificationSchema = new mongoose.Schema(
   { strict: false, timestamps: true }  // FULL FLEXIBILITY
 );
 
-module.exports= mongoose.model("Notification", notificationSchema);
+module.exports = mongoose.model("Notification", notificationSchema);
 
 // Notification Info
 
@@ -40,7 +41,7 @@ module.exports= mongoose.model("Notification", notificationSchema);
 //post
 //alumni registration approval
 //post approval from vp/p
-//data change request status  
+//data change request status
 
 // president
 //post

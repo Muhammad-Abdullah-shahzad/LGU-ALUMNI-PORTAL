@@ -12,6 +12,7 @@ import { usePost } from "../../hooks/usePost";
 import Loader from "../Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/registerimg.png";
+import "./auth.css";
 
 export default function RegisterAlumni() {
   const Base_Url = import.meta.env.VITE_API_URL;
@@ -159,69 +160,25 @@ export default function RegisterAlumni() {
   if (loading) return <Loader />;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        width: "100%",
-        overflow: "hidden"
-      }}
-    >
-      {/* LEFT SECTION - 50% Fixed Background */}
+    <div className="auth-container">
+      {/* LEFT SECTION - Fixed Background */}
       <div
-        style={{
-          width: "50%",
-          height: "100vh",
-          background: `url(${img}) no-repeat center center`,
-          objectFit: "cover",
-          backgroundSize: "cover",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          padding: "60px 40px",
-          textAlign: "center",
-          position: "fixed",
-          left: 0,
-          top: 0
-        }}
+        className="auth-left"
+        style={{ backgroundImage: `url(${img})` }}
       >
-        <h1 style={{
-          fontSize: "48px",
-          fontWeight: "700",
-          marginBottom: "24px",
-          lineHeight: "1.2"
-        }}>
-          LGU Alumni Portal
-        </h1>
+        <h1>LGU Alumni Portal</h1>
 
-        <p style={{
-          fontSize: "20px",
-          opacity: 0.9,
-          maxWidth: "80%",
-          lineHeight: "1.6"
-        }}>
+        <p>
           Join our alumni network, stay connected, <br /> and access exclusive opportunities.
         </p>
       </div>
 
-      {/* RIGHT SECTION - 50% Scrollable Form */}
-      <div
-        style={{
-          width: "50%",
-          height: "100vh",
-          marginLeft: "50%",
-          overflowY: "scroll",
-          background: "#f5f7fa",
-        }}
-      >
-        <div style={{
-          width: "500px",
-          margin: "0 auto",
-        }}>
+      {/* RIGHT SECTION - Scrollable Form */}
+      <div className="auth-right">
+        <div className="auth-form-wrapper">
           <FormLayout
-            style={{ marginTop: "600px", marginBottom: "40px" }}
+            className="auth-spacer-large"
+            style={{ marginBottom: "40px" }}
             onSubmit={(e) =>
               RegisterAlumniUtils.handleSubmit(
                 e,
@@ -236,6 +193,79 @@ export default function RegisterAlumni() {
               <FormHeader>Register as Alumni</FormHeader>
               <SubText>Fill your details to continue</SubText>
             </div>
+
+            {/* User Role - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, role: e.target.value })}
+                value={formData.role}
+              >
+                <DropDown.Option value="alumni">Alumni</DropDown.Option>
+                <DropDown.Option value="undergraduate">Undergraduate Student</DropDown.Option>
+              </DropDown>
+            </div>
+
+            {/* Degree - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, degree: e.target.value })}
+                value={formData.degree}
+              >
+                <DropDown.Option>Select Your Degree</DropDown.Option>
+                <DropDown.Option>BS SE</DropDown.Option>
+                <DropDown.Option>BS CS</DropDown.Option>
+                <DropDown.Option>BS IT</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="degree" />
+            </div>
+
+            {/* Batch - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <DropDown
+                onChange={e => setFormData({ ...formData, batch: e.target.value })}
+                value={formData.batch}
+              >
+                <DropDown.Option>Select Your Batch</DropDown.Option>
+                <DropDown.Option>Fa-2023</DropDown.Option>
+                <DropDown.Option>Sp-2023</DropDown.Option>
+                <DropDown.Option>Fa-2022</DropDown.Option>
+                <DropDown.Option>Sp-2022</DropDown.Option>
+                <DropDown.Option>Fa-2021</DropDown.Option>
+                <DropDown.Option>Sp-2021</DropDown.Option>
+                <DropDown.Option>Fa-2020</DropDown.Option>
+                <DropDown.Option>Sp-2020</DropDown.Option>
+                <DropDown.Option>Fa-2019</DropDown.Option>
+                <DropDown.Option>Sp-2019</DropDown.Option>
+                <DropDown.Option>Fa-2018</DropDown.Option>
+                <DropDown.Option>Sp-2018</DropDown.Option>
+                <DropDown.Option>Fa-2017</DropDown.Option>
+                <DropDown.Option>Sp-2017</DropDown.Option>
+                <DropDown.Option>Fa-2016</DropDown.Option>
+                <DropDown.Option>Sp-2016</DropDown.Option>
+                <DropDown.Option>Fa-2015</DropDown.Option>
+                <DropDown.Option>Sp-2015</DropDown.Option>
+                <DropDown.Option>Fa-2014</DropDown.Option>
+                <DropDown.Option>Sp-2014</DropDown.Option>
+                <DropDown.Option>Fa-2013</DropDown.Option>
+                <DropDown.Option>Sp-2013</DropDown.Option>
+                <DropDown.Option>Fa-2012</DropDown.Option>
+                <DropDown.Option>Sp-2012</DropDown.Option>
+              </DropDown>
+              <FormError errors={errors} errorKey="batch" />
+            </div>
+
+            {/* Roll No - Full Width */}
+            <div style={{ marginBottom: "20px" }}>
+              <InputField
+                type="number"
+                placeholder="e.g 202"
+                label="Roll Number"
+                onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
+                value={formData.rollNo}
+              />
+              <FormError errors={errors} errorKey="rollNo" />
+            </div>
+
 
             {/* First Name - Full Width */}
             <div style={{ marginBottom: "20px" }}>
@@ -323,66 +353,6 @@ export default function RegisterAlumni() {
               <FormError errors={errors} errorKey="department" />
             </div>
 
-            {/* Degree - Full Width */}
-            <div style={{ marginBottom: "20px" }}>
-              <DropDown
-                onChange={e => setFormData({ ...formData, degree: e.target.value })}
-                value={formData.degree}
-              >
-                <DropDown.Option>Select Your Degree</DropDown.Option>
-                <DropDown.Option>BS SE</DropDown.Option>
-                <DropDown.Option>BS CS</DropDown.Option>
-                <DropDown.Option>BS IT</DropDown.Option>
-              </DropDown>
-              <FormError errors={errors} errorKey="degree" />
-            </div>
-
-            {/* Batch - Full Width */}
-            <div style={{ marginBottom: "20px" }}>
-              <DropDown
-                onChange={e => setFormData({ ...formData, batch: e.target.value })}
-                value={formData.batch}
-              >
-                <DropDown.Option>Select Your Batch</DropDown.Option>
-                <DropDown.Option>Fa-2023</DropDown.Option>
-                <DropDown.Option>Sp-2023</DropDown.Option>
-                <DropDown.Option>Fa-2022</DropDown.Option>
-                <DropDown.Option>Sp-2022</DropDown.Option>
-                <DropDown.Option>Fa-2021</DropDown.Option>
-                <DropDown.Option>Sp-2021</DropDown.Option>
-                <DropDown.Option>Fa-2020</DropDown.Option>
-                <DropDown.Option>Sp-2020</DropDown.Option>
-                <DropDown.Option>Fa-2019</DropDown.Option>
-                <DropDown.Option>Sp-2019</DropDown.Option>
-                <DropDown.Option>Fa-2018</DropDown.Option>
-                <DropDown.Option>Sp-2018</DropDown.Option>
-                <DropDown.Option>Fa-2017</DropDown.Option>
-                <DropDown.Option>Sp-2017</DropDown.Option>
-                <DropDown.Option>Fa-2016</DropDown.Option>
-                <DropDown.Option>Sp-2016</DropDown.Option>
-                <DropDown.Option>Fa-2015</DropDown.Option>
-                <DropDown.Option>Sp-2015</DropDown.Option>
-                <DropDown.Option>Fa-2014</DropDown.Option>
-                <DropDown.Option>Sp-2014</DropDown.Option>
-                <DropDown.Option>Fa-2013</DropDown.Option>
-                <DropDown.Option>Sp-2013</DropDown.Option>
-                <DropDown.Option>Fa-2012</DropDown.Option>
-                <DropDown.Option>Sp-2012</DropDown.Option>
-              </DropDown>
-              <FormError errors={errors} errorKey="batch" />
-            </div>
-
-            {/* Roll No - Full Width */}
-            <div style={{ marginBottom: "20px" }}>
-              <InputField
-                type="number"
-                placeholder="e.g 202"
-                label="Roll Number"
-                onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
-                value={formData.rollNo}
-              />
-              <FormError errors={errors} errorKey="rollNo" />
-            </div>
 
             {/* Graduation Year - Full Width */}
             <div style={{ marginBottom: "20px" }}>

@@ -11,7 +11,7 @@ import StatsCard4 from "../../../assets/statCard4.jpg";
 import { useNavigate } from "react-router-dom";
 
 export default function StatsPage({ data, role }) {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     return (
         <div>
@@ -37,6 +37,25 @@ export default function StatsPage({ data, role }) {
                         title="Total Unemployeed Alumni"
                         value={data ? data.totalUnemployedAlumni : "0"}
                         icon="bi bi-people-fill"
+                        bgImage={StatsCard3}
+                    />
+
+                    <StatsCard
+                        title="Total Undergraduates"
+                        value={data ? data.totalUndergrad : "0"}
+                        icon="bi bi-mortarboard-fill"
+                        bgImage={StatsCard1}
+                    />
+                    <StatsCard
+                        title="Employed Undergrads"
+                        value={data ? data.totalEmployedUndergrad : "0"}
+                        icon="bi bi-briefcase-fill"
+                        bgImage={StatsCard2}
+                    />
+                    <StatsCard
+                        title="Unemployed Undergrads"
+                        value={data ? data.totalUnemployedUndergrad : "0"}
+                        icon="bi bi-person-x-fill"
                         bgImage={StatsCard3}
                     />
                     <StatsCard

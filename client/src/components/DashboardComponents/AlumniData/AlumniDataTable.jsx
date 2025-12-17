@@ -448,7 +448,7 @@ export default function AlumniDataWrapper() {
   const sectors = [...new Set(users.map((u) => u.sector).filter(Boolean))];
   const jobTitles = [...new Set(users.map((u) => u.jobTitle).filter(Boolean))];
 
-  const [filters, setFilters] = useState({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "" });
+  const [filters, setFilters] = useState({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "", role: "" });
 
 
   const filtered = users.filter((alumni) => {
@@ -462,7 +462,8 @@ export default function AlumniDataWrapper() {
     const matchesCompany = filters.company ? alumni.companyName === filters.company : true;
     const matchesSector = filters.sector ? alumni.sector === filters.sector : true;
     const matchesJobTitle = filters.jobTitle ? alumni.jobTitle === filters.jobTitle : true;
-    return (matchesSearch && matchesDegree && matchesBatch && matchesStatus && matchesYear && matchesCompany && matchesSector && matchesJobTitle);
+    const matchesRole = filters.role ? alumni.role === filters.role : true;
+    return (matchesSearch && matchesDegree && matchesBatch && matchesStatus && matchesYear && matchesCompany && matchesSector && matchesJobTitle && matchesRole);
   });
   // --- End Filtering Logic ---
 
@@ -726,6 +727,9 @@ export default function AlumniDataWrapper() {
         <div className="filter-panel glass-card shadow-sm mt-3">
           <div className="row g-3">
             <div className="col-md-2">
+              <select className="filter-select" value={filters.role} onChange={(e) => setFilters({ ...filters, role: e.target.value })}><option value="">User Type</option><option value="alumni">Alumni</option><option value="undergraduate">Undergraduate</option></select>
+            </div>
+            <div className="col-md-2">
               <select className="filter-select" value={filters.degree} onChange={(e) => setFilters({ ...filters, degree: e.target.value })}><option value="">Degree</option>{degrees.map((d, i) => (<option key={i} value={d}>{d}</option>))}</select>
             </div>
             <div className="col-md-2">
@@ -747,7 +751,7 @@ export default function AlumniDataWrapper() {
               <select className="filter-select" value={filters.jobTitle} onChange={(e) => setFilters({ ...filters, jobTitle: e.target.value })}><option value="">Job Title</option>{jobTitles.map((j, i) => (<option key={i} value={j}>{j}</option>))}</select>
             </div>
             <div className="col-md-2">
-              <button className="reset-btn w-100" onClick={() => setFilters({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "" })}>Reset</button>
+              <button className="reset-btn w-100" onClick={() => setFilters({ degree: "", batch: "", status: "", year: "", company: "", sector: "", jobTitle: "", role: "" })}>Reset</button>
             </div>
           </div>
         </div>
@@ -755,74 +759,76 @@ export default function AlumniDataWrapper() {
 
       {/* TABLE */}
       <div className="table-card glass-card shadow-sm mt-4 z-0">
-        <table className="table interactive-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Roll No</th>
-              <th>Batch</th>
-              <th>Degree</th>
-              <th>Status</th>
-              <th>Company</th>
-              <th>Job Title</th>
-              <th>Year</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr><td colSpan="10" className="text-center py-4">No alumni found</td></tr>
-            ) : (
-              filtered.map((alumni, i) => (
-                <tr key={i}>
-                  <td>{i + 1}</td>
-                  <td>{alumni.firstName + " " + alumni.lastName}</td>
-                  <td>{alumni.rollNo}</td>
-                  <td>{alumni.batch}</td>
-                  <td>{alumni.degree}</td>
-                  <td>
-                    <span className={`status-badge ${alumni.employmentStatus === "employed" ? "status-employed" : "status-unemployed"}`}>
-                      {alumni.employmentStatus}
-                    </span>
-                  </td>
-                  <td>{alumni.companyName || "--"}</td>
-                  <td>{alumni.jobTitle || "--"}</td>
-                  <td>{alumni.graduationYear}</td>
+        <div className="table-responsive">
+          <table className="table interactive-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Batch</th>
+                <th>Degree</th>
+                <th>Status</th>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Year</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr><td colSpan="10" className="text-center py-4">No alumni found</td></tr>
+              ) : (
+                filtered.map((alumni, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{alumni.firstName + " " + alumni.lastName}</td>
+                    <td>{alumni.rollNo}</td>
+                    <td>{alumni.batch}</td>
+                    <td>{alumni.degree}</td>
+                    <td>
+                      <span className={`status-badge ${alumni.employmentStatus === "employed" ? "status-employed" : "status-unemployed"}`}>
+                        {alumni.employmentStatus}
+                      </span>
+                    </td>
+                    <td>{alumni.companyName || "--"}</td>
+                    <td>{alumni.jobTitle || "--"}</td>
+                    <td>{alumni.graduationYear}</td>
 
-                  <td style={{ position: "relative" }}>
-                    <div className="action-dropdown">
-                      <button
-                        className="dropdown-icon-btn"
-                        onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                      >
-                        <i className="bi bi-three-dots-vertical"></i>
-                      </button>
+                    <td style={{ position: "relative" }}>
+                      <div className="action-dropdown">
+                        <button
+                          className="dropdown-icon-btn"
+                          onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                        >
+                          <i className="bi bi-three-dots-vertical"></i>
+                        </button>
 
-                      {openIndex === i && (
-                        <div className="dropdown-menu-horizontal">
-                          <button onClick={() => handleViewAnnex1D(alumni)}>
-                            <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
-                          </button>
-                          {/* <button onClick={() => handleViewEmployerFeedback(alumni)}>
+                        {openIndex === i && (
+                          <div className="dropdown-menu-horizontal">
+                            <button onClick={() => handleViewAnnex1D(alumni)}>
+                              <i className="bi bi-file-earmark-text me-1"></i> Annex 1D
+                            </button>
+                            {/* <button onClick={() => handleViewEmployerFeedback(alumni)}>
           <i className="bi bi-briefcase me-1"></i> Employer
         </button> */}
-                          <button onClick={() => handleViewSurvey(alumni)}>
-                            <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
-                          </button>
-                          <button onClick={() => handleEditAlumni(alumni)}>
-                            <i className="bi bi-pencil-square me-1"></i> Edit
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </td>
+                            <button onClick={() => handleViewSurvey(alumni)}>
+                              <i className="bi bi-list-columns-reverse me-1"></i> Exit Survey
+                            </button>
+                            <button onClick={() => handleEditAlumni(alumni)}>
+                              <i className="bi bi-pencil-square me-1"></i> Edit
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
 
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

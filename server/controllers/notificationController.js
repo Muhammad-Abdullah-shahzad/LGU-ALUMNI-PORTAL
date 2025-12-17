@@ -3,8 +3,8 @@ const notificationModel = require('../models/notificationModel')
 
 exports.createNotificationController = async (req, res) => {
     try {
-        console.log("req.user=",req.user);
-        
+        console.log("req.user=", req.user);
+
         await notificationModel.create({ ...req.body, authorId: req.user.id });
         res.status(201).json({ message: 'Notification created successfully' });
     }

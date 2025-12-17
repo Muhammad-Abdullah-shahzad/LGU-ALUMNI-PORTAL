@@ -10,6 +10,7 @@ import { usePost } from "../../hooks/usePost";
 import AuthUtility from "../../utility/AuthUtils";
 import { useNavigate, Link } from "react-router-dom";
 import img from "../../assets/registerimg.png";
+import "./auth.css";
 
 export default function LoginAlumni() {
 
@@ -28,70 +29,22 @@ export default function LoginAlumni() {
   if (loading) return <div>Loading...</div>; // You can replace with Loader component if you want
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        width: "100%",
-        overflow: "hidden"
-      }}
-    >
-      {/* LEFT SECTION - 50% Fixed Background */}
+    <div className="auth-container">
+      {/* LEFT SECTION - Fixed Background */}
       <div
-        style={{
-          width: "50%",
-          height: "100vh",
-          background: `url(${img}) no-repeat center center`,
-          backgroundSize: "cover",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          padding: "60px 40px",
-          textAlign: "center",
-          position: "fixed",
-          left: 0,
-          top: 0
-        }}
+        className="auth-left"
+        style={{ backgroundImage: `url(${img})` }}
       >
-        <h1
-          style={{
-            fontSize: "48px",
-            fontWeight: "700",
-            marginBottom: "24px",
-            lineHeight: "1.2"
-          }}
-        >
-          LGU Alumni Portal
-        </h1>
-
-        <p
-          style={{
-            fontSize: "20px",
-            opacity: 0.9,
-            maxWidth: "80%",
-            lineHeight: "1.6"
-          }}
-        >
+        <h1>LGU Alumni Portal</h1>
+        <p>
           Welcome back! Log in to access your alumni <br /> account and connect with our network.
         </p>
       </div>
 
-      {/* RIGHT SECTION - 50% Scrollable Form */}
-      <div
-        style={{
-          width: "50%",
-          height: "100vh",
-          marginLeft: "50%",
-          overflowY: "scroll",
-          background: "#f5f7fa"
-        }}
-      >
-        <div style={{ width: "500px", margin: "0 auto" }}>
-          <FormLayout
-            style={{ marginTop: "40px", marginBottom: "40px" }}
-          >
+      {/* RIGHT SECTION - Scrollable Form */}
+      <div className="auth-right">
+        <div className="auth-form-wrapper">
+          <FormLayout className="auth-spacer-medium">
             <FormHeader>Alumni Login</FormHeader>
             <SubText>Fill your details to continue</SubText>
 

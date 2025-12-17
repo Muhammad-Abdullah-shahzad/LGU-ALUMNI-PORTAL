@@ -30,7 +30,8 @@ async function registerUser(req, res) {
             notificationAuthor: "alumni",
             notificationType: "alumniRegiter", // As per  schema
             sendTo: ["coordinator", "admin"],
-            // For alumni registration approvals
+            // For alumni registration approvals,
+            authorRole: newUser.role,
             alumniId: newUser._id,
             notificationContent: `${newUser.firstName} ${newUser.lastName}  ${batch}/${degree}/${rollNo} has requested alumni registration approval.`,
         });
@@ -114,7 +115,7 @@ async function loginUser(req, res) {
 // get form data for autofill user info
 async function getFormData(req, res) {
     try {
-        const { rollNo  , batch , degree} = req.params;
+        const { rollNo, batch, degree } = req.params;
 
         console.log("alumni roll no recieved from front end is ", rollNo);
 

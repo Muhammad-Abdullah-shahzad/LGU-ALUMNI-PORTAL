@@ -34,15 +34,15 @@ export default class AuthUtility {
             else if (user.role === 'coordinator') {
                 navigate('/coordinator/dashboard');
             }
-            else if (user.role === "alumni") {
-                if(user.formsFilled){
+            else if (user.role === "alumni" || user.role === "undergraduate") {
+                if (user.formsFilled) {
                     navigate("/alumni/dashboard")
                 }
-                else{
+                else {
                     navigate("/register/graduateExitSurvey")
                 }
             }
-            else if (user.role==="president"){
+            else if (user.role === "president") {
                 navigate("/president/dashboard");
             }
 

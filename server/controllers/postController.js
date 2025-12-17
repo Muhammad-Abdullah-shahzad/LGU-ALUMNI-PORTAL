@@ -2,10 +2,10 @@ const postModel = require("../models/postModel")
 
 exports.createPost = async (req, res) => {
     try {
-        await postModel.create({ 
-            ...req.body, 
-            authorName: req.user.firstName + ' ' + req.user.lastName ,
-            authorTitle:req.user.department + ' coordinator'
+        await postModel.create({
+            ...req.body,
+            authorName: req.user.firstName + ' ' + req.user.lastName,
+            authorTitle: req.user.department + ' coordinator'
         });
         res.status(201).json({ message: 'Post created successfully' });
     }
@@ -16,6 +16,7 @@ exports.createPost = async (req, res) => {
         res.status(500).json({ message: 'failed to create post', error });
     }
 }
+
 exports.deletePost = async (req, res) => {
     try {
         const { postId } = req.body;

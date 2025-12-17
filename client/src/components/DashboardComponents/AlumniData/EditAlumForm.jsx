@@ -17,7 +17,7 @@ export default function EditAlumni({ alumniData, onClose, onUpdate, isLoading })
     graduationYear: alumniData.graduationYear || "",
     email: alumniData.email || "",
   });
-  
+
   // Use a second state to store the original data for comparison
   const [originalData] = useState(alumniData);
 
@@ -33,19 +33,19 @@ export default function EditAlumni({ alumniData, onClose, onUpdate, isLoading })
     // Build the payload containing only the changed fields
     const updatedFields = {};
     let changesMade = false;
-    
+
     // Compare current form data against original data (excluding _id)
     Object.keys(formData).forEach(key => {
-        if (formData[key] !== originalData[key]) {
-            updatedFields[key] = formData[key];
-            changesMade = true;
-        }
+      if (formData[key] !== originalData[key]) {
+        updatedFields[key] = formData[key];
+        changesMade = true;
+      }
     });
 
     if (!changesMade) {
-        alert("No fields were changed.");
-        onClose();
-        return;
+      alert("No fields were changed.");
+      onClose();
+      return;
     }
 
     // Call the parent update handler with the alumni ID and the changed fields
@@ -54,7 +54,7 @@ export default function EditAlumni({ alumniData, onClose, onUpdate, isLoading })
 
   return (
     // ⚠️ Check your CSS for .survey-modal-overlay and .survey-modal-content
-    <div className="survey-modal-overlay"> 
+    <div className="survey-modal-overlay">
       <div className="survey-modal-content glass-card shadow-lg edit-alumni-modal">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h4 className="m-0">Edit Alumni: {alumniData.firstName} {alumniData.lastName}</h4>
@@ -65,11 +65,11 @@ export default function EditAlumni({ alumniData, onClose, onUpdate, isLoading })
           <div className="row g-3">
             <div className="col-md-6">
               <label className="form-label">First Name</label>
-              <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} required />
+              <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} disabled />
             </div>
             <div className="col-md-6">
               <label className="form-label">Last Name</label>
-              <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} required />
+              <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleChange} disabled />
             </div>
             <div className="col-md-6">
               <label className="form-label">Email</label>
@@ -77,35 +77,35 @@ export default function EditAlumni({ alumniData, onClose, onUpdate, isLoading })
             </div>
             <div className="col-md-6">
               <label className="form-label">Roll No</label>
-              <input type="text" className="form-control" name="rollNo" value={formData.rollNo} onChange={handleChange} required />
+              <input type="text" className="form-control" name="rollNo" value={formData.rollNo} onChange={handleChange} disabled />
             </div>
             <div className="col-md-4">
               <label className="form-label">Batch</label>
-              <input type="text" className="form-control" name="batch" value={formData.batch} onChange={handleChange} />
+              <input type="text" className="form-control" name="batch" value={formData.batch} onChange={handleChange} disabled />
             </div>
             <div className="col-md-4">
               <label className="form-label">Degree</label>
-              <input type="text" className="form-control" name="degree" value={formData.degree} onChange={handleChange} />
+              <input type="text" className="form-control" name="degree" value={formData.degree} onChange={handleChange} disabled />
             </div>
             <div className="col-md-4">
               <label className="form-label">Graduation Year</label>
-              <input type="number" className="form-control" name="graduationYear" value={formData.graduationYear} onChange={handleChange} />
+              <input type="number" className="form-control" name="graduationYear" value={formData.graduationYear} onChange={handleChange} disabled />
             </div>
             <div className="col-md-6">
               <label className="form-label">Employment Status</label>
               <select className="form-select" name="employmentStatus" value={formData.employmentStatus} onChange={handleChange} required>
                 <option value="employed">Employed</option>
                 <option value="unemployed">Unemployed</option>
-           
+
               </select>
             </div>
             <div className="col-md-6">
               <label className="form-label">Company Name</label>
-              <input type="text" className="form-control" name="companyName" value={formData.companyName} onChange={handleChange} disabled={formData.employmentStatus !== 'employed'}/>
+              <input type="text" className="form-control" name="companyName" value={formData.companyName} onChange={handleChange} disabled={formData.employmentStatus !== 'employed'} />
             </div>
             <div className="col-md-6">
               <label className="form-label">Job Title</label>
-              <input type="text" className="form-control" name="jobTitle" value={formData.jobTitle} onChange={handleChange} disabled={formData.employmentStatus !== 'employed'}/>
+              <input type="text" className="form-control" name="jobTitle" value={formData.jobTitle} onChange={handleChange} disabled={formData.employmentStatus !== 'employed'} />
             </div>
           </div>
 

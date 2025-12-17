@@ -1,0 +1,104 @@
+.auth-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.auth-left {
+  width: 50%;
+  height: 100vh;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 60px 40px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.auth-left h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.auth-left p {
+  font-size: 20px;
+  opacity: 0.9;
+  max-width: 80%;
+  line-height: 1.6;
+}
+
+.auth-right {
+  width: 50%;
+  height: 100vh;
+  margin-left: 50%;
+  overflow-y: scroll;
+  background: #f5f7fa;
+  display: flex;
+  /* Added to help center content vertically if needed, primarily handles scroll though */
+  flex-direction: column;
+}
+
+.auth-form-wrapper {
+  width: 500px;
+  margin: 0 auto;
+  /* Top margin will be handled by specific pages or utility classes if dynamic spacing is needed, 
+     but keeping the inline logic concept here if not replaced by padding on container */
+  padding-bottom: 40px;
+}
+
+/* Specific spacing helper to replicate the original huge top margin */
+.auth-spacer-large {
+  margin-top: 50px;
+}
+
+.auth-spacer-medium {
+  margin-top: 40px;
+  /* As seen in LoginAlumni */
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .auth-container {
+    flex-direction: column;
+    overflow-y: auto;
+    /* Allow main container to scroll if needed, though mostly right section scrolls */
+  }
+
+  .auth-left {
+    display: none;
+    /* Hide the big image section on mobile for cleaner focus */
+  }
+
+  .auth-right {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: visible;
+    /* Let the window scroll */
+    padding: 20px;
+  }
+
+  .auth-form-wrapper {
+    width: 100%;
+    max-width: 500px;
+    padding: 0;
+  }
+
+  .auth-spacer-large,
+  .auth-spacer-medium {
+    margin-top: 40px;
+    /* Reset huge margins on mobile */
+  }
+}
