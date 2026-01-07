@@ -8,7 +8,7 @@ export default function AlumniMainDash() {
     const navigate = useNavigate();
     return (
         <div className="container-fluid">
-            <DashboardHeader title={"Alumni"} onLogout={() => {
+            <DashboardHeader title={(JSON.parse(localStorage.user).role === "alumni") ? "Alumni":"Undergrad" } onLogout={() => {
             
                 localStorage.removeItem("token");
                 navigate('/login')

@@ -40,24 +40,24 @@ export default function StatsPage({ data, role }) {
                         bgImage={StatsCard3}
                     />
 
-                    <StatsCard
+                    {/* <StatsCard
                         title="Total Undergraduates"
                         value={data ? data.totalUndergrad : "0"}
                         icon="bi bi-mortarboard-fill"
                         bgImage={StatsCard1}
-                    />
-                    <StatsCard
+                    /> */}
+                    {/* <StatsCard
                         title="Employed Undergrads"
                         value={data ? data.totalEmployedUndergrad : "0"}
                         icon="bi bi-briefcase-fill"
                         bgImage={StatsCard2}
-                    />
-                    <StatsCard
+                    /> */}
+                    {/* <StatsCard
                         title="Unemployed Undergrads"
                         value={data ? data.totalUnemployedUndergrad : "0"}
                         icon="bi bi-person-x-fill"
                         bgImage={StatsCard3}
-                    />
+                    /> */}
                     <StatsCard
                         title="Total Coordinators"
                         value={data?.totalCoordinators}

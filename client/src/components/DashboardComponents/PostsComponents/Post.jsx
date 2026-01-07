@@ -155,7 +155,7 @@ const InstagramStyleModal = ({
                         <img
                             src={headerImageURL}
                             alt="Post"
-                            style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         />
                     </div>
                 )}
@@ -439,13 +439,13 @@ const Post = ({
                     <div className="mt-auto text-center d-flex justify-content-between w-100 px-2">
                         {readMode || <a
                             onClick={onDelPost}
-                            className="btn btn-sm btn-outline-danger rounded-pill px-2 py-0 mx-1 d-flex align-items-center justify-content-center"
+                            className="btn btn-outline-danger rounded-pill px-2 py-1 mx-1 d-flex align-items-center justify-content-center"
                             style={{ fontSize: "0.75rem", flex: 1 }}
                         >
                             Delete
                         </a>}
                         <button
-                            className="btn btn-sm btn-outline-primary rounded-pill px-2 py-0 mx-1 d-flex align-items-center justify-content-center gap-1"
+                            className="btn btn-outline-primary rounded-pill px-2 py-1 mx-1 d-flex align-items-center justify-content-center gap-1"
                             onClick={() => setShowModal(true)}
                             style={{ fontSize: "0.75rem", flex: 1 }}
                         >
@@ -454,7 +454,7 @@ const Post = ({
                         </button>
                         <a
                             href={postLink}
-                            className="btn btn-sm btn-outline-success rounded-pill px-2 py-0 mx-1 d-flex align-items-center justify-content-center"
+                            className="btn btn-outline-success rounded-pill px-2 py-1 mx-1 d-flex align-items-center justify-content-center"
                             style={{ fontSize: "0.75rem", flex: 1 }}
                         >
                             View

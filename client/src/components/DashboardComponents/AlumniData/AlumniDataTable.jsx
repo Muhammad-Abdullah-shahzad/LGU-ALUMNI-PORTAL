@@ -726,9 +726,9 @@ export default function AlumniDataWrapper() {
       {showFilters && (
         <div className="filter-panel glass-card shadow-sm mt-3">
           <div className="row g-3">
-            <div className="col-md-2">
+            {/* <div className="col-md-2">
               <select className="filter-select" value={filters.role} onChange={(e) => setFilters({ ...filters, role: e.target.value })}><option value="">User Type</option><option value="alumni">Alumni</option><option value="undergraduate">Undergraduate</option></select>
-            </div>
+            </div> */}
             <div className="col-md-2">
               <select className="filter-select" value={filters.degree} onChange={(e) => setFilters({ ...filters, degree: e.target.value })}><option value="">Degree</option>{degrees.map((d, i) => (<option key={i} value={d}>{d}</option>))}</select>
             </div>

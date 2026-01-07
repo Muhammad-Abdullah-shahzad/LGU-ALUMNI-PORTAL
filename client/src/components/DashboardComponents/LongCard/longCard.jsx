@@ -46,7 +46,7 @@ export default function LongCard({ heading, notifications, headKey, bodyKey, act
                     await onAccept({
                       id: note.authorId,
                       active: 1,
-                      formsFilled: note.authorRole === "alumni" ? 0 : 1
+                      formsFilled: 0
                     });
 
                     await delNotify({

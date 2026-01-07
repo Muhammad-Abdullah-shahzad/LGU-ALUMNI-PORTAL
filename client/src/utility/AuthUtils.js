@@ -34,7 +34,7 @@ export default class AuthUtility {
             else if (user.role === 'coordinator') {
                 navigate('/coordinator/dashboard');
             }
-            else if (user.role === "alumni" || user.role === "undergraduate") {
+            else if (user.role === "alumni") {
                 if (user.formsFilled) {
                     navigate("/alumni/dashboard")
                 }

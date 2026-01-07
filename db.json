@@ -1,82 +1,95 @@
-[
+{
+  "title": "I have problem in Async/Await",
+  "body": "I am trying to use async/await in my JavaScript code, but it's not working as expected. Can someone guide me?",
+  "author": {
+    "name": "Iqrar Hassan"
+  },
+  "tags": ["software", "javascript", "async"],
+  "comments": [
     {
-        "StdRollNo": "Sp-2020/BS SE/001",
-        "StudentName": "Abdul Basit",
-        "FatherName": "Zahid Mahmood",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
+      "content": "Can you show the code where you are facing the issue?",
+      "author": {
+        "name": "Iqrar Hassan"
+      },
+      "createdAt": "2025-12-12T14:10:34.491Z",
+      "replies": [
+        {
+          "content": "Here is the snippet: `async function fetchData() { ... }`",
+          "author": {
+            "name": "Ahsan Habib"
+          },
+          "createdAt": "2025-12-12T14:15:00.000Z",
+          "replies": []
+        }
+      ]
     },
     {
-        "StdRollNo": "Sp-2020/BS SE/002",
-        "StudentName": "Irmana Ahmed",
-        "FatherName": "Muhammad Khalid Jamal",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
+      "content": "Are you handling errors using try/catch?",
+      "author": {
+        "name": "Sara Ahmed"
+      },
+      "createdAt": "2025-12-12T14:20:00.000Z",
+      "replies": [
+        {
+          "content": "No, I am not. Should I add try/catch?",
+          "author": {
+            "name": "Iqrar Hassan"
+          },
+          "createdAt": "2025-12-12T14:22:10.000Z",
+          "replies": [
+            {
+              "content": "Yes, wrapping your async code in try/catch helps catch errors.",
+              "author": {
+                "name": "Hamza Iqbal"
+              },
+              "createdAt": "2025-12-12T14:25:00.000Z",
+              "replies": []
+            }
+          ]
+        }
+      ]
     },
     {
-        "StdRollNo": "Sp-2020/BS SE/003",
-        "StudentName": "Abu Sufyan",
-        "FatherName": "Amanat Ali",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
+      "content": "Sometimes people forget to use `await` before async functions.",
+      "author": {
+        "name": "Amina Tariq"
+      },
+      "createdAt": "2025-12-12T14:30:00.000Z",
+      "replies": []
     },
     {
-        "StdRollNo": "Sp-2020/BS SE/004",
-        "StudentName": "Muhammad Abdulrehman",
-        "FatherName": "Imdad Ali",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
+      "content": "Also check if you are returning the promise correctly.",
+      "author": {
+        "name": "Usman Javed"
+      },
+      "createdAt": "2025-12-12T14:35:00.000Z",
+      "replies": [
+        {
+          "content": "Ah yes, I missed `return` in my async function.",
+          "author": {
+            "name": "Iqrar Hassan"
+          },
+          "createdAt": "2025-12-12T14:40:00.000Z",
+          "replies": []
+        }
+      ]
     },
     {
-        "StdRollNo": "Sp-2020/BS SE/005",
-        "StudentName": "Muhammad Daniyal Khan",
-        "FatherName": "Kamran Riaz",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
-    },
-    {
-        "StdRollNo": "Sp-2020/BS SE/006",
-        "StudentName": "Mehar Ali Aziz Sial",
-        "FatherName": "Mehar Abdul Aziz Sial",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
-    },
-    {
-        "StdRollNo": "Sp-2020/BS SE/007",
-        "StudentName": "Ali Hasan",
-        "FatherName": "Muhammad Riaz",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
-    },
-    {
-        "StdRollNo": "Sp-2020/BS SE/008",
-        "StudentName": "Muhammad Kashir Khan",
-        "FatherName": "Kamran Riaz",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
-    },
-    {
-        "StdRollNo": "Sp-2020/BS SE/009",
-        "StudentName": "Muhammad Usman",
-        "FatherName": "Bait Ullah Jan",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
-    },
-    {
-        "StdRollNo": "Sp-2020/BS SE/010",
-        "StudentName": "Mohammad Ahras",
-        "FatherName": "Muhammad Imran Yasin",
-        "ClassSection": "A",
-        "degreeid": "BS SE",
-        "JoiningSession": "Sp-2020"
+      "content": "Make sure you are not mixing `.then()` with `await` unnecessarily.",
+      "author": {
+        "name": "Ali Raza"
+      },
+      "createdAt": "2025-12-12T14:45:00.000Z",
+      "replies": [
+        {
+          "content": "Thanks! I will clean up my code and try again.",
+          "author": {
+            "name": "Iqrar Hassan"
+          },
+          "createdAt": "2025-12-12T14:50:00.000Z",
+          "replies": []
+        }
+      ]
     }
-]
+  ]
+}
